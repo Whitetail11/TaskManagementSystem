@@ -77,6 +77,29 @@
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
         }
+      },
+      "BusinessLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "DataLayer": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/BusinessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BusinessLayer.dll": {}
+        }
+      },
+      "DataLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/DataLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DataLayer.dll": {}
+        }
       }
     }
   },
@@ -275,11 +298,23 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "BusinessLayer/1.0.0": {
+      "type": "project",
+      "path": "../BusinessLayer/BusinessLayer.csproj",
+      "msbuildProject": "../BusinessLayer/BusinessLayer.csproj"
+    },
+    "DataLayer/1.0.0": {
+      "type": "project",
+      "path": "../DataLayer/DataLayer.csproj",
+      "msbuildProject": "../DataLayer/DataLayer.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "AutoMapper.Extensions.Microsoft.DependencyInjection >= 8.0.1"
+      "AutoMapper.Extensions.Microsoft.DependencyInjection >= 8.0.1",
+      "BusinessLayer >= 1.0.0",
+      "DataLayer >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -312,7 +347,14 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Apriorit\\TaskManagementSystem\\server\\TaskManagementSystemAPI\\BusinessLayer\\BusinessLayer.csproj": {
+              "projectPath": "C:\\Apriorit\\TaskManagementSystem\\server\\TaskManagementSystemAPI\\BusinessLayer\\BusinessLayer.csproj"
+            },
+            "C:\\Apriorit\\TaskManagementSystem\\server\\TaskManagementSystemAPI\\DataLayer\\DataLayer.csproj": {
+              "projectPath": "C:\\Apriorit\\TaskManagementSystem\\server\\TaskManagementSystemAPI\\DataLayer\\DataLayer.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
