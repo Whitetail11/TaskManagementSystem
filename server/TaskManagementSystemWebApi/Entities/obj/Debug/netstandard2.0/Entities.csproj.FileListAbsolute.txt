@@ -1,0 +1,5 @@
+D:\github\TaskManagementSystem\server\TaskManagementSystemWebApi\Entities\bin\Debug\netstandard2.0\Entities.deps.json
+D:\github\TaskManagementSystem\server\TaskManagementSystemWebApi\Entities\bin\Debug\netstandard2.0\Entities.dll
+D:\github\TaskManagementSystem\server\TaskManagementSystemWebApi\Entities\obj\Debug\netstandard2.0\Entities.csprojAssemblyReference.cache
+D:\github\TaskManagementSystem\server\TaskManagementSystemWebApi\Entities\obj\Debug\netstandard2.0\Entities.AssemblyInfoInputs.cache
+D:\github\TaskManagementSystem\server\TaskManagementSystemWebApi\Entities\obj\Debug\netstandard2.0\Entities.AssemblyInfo.cs
