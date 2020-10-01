@@ -1,0 +1,8 @@
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\bin\Debug\netcoreapp3.1\DataLayer.deps.json
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\bin\Debug\netcoreapp3.1\DataLayer.dll
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\obj\Debug\netcoreapp3.1\DataLayer.csprojAssemblyReference.cache
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\obj\Debug\netcoreapp3.1\DataLayer.AssemblyInfoInputs.cache
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\obj\Debug\netcoreapp3.1\DataLayer.AssemblyInfo.cs
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\bin\Debug\netcoreapp3.1\DataLayer.runtimeconfig.json
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\bin\Debug\netcoreapp3.1\DataLayer.runtimeconfig.dev.json
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\DataLayer\obj\Debug\netcoreapp3.1\DataLayer.genruntimeconfig.cache

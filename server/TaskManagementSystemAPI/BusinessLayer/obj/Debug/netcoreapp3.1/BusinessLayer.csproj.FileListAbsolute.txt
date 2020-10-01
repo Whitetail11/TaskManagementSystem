@@ -1,0 +1,5 @@
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\BusinessLayer\bin\Debug\netcoreapp3.1\BusinessLayer.deps.json
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\BusinessLayer\bin\Debug\netcoreapp3.1\BusinessLayer.dll
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\BusinessLayer\obj\Debug\netcoreapp3.1\BusinessLayer.csprojAssemblyReference.cache
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\BusinessLayer\obj\Debug\netcoreapp3.1\BusinessLayer.AssemblyInfoInputs.cache
+C:\Apriorit\TaskManagementSystem\server\TaskManagementSystemAPI\BusinessLayer\obj\Debug\netcoreapp3.1\BusinessLayer.AssemblyInfo.cs
