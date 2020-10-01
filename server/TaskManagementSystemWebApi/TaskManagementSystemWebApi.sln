@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementSystemWebApi", "TaskManagementSystemWebApi\TaskManagementSystemWebApi.csproj", "{FF739507-DCDA-4400-A94D-9FA648882AC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagementSystemWebApi", "TaskManagementSystemWebApi\TaskManagementSystemWebApi.csproj", "{FF739507-DCDA-4400-A94D-9FA648882AC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{55406FEA-6427-467F-A812-BA310428CE41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "Entities\DataLayer.csproj", "{55406FEA-6427-467F-A812-BA310428CE41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{2908FDD0-0EFC-487B-B785-FAC2F305564E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{55406FEA-6427-467F-A812-BA310428CE41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55406FEA-6427-467F-A812-BA310428CE41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55406FEA-6427-467F-A812-BA310428CE41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2908FDD0-0EFC-487B-B785-FAC2F305564E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2908FDD0-0EFC-487B-B785-FAC2F305564E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2908FDD0-0EFC-487B-B785-FAC2F305564E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2908FDD0-0EFC-487B-B785-FAC2F305564E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

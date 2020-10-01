@@ -6325,9 +6325,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\github\\TaskManagementSystem\\server\\TaskManagementSystemWebApi\\Entities\\Entities.csproj",
-      "projectName": "Entities",
-      "projectPath": "D:\\github\\TaskManagementSystem\\server\\TaskManagementSystemWebApi\\Entities\\Entities.csproj",
+      "projectUniqueName": "D:\\github\\TaskManagementSystem\\server\\TaskManagementSystemWebApi\\Entities\\DataLayer.csproj",
+      "projectName": "DataLayer",
+      "projectPath": "D:\\github\\TaskManagementSystem\\server\\TaskManagementSystemWebApi\\Entities\\DataLayer.csproj",
       "packagesPath": "C:\\Users\\danya\\.nuget\\packages\\",
       "outputPath": "D:\\github\\TaskManagementSystem\\server\\TaskManagementSystemWebApi\\Entities\\obj\\",
       "projectStyle": "PackageReference",
