@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementSystemAPI", "TaskManagementSystemAPI\TaskManagementSystemAPI.csproj", "{6E9C6CA7-4BB6-4723-A42D-51336BC96F4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagementSystemAPI", "TaskManagementSystemAPI\TaskManagementSystemAPI.csproj", "{6E9C6CA7-4BB6-4723-A42D-51336BC96F4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{D2F3023F-86B5-474A-8CE4-B9DD5EC32A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{D2F3023F-86B5-474A-8CE4-B9DD5EC32A2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{0F8CA87A-2545-4DE7-A4C3-927996534BCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{0F8CA87A-2545-4DE7-A4C3-927996534BCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
