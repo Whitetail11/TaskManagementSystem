@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +12,19 @@ namespace TaskManagementSystemAPI.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
+        private readonly ApplicationContext _dbContext;
+
+        public HomeController(ApplicationContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         [HttpGet]
         public string Get()
         {
+            _dbContext.Statuses.Add(new Status() { Name = "NEW"});
+            _dbContext.SaveChanges();
+
             return "Hello, world";
         }
     }

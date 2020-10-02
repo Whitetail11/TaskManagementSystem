@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace DataLayer.Entities
 {
-    public class Role
+    public class Extension
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<File> Files { get; set; }
     }
 }

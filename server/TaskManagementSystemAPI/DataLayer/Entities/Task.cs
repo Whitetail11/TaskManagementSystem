@@ -4,31 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Migrations.Models
+namespace DataLayer.Entities
 {
     public class Task
     {
         public int Id {get; set;}
-        [Column(TypeName = "Date")]
-        public DateTime StartDate { get; set; }
-        [Column(TypeName = "Date")]
         public DateTime Deadline { get; set; }
-        public DateTime CreateDateTime { get; set; }
+        public DateTime Date { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        [ForeignKey("User")]
         public int UserId { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-        [ForeignKey("Executor")]
         public int ExecutorId { get; set; }
-        [ForeignKey("ExecutorId")]
-        public User Executor { get; set; }
-        [ForeignKey("Status")]
         public int StatusId { get; set; }
         
-        public Status Status { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<File> Files { get; set; }
+        public virtual User User { get; set; }
+        public virtual User Executor { get; set; }
+        public virtual Status Status { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<File> Files { get; set; }
     }
 }
