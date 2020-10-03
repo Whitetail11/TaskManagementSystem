@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DataLayer.Entities
+namespace DataLayer.Entities.DataAccess
 {
     public class ApplicationContext: DbContext
     {
