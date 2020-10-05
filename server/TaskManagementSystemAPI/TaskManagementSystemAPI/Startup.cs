@@ -9,11 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TaskManagementSystemAPI.Classes;
-using Microsoft.Extensions.Logging;
-using DataLayer.Entities;
-using DataLayer.Entities.DataAccess;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace TaskManagementSystemAPI
 {
