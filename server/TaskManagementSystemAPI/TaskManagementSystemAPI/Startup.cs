@@ -22,6 +22,7 @@ namespace TaskManagementSystemAPI
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+            
             services.AddControllers();
         }
 

@@ -1,22 +1,23 @@
 ﻿using DataLayer.Entities;
+using DataLayer.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer
 {
-    public class ApplicationContext: DbContext
+    public class ApplicationContext: IdentityDbContext<ApplicationUser>
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Extension> Extensions { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options): base(options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            //    Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,11 +27,13 @@ namespace DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Task>(task =>
             {
-                task.HasOne(t => t.User)
+                task.HasOne(t => t.Creator)
                     .WithMany(user => user.Tasks)
-                    .HasForeignKey(t => t.UserId)
+                    .HasForeignKey(t => t.CreatorId)
                     .OnDelete(DeleteBehavior.NoAction);
 
                 task.HasOne(t => t.Executor)

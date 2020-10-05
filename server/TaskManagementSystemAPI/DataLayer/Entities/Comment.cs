@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace DataLayer.Entities
         public int Id { get; set; }
         public string Text { get; set; }
         public int TaskId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int? ReplyCommentId { get; set; }
         public DateTime Date { get; set; }
 
         public Task Task { get; set; }
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }
