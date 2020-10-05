@@ -39,5 +39,23 @@ namespace TaskManagementSystemAPI.Controllers
 
             return Ok(response);
         }
+
+        [Route("GetExecutorInfo")]
+        [HttpGet]
+        [Authorize(Roles = "executor")]
+        public IActionResult GetExecutorInfo()
+        {
+            var userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserId").Value;
+            var user = _dbContext.ApplicationUsers.AsNoTracking().FirstOrDefault(u => u.Id == userId);
+
+            var response = new
+            {
+                email = user.Email,
+                name = user.Name,
+                surname = user.Surname,
+            };
+
+            return Ok(response);
+        }
     }
 }

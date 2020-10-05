@@ -18,6 +18,6 @@ namespace TaskManagementSystemAPI.Models
         public string Password { get; set; }
         [Required]
         [Compare("Password", ErrorMessage = "Passwords do not match")]
-        public string PasswordConnfirm { get; set; }
+        public string PasswordConfirm { get; set; }
     }
 }
