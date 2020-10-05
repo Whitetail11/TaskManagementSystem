@@ -18,10 +18,7 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpGet]
         public string Get()
         {
-            _dbContext.Statuses.Add(new Status() { Name = "NEW"});
-            _dbContext.SaveChanges();
-
-            return "Hello, world";
+            return "It's home controller";
         }
     }
 }
