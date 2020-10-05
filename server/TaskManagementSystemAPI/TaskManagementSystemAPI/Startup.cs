@@ -9,6 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TaskManagementSystemAPI.Classes;
+using Microsoft.Extensions.Logging;
+using DataLayer.Entities;
+using DataLayer.Entities.DataAccess;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace TaskManagementSystemAPI
 {
@@ -48,6 +53,11 @@ namespace TaskManagementSystemAPI
                 });
 
             services.AddControllers();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Task Management System", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,6 +73,14 @@ namespace TaskManagementSystemAPI
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Task Management System V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
