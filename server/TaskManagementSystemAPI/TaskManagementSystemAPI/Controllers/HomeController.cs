@@ -1,6 +1,8 @@
 ﻿using DataLayer;
-using DataLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace TaskManagementSystemAPI.Controllers
 {
@@ -9,7 +11,6 @@ namespace TaskManagementSystemAPI.Controllers
     public class HomeController : ControllerBase
     {
         private readonly ApplicationContext _dbContext;
-
         public HomeController(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
@@ -19,6 +20,24 @@ namespace TaskManagementSystemAPI.Controllers
         public string Get()
         {
             return "It's home controller";
+        }
+
+        [Route("GetUserInfo")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetUserInfo()
+        {
+            var userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserId").Value;
+            var user = _dbContext.ApplicationUsers.AsNoTracking().FirstOrDefault(u => u.Id == userId);
+
+            var response = new
+            {
+                email = user.Email,
+                name = user.Name,
+                surname = user.Surname,
+            };
+
+            return Ok(response);
         }
     }
 }
