@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace DataLayer.Entities.DataAccess
+namespace DataLayer
 {
     public class ApplicationContext: DbContext
     {
@@ -16,7 +17,6 @@ namespace DataLayer.Entities.DataAccess
         public ApplicationContext(DbContextOptions<ApplicationContext> options): base(options)
         {
             //    Database.EnsureCreated();
-            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
