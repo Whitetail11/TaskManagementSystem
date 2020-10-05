@@ -33,8 +33,12 @@ namespace TaskManagementSystemAPI
                 options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<ApplicationContext>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
                 {
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
@@ -66,20 +70,21 @@ namespace TaskManagementSystemAPI
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                  {
                     {
                       new OpenApiSecurityScheme
                       {
                         Reference = new OpenApiReference
-                        {
+                          {
                             Type = ReferenceType.SecurityScheme,
                             Id = "Bearer"
-                        },
+                          },
                           Scheme = "oauth2",
                           Name = "Bearer",
                           In = ParameterLocation.Header,
+
                       },
-                        new List<string>()
+                      new List<string>()
                     }
                 });
             });
@@ -100,8 +105,6 @@ namespace TaskManagementSystemAPI
             app.UseAuthorization();
 
             app.UseSwagger();
-
-
 
             app.UseSwaggerUI(c =>
             {
