@@ -401,3 +401,5 @@ pids
 
 # Windows thumbnail cache files
 Thumbs.db
+
+appsettings.Development.json
