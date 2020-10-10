@@ -29,6 +29,8 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel model)
         {
+            var errors = new List<string>();
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser()
@@ -44,17 +46,26 @@ namespace TaskManagementSystemAPI.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.EXECUTOR);
+                    return Ok();
                 }
                 else
                 {
-                    foreach(var error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        errors.Add(error.Description);
                     }
+                    return BadRequest(errors);
                 }
             }
-
-            return Ok(ModelState);
+            else
+            {
+                var modelErrors = ModelState.SelectMany(modelStateEntry => modelStateEntry.Value.Errors).Select(modelError => modelError.ErrorMessage);
+                foreach (var error in modelErrors)
+                {
+                    errors.Add(error);
+                }
+                return BadRequest(errors);
+            }
         } 
 
         [Route("Login")]
