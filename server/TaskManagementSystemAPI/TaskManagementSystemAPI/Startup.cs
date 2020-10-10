@@ -16,6 +16,7 @@ namespace TaskManagementSystemAPI
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,6 +26,18 @@ namespace TaskManagementSystemAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod()
+                                        .AllowCredentials()
+                                      .WithOrigins("http://localhost:4200");
+                                  });
+            });
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
@@ -104,6 +117,7 @@ namespace TaskManagementSystemAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
