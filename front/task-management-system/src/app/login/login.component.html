@@ -1,2 +1,17 @@
 <title>Login</title>
-<p>login works!</p>
+<div class="container-fluid">
+    <p *ngIf="errorMessage">{{errorMessage}}</p>
+    <form (ngSubmit)="login()" #form="ngForm">
+        <input type="text"
+            class="form-control mt-2"
+            name="email" 
+            placeholder="Email"
+            ngModel> 
+        <input type="text"
+            class="form-control mt-2"
+            name="password" 
+            placeholder="Password"
+            ngModel>      
+        <button type="submit" class="btn btn-success mt-2">Login</button>
+    </form>
+</div>

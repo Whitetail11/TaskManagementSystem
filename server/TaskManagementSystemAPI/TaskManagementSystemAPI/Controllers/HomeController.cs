@@ -1,7 +1,10 @@
 ﻿using DataLayer;
+using DataLayer.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.Linq;
 
 namespace TaskManagementSystemAPI.Controllers
@@ -10,10 +13,10 @@ namespace TaskManagementSystemAPI.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly ApplicationContext _dbContext;
-        public HomeController(ApplicationContext dbContext)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public HomeController(UserManager<ApplicationUser> userManager)
         {
-            _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -27,8 +30,8 @@ namespace TaskManagementSystemAPI.Controllers
         [Authorize]
         public IActionResult GetUserInfo()
         {
-            var userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserId").Value;
-            var user = _dbContext.ApplicationUsers.AsNoTracking().FirstOrDefault(u => u.Id == userId);
+            var userId = _userManager.GetUserId(User);
+            var user = _userManager.Users.AsNoTracking().FirstOrDefault(u => u.Id == userId);
 
             var response = new
             {
@@ -45,8 +48,8 @@ namespace TaskManagementSystemAPI.Controllers
         [Authorize(Roles = "executor")]
         public IActionResult GetExecutorInfo()
         {
-            var userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserId").Value;
-            var user = _dbContext.ApplicationUsers.AsNoTracking().FirstOrDefault(u => u.Id == userId);
+            var userId = _userManager.GetUserId(User);
+            var user = _userManager.Users.AsNoTracking().FirstOrDefault(u => u.Id == userId);
 
             var response = new
             {

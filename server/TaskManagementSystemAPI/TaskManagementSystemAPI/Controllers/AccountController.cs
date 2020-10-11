@@ -84,7 +84,7 @@ namespace TaskManagementSystemAPI.Controllers
                     notBefore: now,
                     expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
                     claims: await GetUserClaims(user),
-                    signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -100,15 +100,15 @@ namespace TaskManagementSystemAPI.Controllers
         {
             var claims = new List<Claim>()
             {
-                new Claim("UserId", user.Id),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email)
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
             if (userRoles.Count != 0)
             {
-                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, userRoles.First()));
+                claims.Add(new Claim("role", userRoles.First()));
             }
 
             return claims;

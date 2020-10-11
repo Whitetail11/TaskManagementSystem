@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,7 +10,7 @@ export class NavMenuComponent implements OnInit {
 
   isExpanded = false;
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
   
   ngOnInit(): void {
   }
@@ -20,5 +21,13 @@ export class NavMenuComponent implements OnInit {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  public get isLoggedId(): boolean {
+    return this.accountService.isAuthenticated();
+  }
+
+  logout() {
+    this.accountService.logout();
   }
 }
