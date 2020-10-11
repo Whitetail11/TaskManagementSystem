@@ -12,3 +12,11 @@ nav {
 a {
     color: #fff !important;
 }
+
+a.navbar-brand {
+    padding-left: 40px;
+    background-image: url(../../images/app_icon.svg);
+    background-position-x: 0;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
