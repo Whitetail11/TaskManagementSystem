@@ -11,6 +11,8 @@ import { FormsModule} from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 import { TasksComponent } from './tasks/tasks.component';
 import { SignupComponent } from './signup/signup.component';
+import { environment } from 'src/environments/environment';
+import { API_URL } from './app-injection-token';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -35,7 +37,10 @@ export function tokenGetter() {
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: API_URL,
+    useValue: environment.apiUrl
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
