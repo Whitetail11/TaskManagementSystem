@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using TaskManagementSystemAPI.Classes;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
 namespace TaskManagementSystemAPI
 {
@@ -66,7 +67,11 @@ namespace TaskManagementSystemAPI
                     };
                 });
 
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options => 
+                {
+                    options.SuppressModelStateInvalidFilter = true;
+                });
 
             services.AddSwaggerGen(c =>
             {

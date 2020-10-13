@@ -16,6 +16,7 @@ namespace TaskManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ValidateModel]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -29,40 +30,27 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            var errors = new List<string>();
-
-            if (ModelState.IsValid)
+            var user = new ApplicationUser()
             {
-                ApplicationUser user = new ApplicationUser()
-                {
-                    Name = model.Name,
-                    Surname = model.Surname,
-                    Email = model.Email,
-                    UserName = model.Email
-                };
+                Name = model.Name,
+                Surname = model.Surname,
+                Email = model.Email,
+                UserName = model.Email
+            };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.EXECUTOR);
-                    return Ok();
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        errors.Add(error.Description);
-                    }
-                    return BadRequest(errors);
-                }
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.EXECUTOR);
+                return Ok();
             }
             else
             {
-                var modelErrors = ModelState.SelectMany(modelStateEntry => modelStateEntry.Value.Errors).Select(modelError => modelError.ErrorMessage);
-                foreach (var error in modelErrors)
+                var errors = new List<string>();
+                foreach (var error in result.Errors)
                 {
-                    errors.Add(error);
+                    errors.Add(error.Description);
                 }
                 return BadRequest(errors);
             }
