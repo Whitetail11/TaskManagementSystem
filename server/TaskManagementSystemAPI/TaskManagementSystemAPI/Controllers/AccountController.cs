@@ -2,6 +2,7 @@
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,12 @@ namespace TaskManagementSystemAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AuthOptions _authOptions;
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public AccountController(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> authOptions)
         {
             _userManager = userManager;
+            _authOptions = authOptions.Value;
         }
 
         [Route("Register")]
@@ -67,12 +70,12 @@ namespace TaskManagementSystemAPI.Controllers
                 var now = DateTime.UtcNow;
 
                 var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
+                    issuer: _authOptions.Issuer,
+                    audience: _authOptions.Audience,
                     notBefore: now,
-                    expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
+                    expires: now.Add(TimeSpan.FromDays(_authOptions.Lifetime)),
                     claims: await GetUserClaims(user),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                    signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 

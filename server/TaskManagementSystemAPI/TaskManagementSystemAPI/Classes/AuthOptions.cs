@@ -9,14 +9,14 @@ namespace TaskManagementSystemAPI.Classes
 {
     public class AuthOptions
     {
-        public const string ISSUER = "ApplicationServer";
-        public const string AUDIENCE = "ApplicationClient";
-        public const int LIFETIME = 1; // days
-        const string KEY = "APRIORIT_INTERNSHIP_2020_TEAM";
+        public string Issuer { get; set; }
+        public string Audience { get; set; }
+        public int Lifetime { get; set; } // days
+        public string Key { get; set; }
 
-        public static SymmetricSecurityKey GetSymmetricSecurityKey()
+        public SymmetricSecurityKey GetSymmetricSecurityKey()
         {
-            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY));
+            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Key));
         }
     }
 }
