@@ -1,4 +1,4 @@
-<title>Login</title>
+<title>Sign Up</title>
 <div class="container-fluid">
     <div class="row">
         <div class="col-6 text-center mt-5">
@@ -6,15 +6,42 @@
         </div>
         <div class="col-6">
             <div class="row justify-content-center">
-                <div class="col-8 text-center" style="margin-top: 10vh;">
-                    <h2>Sign Up</h2>
-                    <!-- <form (ngSubmit)="login()" #form="ngForm"> -->
-                    <input type="text" class="form-control mt-2" name="name" placeholder="Name"> 
-                    <input type="text" class="form-control mt-2" name="surname" placeholder="Surname">    
-                    <input type="text" class="form-control mt-2" name="email" placeholder="Email">      
-                    <input type="password" class="form-control mt-2" name="password" placeholder="Password">  
-                    <input type="password" class="form-control mt-2" name="password-confirm" placeholder="Confirm password">      
-                    <button type="submit" class="btn form-control btn-green mt-2">Sign Up</button>
+                <div class="col-8" style="margin-top: 10vh;">
+                    <div class="col-12 text-center">
+                        <h2>Sign Up</h2>
+                    </div>
+                    <ul>
+                        <li class="error-text" *ngFor="let error of errors">{{error}}</li>
+                    </ul>
+                    <form (ngSubmit)="signup()" #form="ngForm">
+                        <input type="text" 
+                            class="form-control mt-2" 
+                            name="name" 
+                            placeholder="Name"
+                            required
+                            ngModel> 
+                        <input type="text" 
+                            class="form-control mt-2" 
+                            name="surname" 
+                            placeholder="Surname"
+                            ngModel>    
+                        <input type="text" 
+                            class="form-control mt-2" 
+                            name="email" 
+                            placeholder="Email"
+                            ngModel>      
+                        <input type="password" 
+                            class="form-control mt-2" 
+                            name="password" 
+                            placeholder="Password"
+                            ngModel>  
+                        <input type="password" 
+                            class="form-control mt-2" 
+                            name="passwordConfirm" 
+                            placeholder="Confirm password"
+                            ngModel>      
+                        <button type="submit" class="btn form-control btn-green mt-2">Sign Up</button>
+                    </form>
                 </div>
             </div>
         </div>

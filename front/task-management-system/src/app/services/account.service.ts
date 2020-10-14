@@ -36,6 +36,10 @@ export class AccountService {
     this.router.navigate(['']);
   }
 
+  register(registerModel): Observable<Object> {
+    return this.http.post(`${this.apiUrl}account/register`, registerModel);
+  }
+
   isAuthenticated(): boolean {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     return token && !this.jwtHelper.isTokenExpired(token);

@@ -28,8 +28,6 @@ export class LoginComponent implements OnInit {
       password : this.form.value.password
     };
 
-    console.log(loginModel);
-
     this.accountService.login(loginModel).subscribe(() => 
     { 
       this.router.navigate(['tasks']);

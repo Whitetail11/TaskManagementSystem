@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RegisterModel } from '../models/registerModel';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-signup',
@@ -7,9 +11,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
+  constructor(private accountService: AccountService, private router: Router) { }
+
+  @ViewChild("form", { static: false }) form: NgForm;
+  errors: string[] = [];
 
   ngOnInit(): void {
   }
 
+  signup() {
+    this.errors = [];
+
+    const registerModel: RegisterModel = 
+    { 
+      name: this.form.value.name,
+      surname: this.form.value.surname,
+      email: this.form.value.email, 
+      password: this.form.value.password,
+      passwordConfirm: this.form.value.passwordConfirm
+    };
+
+    this.accountService.register(registerModel).subscribe(() => 
+    { 
+      alert("You successfully signed up.");
+      this.router.navigate(['login']);
+    }, err => {
+      this.errors = err.error;
+      console.log(this.errors);
+    });
+  }
 }
