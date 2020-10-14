@@ -83,7 +83,7 @@ namespace TaskManagementSystemAPI.Controllers
             }
             else
             {
-                return BadRequest(new { errorText = "Invalid email or password." });
+                return BadRequest(new string[] { "Invalid email or password." });
             }
         }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgModel } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginModel } from '../models/loginModel';
 import { AccountService } from '../services/account.service';
@@ -13,13 +13,15 @@ export class LoginComponent implements OnInit {
 
   constructor(private accountService: AccountService, private router: Router) { }
 
-  @ViewChild("form", { static: false }) form: NgModel;
-  errorMessage: string = null;
+  @ViewChild("form", { static: false }) form: NgForm;
+  errors: string[] = [];
 
   ngOnInit(): void {
   }
 
   login() {
+    this.errors = [];
+
     const loginModel: LoginModel = 
     { 
       email: this.form.value.email, 
@@ -27,12 +29,13 @@ export class LoginComponent implements OnInit {
     };
 
     console.log(loginModel);
+
     this.accountService.login(loginModel).subscribe(() => 
     { 
-      this.errorMessage = null;
       this.router.navigate(['tasks']);
     }, err => {
-      this.errorMessage = err.error.errorText;
+      this.errors = err.error;
+      console.log(this.errors);
     });
   }
 }
