@@ -27,6 +27,18 @@ export class NavMenuComponent implements OnInit {
     return this.accountService.isAuthenticated();
   }
 
+  public get isAdministrator(): boolean {
+    return this.accountService.isAdministrator();
+  }
+
+  public get isCustomer(): boolean {
+    return this.accountService.isCustomer();
+  }
+
+  public get isExecutor(): boolean {
+    return this.accountService.isExecutor();
+  }
+
   logout() {
     this.accountService.logout();
   }
