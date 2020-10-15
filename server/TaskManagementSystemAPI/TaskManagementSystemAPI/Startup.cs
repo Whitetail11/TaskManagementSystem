@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using TaskManagementSystemAPI.Classes;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace TaskManagementSystemAPI
 {
@@ -67,6 +68,7 @@ namespace TaskManagementSystemAPI
                 });
 
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {
