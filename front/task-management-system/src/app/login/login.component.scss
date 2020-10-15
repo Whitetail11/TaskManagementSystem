@@ -1,0 +1,10 @@
+@import '../../variables.scss';
+
+.reset-password-link {
+    color: $black-color;
+    text-decoration: underline;
+}
+
+.reset-password-link:hover {
+    color: $active-color;
+}

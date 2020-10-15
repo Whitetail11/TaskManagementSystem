@@ -2,6 +2,7 @@
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -16,53 +17,43 @@ namespace TaskManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ValidateModel]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AuthOptions _authOptions;
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public AccountController(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> authOptions)
         {
             _userManager = userManager;
+            _authOptions = authOptions.Value;
         }
 
         [Route("Register")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            var errors = new List<string>();
-
-            if (ModelState.IsValid)
+            var user = new ApplicationUser()
             {
-                ApplicationUser user = new ApplicationUser()
-                {
-                    Name = model.Name,
-                    Surname = model.Surname,
-                    Email = model.Email,
-                    UserName = model.Email
-                };
+                Name = model.Name,
+                Surname = model.Surname,
+                Email = model.Email,
+                UserName = model.Email
+            };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.EXECUTOR);
-                    return Ok();
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        errors.Add(error.Description);
-                    }
-                    return BadRequest(errors);
-                }
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.EXECUTOR);
+                return Ok();
             }
             else
             {
-                var modelErrors = ModelState.SelectMany(modelStateEntry => modelStateEntry.Value.Errors).Select(modelError => modelError.ErrorMessage);
-                foreach (var error in modelErrors)
+                var errors = new List<string>();
+                foreach (var error in result.Errors)
                 {
-                    errors.Add(error);
+                    errors.Add(error.Description);
                 }
                 return BadRequest(errors);
             }
@@ -79,12 +70,12 @@ namespace TaskManagementSystemAPI.Controllers
                 var now = DateTime.UtcNow;
 
                 var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
+                    issuer: _authOptions.Issuer,
+                    audience: _authOptions.Audience,
                     notBefore: now,
-                    expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
+                    expires: now.Add(TimeSpan.FromDays(_authOptions.Lifetime)),
                     claims: await GetUserClaims(user),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                    signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -92,7 +83,7 @@ namespace TaskManagementSystemAPI.Controllers
             }
             else
             {
-                return BadRequest(new { errorText = "Invalid email or password." });
+                return BadRequest(new string[] { "Invalid email or password." });
             }
         }
 

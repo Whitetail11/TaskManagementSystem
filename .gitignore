@@ -403,3 +403,4 @@ pids
 Thumbs.db
 
 appsettings.Development.json
+front/task-management-system/src/environments/environment.local.ts

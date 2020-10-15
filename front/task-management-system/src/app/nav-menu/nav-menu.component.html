@@ -21,14 +21,14 @@
         >
           <ul class="navbar-nav flex-grow">
             <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedId">
-                <a class="nav-link" [routerLink]="['/login']">Login</a>
+                <a class="nav-link" [routerLink]="['/login']">Log In</a>
             </li>
             <li class="mt-2" style="color: gray;" *ngIf="!isLoggedId">or</li>
             <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedId">
-              <a class="nav-link" [routerLink]="['/register']">Register</a>
+              <a class="nav-link" [routerLink]="['/signup']">Sign Up</a>
             </li>
             <li class="nav-item" *ngIf="isLoggedId">
-              <a class="nav-link" (click)="logout()" style="cursor: pointer;">Logout</a>
+              <a class="nav-link" (click)="logout()" style="cursor: pointer;">Log Out</a>
             </li>
           </ul>
         </div>

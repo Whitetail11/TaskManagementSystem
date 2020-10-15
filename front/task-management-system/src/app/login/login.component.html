@@ -1,17 +1,35 @@
-<title>Login</title>
+<title>Log In</title>
 <div class="container-fluid">
-    <p *ngIf="errorMessage">{{errorMessage}}</p>
-    <form (ngSubmit)="login()" #form="ngForm">
-        <input type="text"
-            class="form-control mt-2"
-            name="email" 
-            placeholder="Email"
-            ngModel> 
-        <input type="text"
-            class="form-control mt-2"
-            name="password" 
-            placeholder="Password"
-            ngModel>      
-        <button type="submit" class="btn btn-success mt-2">Login</button>
-    </form>
+    <div class="row">
+        <div class="col-6 text-center mt-5">
+            <img src="../../assets/images/main_image.svg" alt="">
+        </div>
+        <div class="col-6">
+            <div class="row justify-content-center">
+                <div class="col-8" style="margin-top: 20vh;">
+                    <div class="col-12 text-center">
+                        <h2>Log In</h2>
+                    </div>
+                    <ul>
+                        <li class="error-text" *ngFor="let error of errors">{{error}}</li>
+                    </ul>
+                    <form (ngSubmit)="login()" #form="ngForm">
+                        <input type="text" class="form-control mt-2" 
+                            name="email" 
+                            placeholder="Email"
+                            ngModel> 
+                        <input type="text" class="form-control mt-2" 
+                            type="password"
+                            name="password" 
+                            placeholder="Password"
+                            ngModel>      
+                        <button type="submit" class="btn form-control btn-green mt-2">Log In</button>
+                    </form>
+                    <div class="col-12 text-center">
+                        <h6 class="mt-1"><a class="reset-password-link" href="">Forgotten password?</a></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

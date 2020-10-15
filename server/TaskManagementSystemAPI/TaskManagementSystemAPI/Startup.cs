@@ -12,6 +12,7 @@ using TaskManagementSystemAPI.Classes;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.Extensions.Options;
 
 namespace TaskManagementSystemAPI
 {
@@ -47,6 +48,11 @@ namespace TaskManagementSystemAPI
                 options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<ApplicationContext>();
 
+            var authOptionsConfiguration = Configuration.GetSection("Auth");
+            services.Configure<AuthOptions>(authOptionsConfiguration);
+
+            var authOptions = authOptionsConfiguration.Get<AuthOptions>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,17 +64,22 @@ namespace TaskManagementSystemAPI
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
                         ValidateIssuer = true,
-                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidIssuer = authOptions.Issuer,
                         ValidateAudience = true,
-                        ValidAudience = AuthOptions.AUDIENCE,
+                        ValidAudience = authOptions.Audience,
                         ValidateLifetime = true
                     };
                 });
 
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options => 
+                {
+                    options.SuppressModelStateInvalidFilter = true;
+                });
 
             services.AddSwaggerGen(c =>
             {

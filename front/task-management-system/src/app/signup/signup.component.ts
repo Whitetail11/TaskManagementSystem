@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginModel } from '../models/loginModel';
+import { RegisterModel } from '../models/registerModel';
 import { AccountService } from '../services/account.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class SignupComponent implements OnInit {
 
   constructor(private accountService: AccountService, private router: Router) { }
 
@@ -19,18 +19,22 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login() {
+  signup() {
     this.errors = [];
 
-    const loginModel: LoginModel = 
+    const registerModel: RegisterModel = 
     { 
+      name: this.form.value.name,
+      surname: this.form.value.surname,
       email: this.form.value.email, 
-      password : this.form.value.password
+      password: this.form.value.password,
+      passwordConfirm: this.form.value.passwordConfirm
     };
 
-    this.accountService.login(loginModel).subscribe(() => 
+    this.accountService.register(registerModel).subscribe(() => 
     { 
-      this.router.navigate(['tasks']);
+      alert("You successfully signed up.");
+      this.router.navigate(['login']);
     }, err => {
       this.errors = err.error;
       console.log(this.errors);

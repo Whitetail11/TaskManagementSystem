@@ -1,4 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
-.display-none {
-    display: none;
- }
+@import './variables.scss';
+
+body {
+    background-color: $body-color !important;
+}
+
+.btn.btn-green {
+    background-color: $green-color;
+    color: $white-color;
+    font-weight: bold;
+}
+
+.btn {
+    height: 40px !important;
+}
+
+.btn.btn-green:hover {
+    color: $white-color;
+    background-color: green;
+}
+
+.btn.btn-green:focus {
+    color: $white-color;
+    background-color: green;
+}
+
+input.form-control {
+    height: 40px;
+}
+
+.error-text {
+    color: $red-color;
+}
+
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
