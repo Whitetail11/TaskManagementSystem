@@ -53,7 +53,7 @@ namespace TaskManagementSystemAPI.Controllers
                 var errors = new List<string>();
                 foreach (var error in result.Errors)
                 {
-                    errors.Add(error.Description);
+                    errors.Add(error.Description.Replace("User name", "Email"));
                 }
                 return BadRequest(errors);
             }
