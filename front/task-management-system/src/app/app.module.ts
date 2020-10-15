@@ -14,6 +14,7 @@ import { SignupComponent } from './signup/signup.component';
 import { environment } from 'src/environments/environment';
 import { API_URL } from './app-injection-token';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './profile/profile.component';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -25,7 +26,8 @@ export function tokenGetter() {
     NavMenuComponent,
     LoginComponent,
     TasksComponent,
-    SignupComponent
+    SignupComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

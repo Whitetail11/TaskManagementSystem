@@ -27,3 +27,21 @@ a.navbar-brand {
     font-weight: bold;
     color: $active-color !important;
 }
+
+.dropdown-menu {
+    // background-color: $black-color !important;
+    color: $black-color !important;
+}
+
+.dropdown-item {
+    color: $black-color !important;
+}
+
+.nav-item.dropdown.link-active .dropdown-item {
+    color: $black-color !important;
+    font-weight: unset !important;
+}
+
+.dropdown-item:hover {
+    background-color: $body-color !important;
+}
