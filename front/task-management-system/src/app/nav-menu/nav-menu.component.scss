@@ -1,21 +1,21 @@
 @import '/src/variables.scss';
 
+nav {
+    background-color: $black-color !important;
+    color: $white-color !important;
+}
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
 }
 
-nav {
-    background-color: $black-color !important;
-    color: $white-color !important;
-}
-
 a {
     color: $white-color !important;
 }
 
-a.navbar-brand {
+.navbar-brand {
     padding-left: 40px;
     background-image: url(../../assets/images/app_icon.svg);
     background-position-x: 0;
@@ -44,4 +44,13 @@ a.navbar-brand {
 
 .dropdown-item:hover {
     background-color: $body-color !important;
+}
+
+.nav-link:hover {
+    color: $active-color !important;
+}
+
+.navbar-brand:hover {
+    color: $active-color !important;
+    background-image: url(../../assets/images/app_icon_active.svg);
 }
