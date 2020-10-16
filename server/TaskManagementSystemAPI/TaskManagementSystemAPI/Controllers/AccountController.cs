@@ -50,7 +50,7 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("CreateUser")]
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
         public async Task<IActionResult> CreateUser(CreateUserViewModel model)
         {
             var result = await _accountService.CreateUser(model);

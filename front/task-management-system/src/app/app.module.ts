@@ -36,7 +36,8 @@ export function tokenGetter() {
     AppRoutingModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter
+        tokenGetter: tokenGetter,
+        allowedDomains: environment.tokenAllowedDomains
       }
     }),
     FormsModule,
