@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 
-namespace TaskManagementSystemAPI.Models
+namespace BusinessLayer.ViewModels
 {
-    public class RegisterModel
+    public class RegisterViewModel
     {
         [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
