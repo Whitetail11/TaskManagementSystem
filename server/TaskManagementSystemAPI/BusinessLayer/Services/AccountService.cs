@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Classes;
+using BusinessLayer.Interfaces;
 using BusinessLayer.ViewModels;
 using DataLayer.Classes;
 using DataLayer.Identity;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
 {
-    public class AccountService
+    public class AccountService: IAccountService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AuthOptions _authOptions;

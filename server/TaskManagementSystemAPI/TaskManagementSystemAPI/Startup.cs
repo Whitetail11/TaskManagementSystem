@@ -11,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 using BusinessLayer.Classes;
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
 
 namespace TaskManagementSystemAPI
 {
@@ -110,6 +112,9 @@ namespace TaskManagementSystemAPI
                     }
                 });
             });
+
+            // App Services
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

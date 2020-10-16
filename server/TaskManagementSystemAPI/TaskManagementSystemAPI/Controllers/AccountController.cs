@@ -1,10 +1,7 @@
-﻿using BusinessLayer.Classes;
+﻿using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
 using BusinessLayer.ViewModels;
-using DataLayer.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
 
@@ -15,11 +12,11 @@ namespace TaskManagementSystemAPI.Controllers
     [ValidateModel]
     public class AccountController : ControllerBase
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> authOptions)
+        public AccountController(IAccountService accountService)
         {
-            _accountService = new AccountService(userManager, authOptions);
+            _accountService = accountService;
         }
 
         [Route("Register")]
