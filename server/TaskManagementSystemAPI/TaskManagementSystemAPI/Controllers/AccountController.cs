@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Interfaces;
-using BusinessLayer.Services;
 using BusinessLayer.ViewModels;
+using DataLayer.Classes;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
@@ -44,6 +46,21 @@ namespace TaskManagementSystemAPI.Controllers
                 return BadRequest(result.Errors);
             }
             return Ok(new { access_token = result.Token });
+        }
+
+        [Route("CreateUser")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> CreateUser(CreateUserViewModel model)
+        {
+            var result = await _accountService.CreateUser(model);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+
+            }
+            return Ok();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace BusinessLayer.Services
             _authOptions = options.Value;
         }
 
-        public async Task<AccountResult> Register(RegisterViewModel model)
+        public async Task<AccountResult> CreateUser(CreateUserViewModel model)
         {
             var user = new ApplicationUser()
             {
@@ -41,7 +41,7 @@ namespace BusinessLayer.Services
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.EXECUTOR);
+                await _userManager.AddToRoleAsync(user, model.Role);
 
                 return new AccountResult(true);
             }
@@ -55,6 +55,21 @@ namespace BusinessLayer.Services
 
                 return new AccountResult(errors);
             }
+        }
+
+        public async Task<AccountResult> Register(RegisterViewModel model)
+        {
+            var user = new CreateUserViewModel()
+            {
+                Name = model.Name,
+                Surname = model.Surname,
+                Email = model.Email,
+                Password = model.Password,
+                PasswordConfirm = model.Password,
+                Role = ApplicationConstants.Roles.EXECUTOR
+            };
+
+            return await CreateUser(user);
         }
 
         public async Task<AccountResult> Login(LoginViewModel model)

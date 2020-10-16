@@ -41,6 +41,10 @@ export class AccountService {
     return this.http.post(`${this.apiUrl}account/register`, registerModel);
   }
 
+  createUser(createUserModel): Observable<Object> {
+    return this.http.post(`${this.apiUrl}account/CreateUser`, createUserModel);
+  }
+
   isAuthenticated(): boolean {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     return token && !this.jwtHelper.isTokenExpired(token);

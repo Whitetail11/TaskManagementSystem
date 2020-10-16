@@ -38,7 +38,7 @@
               </a>
               <div class="dropdown-menu mt-1" style="left: -45px" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" [routerLink]="['/profile']">Profile</a>
-                <a class="dropdown-item" *ngIf="isAdministrator">Create customer</a>
+                <a class="dropdown-item" [routerLink]="['/user-creating']" *ngIf="isAdministrator">Create user</a>
                 <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Log Out</a>
               </div>
             </li>

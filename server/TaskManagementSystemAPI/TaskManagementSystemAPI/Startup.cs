@@ -33,11 +33,10 @@ namespace TaskManagementSystemAPI
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder
+                                      builder.WithOrigins("http://localhost:4200")
+                                        .AllowAnyOrigin()
                                         .AllowAnyHeader()
-                                        .AllowAnyMethod()
-                                        .AllowCredentials()
-                                      .WithOrigins("http://localhost:4200");
+                                        .AllowAnyMethod();
                                   });
             });
             var connection = Configuration.GetConnectionString("DefaultConnection");
@@ -128,10 +127,11 @@ namespace TaskManagementSystemAPI
 
             app.UseRouting();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
