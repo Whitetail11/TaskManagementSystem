@@ -60,7 +60,7 @@
                     autoClose="inside"
                     #popover6="ngbPopover"
                     (blur)="role.invalid ? popover6.open() : popover6.close();">
-                    <!-- <option [value]="false" [selected]="true">Select role</option> -->
+                    <option value="" hidden [attr.selected]="true">Role</option>
                     <option *ngFor="let r of roles" [value]="r">{{r}}</option>
                 </select>
                 <input type="password" 
