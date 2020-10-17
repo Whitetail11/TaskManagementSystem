@@ -1,21 +1,21 @@
 @import '/src/variables.scss';
 
+nav {
+    background-color: $black-color !important;
+    color: $white-color !important;
+}
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
 }
 
-nav {
-    background-color: $black-color !important;
-    color: $white-color !important;
-}
-
 a {
     color: $white-color !important;
 }
 
-a.navbar-brand {
+.navbar-brand {
     padding-left: 40px;
     background-image: url(../../assets/images/app_icon.svg);
     background-position-x: 0;
@@ -26,4 +26,31 @@ a.navbar-brand {
 .link-active a {
     font-weight: bold;
     color: $active-color !important;
+}
+
+.dropdown-menu {
+    // background-color: $black-color !important;
+    color: $black-color !important;
+}
+
+.dropdown-item {
+    color: $black-color !important;
+}
+
+.nav-item.dropdown.link-active .dropdown-item {
+    color: $black-color !important;
+    font-weight: unset !important;
+}
+
+.dropdown-item:hover {
+    background-color: $body-color !important;
+}
+
+.nav-link:hover {
+    color: $active-color !important;
+}
+
+.navbar-brand:hover {
+    color: $active-color !important;
+    background-image: url(../../assets/images/app_icon_active.svg);
 }

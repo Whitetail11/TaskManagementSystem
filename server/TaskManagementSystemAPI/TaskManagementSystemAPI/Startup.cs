@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TaskManagementSystemAPI.Classes;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.Extensions.Options;
+using BusinessLayer.Classes;
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
 
 namespace TaskManagementSystemAPI
 {
@@ -33,11 +35,10 @@ namespace TaskManagementSystemAPI
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder
+                                      builder.WithOrigins("http://localhost:4200")
+                                        .AllowAnyOrigin()
                                         .AllowAnyHeader()
-                                        .AllowAnyMethod()
-                                        .AllowCredentials()
-                                      .WithOrigins("http://localhost:4200");
+                                        .AllowAnyMethod();
                                   });
             });
             var connection = Configuration.GetConnectionString("DefaultConnection");
@@ -114,6 +115,9 @@ namespace TaskManagementSystemAPI
                     }
                 });
             });
+
+            // App Services
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -127,10 +131,11 @@ namespace TaskManagementSystemAPI
 
             app.UseRouting();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

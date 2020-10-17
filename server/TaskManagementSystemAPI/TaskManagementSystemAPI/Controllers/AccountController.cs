@@ -1,17 +1,11 @@
-﻿using DataLayer.Classes;
-using DataLayer.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using BusinessLayer.Interfaces;
+using BusinessLayer.ViewModels;
+using DataLayer.Classes;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
-using TaskManagementSystemAPI.Models;
 
 namespace TaskManagementSystemAPI.Controllers
 {
@@ -20,89 +14,53 @@ namespace TaskManagementSystemAPI.Controllers
     [ValidateModel]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly AuthOptions _authOptions;
+        private readonly IAccountService _accountService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> authOptions)
+        public AccountController(IAccountService accountService)
         {
-            _userManager = userManager;
-            _authOptions = authOptions.Value;
+            _accountService = accountService;
         }
 
         [Route("Register")]
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var user = new ApplicationUser()
-            {
-                Name = model.Name,
-                Surname = model.Surname,
-                Email = model.Email,
-                UserName = model.Email
-            };
+            var result = await _accountService.Register(model);
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
 
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(user, ApplicationConstants.Roles.EXECUTOR);
-                return Ok();
             }
-            else
-            {
-                var errors = new List<string>();
-                foreach (var error in result.Errors)
-                {
-                    errors.Add(error.Description);
-                }
-                return BadRequest(errors);
-            }
-        } 
+            return Ok();
+        }
 
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var result = await _accountService.Login(model);
 
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (!result.Succeeded)
             {
-                var now = DateTime.UtcNow;
-
-                var jwt = new JwtSecurityToken(
-                    issuer: _authOptions.Issuer,
-                    audience: _authOptions.Audience,
-                    notBefore: now,
-                    expires: now.Add(TimeSpan.FromDays(_authOptions.Lifetime)),
-                    claims: await GetUserClaims(user),
-                    signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-                return Ok(new { access_token = encodedJwt });
+                return BadRequest(result.Errors);
             }
-            else
-            {
-                return BadRequest(new string[] { "Invalid email or password." });
-            }
+            return Ok(new { access_token = result.Token });
         }
 
-        private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)
+        [Route("CreateUser")]
+        [HttpPost]
+        [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
+        public async Task<IActionResult> CreateUser(CreateUserViewModel model)
         {
-            var claims = new List<Claim>()
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
-            };
+            var result = await _accountService.CreateUser(model);
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            if (userRoles.Count != 0)
+            if (!result.Succeeded)
             {
-                claims.Add(new Claim("role", userRoles.First()));
+                return BadRequest(result.Errors);
+
             }
-
-            return claims;
+            return Ok();
         }
     }
 }

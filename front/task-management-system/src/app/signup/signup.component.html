@@ -19,28 +19,71 @@
                             name="name" 
                             placeholder="Name"
                             required
-                            ngModel> 
+                            ngModel
+                            #name="ngModel"
+                            ngbPopover="Required!" 
+                            placement="left"
+                            triggers="manual"
+                            autoClose="inside"
+                            #popover1="ngbPopover"
+                            (blur)="name.invalid ? popover1.open() : popover1.close();"> 
                         <input type="text" 
                             class="form-control mt-2" 
                             name="surname" 
                             placeholder="Surname"
-                            ngModel>    
+                            required
+                            ngModel
+                            #surname="ngModel"
+                            ngbPopover="Required!" 
+                            placement="left"
+                            triggers="manual"
+                            autoClose="inside"
+                            #popover2="ngbPopover"
+                            (blur)="surname.invalid ? popover2.open() : popover2.close();">    
                         <input type="text" 
                             class="form-control mt-2" 
                             name="email" 
                             placeholder="Email"
-                            ngModel>      
+                            email
+                            required
+                            ngModel
+                            #email="ngModel"
+                            ngbPopover="Email is invalid!" 
+                            placement="left"
+                            triggers="manual"
+                            autoClose="inside"
+                            #popover3="ngbPopover"
+                            (blur)="email.invalid ? popover3.open() : popover3.close();">      
                         <input type="password" 
                             class="form-control mt-2" 
                             name="password" 
                             placeholder="Password"
-                            ngModel>  
+                            required
+                            ngModel
+                            #password="ngModel"
+                            ngbPopover="Required!" 
+                            placement="left"
+                            triggers="manual"
+                            autoClose="inside"
+                            #popover4="ngbPopover"
+                            (blur)="password.invalid ? popover4.open() : popover4.close();">  
                         <input type="password" 
                             class="form-control mt-2" 
                             name="passwordConfirm" 
                             placeholder="Confirm password"
-                            ngModel>      
-                        <button type="submit" class="btn form-control btn-green mt-2">Sign Up</button>
+                            required
+                            ngModel
+                            #passwordConfirm="ngModel"
+                            [pattern]="password.value"
+                            ngbPopover="Password confirmation is required!" 
+                            placement="left"
+                            triggers="manual"
+                            autoClose="inside"
+                            #popover5="ngbPopover"
+                            (blur)="passwordConfirm.invalid ? popover5.open() : popover5.close();">     
+                        <button type="submit" 
+                            class="btn form-control btn-success mt-2"
+                            [disabled]="form.invalid">Sign Up</button>
                     </form>
                 </div>
             </div>

@@ -14,6 +14,8 @@ import { SignupComponent } from './signup/signup.component';
 import { environment } from 'src/environments/environment';
 import { API_URL } from './app-injection-token';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './profile/profile.component';
+import { UserCreatingComponent } from './user-creating/user-creating.component';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -25,14 +27,17 @@ export function tokenGetter() {
     NavMenuComponent,
     LoginComponent,
     TasksComponent,
-    SignupComponent
+    SignupComponent,
+    ProfileComponent,
+    UserCreatingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter
+        tokenGetter: tokenGetter,
+        allowedDomains: environment.tokenAllowedDomains
       }
     }),
     FormsModule,
