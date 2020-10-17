@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using BusinessLayer.Classes;
 using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
+using DataLayer.Classes;
 
 namespace TaskManagementSystemAPI
 {
