@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using BusinessLayer.Classes;
 using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
+using DataLayer.Classes;
 
 namespace TaskManagementSystemAPI
 {

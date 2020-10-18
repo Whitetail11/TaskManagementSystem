@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities;
+﻿using DataLayer.Classes;
+using DataLayer.Entities;
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace DataLayer
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.EnsureCreated();
+            DbInitializer.Initialize(this);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
