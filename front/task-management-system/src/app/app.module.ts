@@ -16,6 +16,15 @@ import { API_URL } from './app-injection-token';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
 import { UserCreatingComponent } from './user-creating/user-creating.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TaskCreateComponent } from './components/task-create/task-create.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogElement } from './components/task-create/task-create.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -29,7 +38,9 @@ export function tokenGetter() {
     TasksComponent,
     SignupComponent,
     ProfileComponent,
-    UserCreatingComponent
+    UserCreatingComponent,
+    TaskCreateComponent,
+    DialogElement
   ],
   imports: [
     BrowserModule,
@@ -41,8 +52,15 @@ export function tokenGetter() {
       }
     }),
     FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    MatStepperModule,
+    MatFormFieldModule
   ],
   providers: [{
     provide: API_URL,

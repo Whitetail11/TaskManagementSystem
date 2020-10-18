@@ -8,6 +8,9 @@
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedId">
             <a class="nav-link" [routerLink]="['/tasks']">Tasks</a>
           </li>
+          <li class="nav-item" *ngIf="isLoggedId">
+            <app-task-create></app-task-create>
+          </li>
         </ul>
         <button
           class="navbar-toggler"
