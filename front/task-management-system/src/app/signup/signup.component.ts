@@ -34,7 +34,7 @@ export class SignupComponent implements OnInit {
     this.accountService.register(registerModel).subscribe(() => 
     { 
       alert("You successfully signed up.");
-      this.router.navigate(['login']);
+      this.router.navigate(['tasks']);
     }, err => {
       this.errors = err.error;
       console.log(this.errors);

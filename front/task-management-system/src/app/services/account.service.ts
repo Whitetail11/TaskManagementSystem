@@ -37,8 +37,12 @@ export class AccountService {
     this.router.navigate(['']);
   }
 
-  register(registerModel): Observable<Object> {
-    return this.http.post(`${this.apiUrl}account/register`, registerModel);
+  register(registerModel): Observable<Token> {
+    return this.http.post<Token>(`${this.apiUrl}account/register`, registerModel).pipe(
+      tap(token => {
+        localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
+      })
+    );
   }
 
   createUser(createUserModel): Observable<Object> {

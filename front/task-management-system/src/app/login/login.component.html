@@ -6,13 +6,17 @@
         </div>
         <div class="col-6">
             <div class="row justify-content-center">
+                <div class="col-8" style="position: absolute; top: 13vh">
+                    <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
+                        <ul class="mb-0">
+                            <li *ngFor="let error of errors">{{error}}</li>
+                        </ul>
+                    </ngb-alert>
+                </div>
                 <div class="col-8" style="margin-top: 20vh;">
                     <div class="col-12 text-center">
                         <h2>Log In</h2>
                     </div>
-                    <ul>
-                        <li class="error-text" *ngFor="let error of errors">{{error}}</li>
-                    </ul>
                     <form (ngSubmit)="login()" #form="ngForm">
                         <input type="text" class="form-control mt-2" 
                             name="email" 
