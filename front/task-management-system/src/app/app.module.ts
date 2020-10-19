@@ -16,6 +16,7 @@ import { API_URL } from './app-injection-token';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
 import { UserCreatingComponent } from './user-creating/user-creating.component';
+import { UsersComponent } from './users/users.component';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -29,7 +30,8 @@ export function tokenGetter() {
     TasksComponent,
     SignupComponent,
     ProfileComponent,
-    UserCreatingComponent
+    UserCreatingComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
