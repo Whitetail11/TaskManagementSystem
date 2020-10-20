@@ -42,6 +42,8 @@ namespace DataLayer
                     .WithMany(executor => executor.ExecutorTasks)
                     .HasForeignKey(t => t.ExecutorId)
                     .OnDelete(DeleteBehavior.NoAction);
+
+                modelBuilder.Seed();
             });
         }
     }
