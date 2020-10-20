@@ -11,8 +11,8 @@ namespace BusinessLayer.DTOs
         public DateTime Date { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public UserDTO Creator { get; set; }
-        public UserDTO Executor { get; set; }
+        public string CreatorId { get; set; }
+        public string ExecutorId { get; set; }
         public StatusDTO Status { get; set; }
         public ICollection<CommentDTO> Comments { get; set; }
         public ICollection<FileDTO> Files { get; set; }

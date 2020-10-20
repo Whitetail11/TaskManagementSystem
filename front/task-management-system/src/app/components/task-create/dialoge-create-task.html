@@ -1,42 +1,49 @@
 <h1 mat-dialog-title align="center">Task creation</h1>
-<div mat-dialog-content class="mat-typography">
-  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+<div mat-dialog-content >
+  <mat-horizontal-stepper [linear]="isLinear" #stepper class="task-form">
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Fill out your name</ng-template>
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        <ng-template matStepLabel>Header and description</ng-template>
+        <mat-form-field class="header">
+          <mat-label>Header</mat-label>
+          <input matInput formControlName="firstCtrl" required>
+        </mat-form-field>
+        <mat-form-field class="description">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="secondCtrl" required></textarea>
         </mat-form-field>
         <div>
           <button mat-button matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
+    <mat-step [stepControl]="secondFormGroup" label="DeadLine and executor">
       <form [formGroup]="secondFormGroup">
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                 required>
-        </mat-form-field>
+        <div class="deadLine-and-executor">
+          <mat-form-field class="second-input">
+            <mat-label>DeadLine</mat-label>
+            <input matInput formControlName="thirdCtrl"
+                   required>
+          </mat-form-field>
+          <mat-form-field class="second-input">
+            <mat-label>Executor`s email</mat-label>
+            <input matInput required formControlName="fourthCtrl">
+          </mat-form-field>
+        </div>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperNext (click) = "createTask()">Create</button>
         </div>
       </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+      <div class="final-message">
+        <p>You created task!</p>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
 </div>

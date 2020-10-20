@@ -1,15 +1,30 @@
 .task-form {
     min-width: 150px;
     max-width: 1000px;
-    width: 700px;
+    width: 2000px;
     display: flex;
     flex-direction: column;
+    min-height: 350px;
   }
-  
+  .deadLine-and-executor {
+    display: flex;
+    flex-direction: column;
+    .second-input {
+      height: 100px;
+      width: 60%;
+    }
+  }
+  .header {
+    width: 100%;
+  }
   .description {
     width: 100%;
-    
+
     textarea {
     min-height: 100px;
     }
+  }
+  .final-message {
+    margin-top: 20px;
+    font-size: 16px;
   }
