@@ -27,7 +27,7 @@ namespace BusinessLayer.Services
             _authOptions = options.Value;
         }
 
-        public async Task<AccountResult> CreateUser(CreateUserViewModel model)
+        public async Task<AccountResult> CreateUser(CreateUserViewModel model, bool registration = false)
         {
             var user = new ApplicationUser()
             {
@@ -38,11 +38,14 @@ namespace BusinessLayer.Services
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-
+            
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, model.Role);
-
+                if (registration)
+                {
+                    return new AccountResult(true, user);
+                }
                 return new AccountResult(true);
             }
             else
@@ -59,7 +62,7 @@ namespace BusinessLayer.Services
 
         public async Task<AccountResult> Register(RegisterViewModel model)
         {
-            var user = new CreateUserViewModel()
+            var createUser = new CreateUserViewModel()
             {
                 Name = model.Name,
                 Surname = model.Surname,
@@ -69,7 +72,14 @@ namespace BusinessLayer.Services
                 Role = ApplicationConstants.Roles.EXECUTOR
             };
 
-            return await CreateUser(user);
+            var result = await CreateUser(createUser, true);
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+            
+            var token = await GenerateJWT(result.User);
+            return new AccountResult(true, token);
         }
 
         public async Task<AccountResult> Login(LoginViewModel model)
@@ -78,18 +88,8 @@ namespace BusinessLayer.Services
 
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                var now = DateTime.UtcNow;
-                var jwt = new JwtSecurityToken(
-                    issuer: _authOptions.Issuer,
-                    audience: _authOptions.Audience,
-                    notBefore: now,
-                    expires: now.Add(TimeSpan.FromDays(_authOptions.Lifetime)),
-                    claims: await GetUserClaims(user),
-                    signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-                return new AccountResult(true, encodedJwt);
+                var token = await GenerateJWT(user);
+                return new AccountResult(true, token);
             }
             else
             {
@@ -111,8 +111,21 @@ namespace BusinessLayer.Services
             {
                 claims.Add(new Claim("role", userRoles.First()));
             }
-
             return claims;
+        }
+
+        private async Task<string> GenerateJWT(ApplicationUser user)
+        {
+            var now = DateTime.UtcNow;
+            var jwt = new JwtSecurityToken(
+                issuer: _authOptions.Issuer,
+                audience: _authOptions.Audience,
+                notBefore: now,
+                expires: now.Add(TimeSpan.FromDays(_authOptions.Lifetime)),
+                claims: await GetUserClaims(user),
+                signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
     }
 }

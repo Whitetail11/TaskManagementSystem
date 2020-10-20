@@ -25,6 +25,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UsersComponent } from './users/users.component';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -40,7 +41,8 @@ export function tokenGetter() {
     ProfileComponent,
     UserCreatingComponent,
     TaskCreateComponent,
-    DialogElement
+    DialogElement,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

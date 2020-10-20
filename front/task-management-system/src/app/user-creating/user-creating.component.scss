@@ -1,0 +1,13 @@
+@import "../../variables.scss";
+
+.modal-header, .modal-body, .modal-footer {
+    background-color: $body-color !important;
+}
+
+.modal-header {
+    border-bottom: 1px solid $black-color;
+}
+
+.modal-footer {
+    border-top: 1px solid $black-color;
+}

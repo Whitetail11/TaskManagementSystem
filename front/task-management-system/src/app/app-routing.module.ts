@@ -7,6 +7,7 @@ import { AuthenticatedUserService as AuthenticatedUser } from './services/authen
 import { UnauthenticatedUserService as UnauthenticatedUser } from './services/unauthenticated-user.service'
 import { ProfileComponent } from './profile/profile.component';
 import { UserCreatingComponent } from './user-creating/user-creating.component';
+import { UsersComponent } from './users/users.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -14,7 +15,7 @@ const appRoutes: Routes = [
   { path: 'signup', component: SignupComponent, canActivate: [UnauthenticatedUser]  },
   { path: 'tasks', component: TasksComponent, canActivate: [AuthenticatedUser] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedUser] },
-  { path: 'user-creating', component: UserCreatingComponent, canActivate: [AuthenticatedUser] }
+  { path: 'users', component: UsersComponent, canActivate: [AuthenticatedUser] }
 ];
 
 @NgModule({

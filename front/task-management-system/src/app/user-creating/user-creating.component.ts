@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppConstants } from '../models/appConstants';
 import { CreateUserModel } from '../models/createUserModel';
 import { AccountService } from '../services/account.service';
@@ -12,33 +13,38 @@ import { AccountService } from '../services/account.service';
 })
 export class UserCreatingComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private router: Router) { }
+  constructor(private accountService: AccountService, private modalService: NgbModal) { }
 
-  @ViewChild("form", { static: false }) form: NgForm;
+  @ViewChild("content", { static: false }) content;
   errors: string[] = [];
   roles = [AppConstants.EXECUTOR_ROLE_NAME, AppConstants.CUSTOMER_ROLE_NAME, AppConstants.ADMIN_ROLE_NAME];
 
   ngOnInit(): void {
   }
 
-  create()
+  showModal()
+  {
+    this.modalService.open(this.content, { size: 'lg' });
+  }
+
+  create(form: NgForm)
   {
     this.errors = [];
 
     const createUserModel: CreateUserModel = 
     { 
-      name: this.form.value.name,
-      surname: this.form.value.surname,
-      email: this.form.value.email, 
-      password: this.form.value.password,
-      passwordConfirm: this.form.value.passwordConfirm,
-      role: this.form.value.role
+      name: form.value.name,
+      surname: form.value.surname,
+      email: form.value.email, 
+      password: form.value.password,
+      passwordConfirm: form.value.passwordConfirm,
+      role: form.value.role
     };
 
     this.accountService.createUser(createUserModel).subscribe(() => 
     { 
+      this.modalService.dismissAll();
       alert("User was successfuly created.");
-      this.router.navigate(['/user-creating']);
     }, err => {
       this.errors = err.error;
     });

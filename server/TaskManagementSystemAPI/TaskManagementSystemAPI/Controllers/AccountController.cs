@@ -32,7 +32,7 @@ namespace TaskManagementSystemAPI.Controllers
                 return BadRequest(result.Errors);
 
             }
-            return Ok();
+            return Ok(new { access_token = result.Token });
         }
 
         [Route("Login")]
