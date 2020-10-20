@@ -59,7 +59,7 @@ constructor(
     });
     this.secondFormGroup = this._formBuilder.group({
       thirdCtrl: ['', Validators.required],
-      fourthCtrl: ['', Validators.required, Validators.email]
+      fourthCtrl: ['', Validators.required]
     });
   }
   createTask() {
