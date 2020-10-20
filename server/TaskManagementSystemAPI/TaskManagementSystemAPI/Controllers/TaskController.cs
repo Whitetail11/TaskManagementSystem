@@ -25,9 +25,9 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(objectList);
         }
         [HttpPost]
-        public IActionResult CreateTask(TaskDTO task)
+        public IActionResult CreateTask(TaskDTO task, string email)
         {
-            _tasksService.CreateTask(task);
+            _tasksService.CreateTask(task, email);
             return Ok();
         }
         [HttpDelete]

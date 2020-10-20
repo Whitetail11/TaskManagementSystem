@@ -20,8 +20,9 @@ namespace BusinessLayer.Services
             this._mapper = _mapper;
         }
 
-        public void CreateTask(TaskDTO taskdto)
+        public void CreateTask(TaskDTO taskdto, string email)
         {
+            taskdto.ExecutorId = this.FindExecutorIdByEmail(email);
             Task task = _mapper.Map<TaskDTO, Task>(taskdto);
             _taskRepository.Create(task);
         }
@@ -34,6 +35,11 @@ namespace BusinessLayer.Services
         public void Delete(int id)
         {
             this._taskRepository.Delete(id);
+        }
+        public string FindExecutorIdByEmail(string email)
+        {
+            var res = _taskRepository.FindExetutorIdByEmail(email);
+            return res;
         }
 
     }

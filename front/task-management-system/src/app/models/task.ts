@@ -6,4 +6,5 @@ export interface Task {
     ExecutorId: string;
     Date: Date;
     DeadLine: Date;
+    StatusId: number;
   }

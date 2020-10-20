@@ -13,7 +13,7 @@ namespace BusinessLayer.DTOs
         public string Description { get; set; }
         public string CreatorId { get; set; }
         public string ExecutorId { get; set; }
-        public StatusDTO Status { get; set; }
+        public int StatusId { get; set; }
         public ICollection<CommentDTO> Comments { get; set; }
         public ICollection<FileDTO> Files { get; set; }
     }

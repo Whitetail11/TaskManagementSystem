@@ -14,9 +14,6 @@ namespace BusinessLayer.Mapping
         public MappingProfile()
         {
             CreateMap<Task, TaskDTO>()
-                .ForMember(dto => dto.Status, opt => opt.MapFrom(
-                    route => new StatusDTO { Id = route.Status.Id, Name = route.Status.Name, Tasks = null }
-                    ))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments.Select(
                     el => new CommentDTO { Date = el.Date, Id = el.Id, Task = null, Text = el.Text, UserId = el.UserId }
                     )))
@@ -24,9 +21,6 @@ namespace BusinessLayer.Mapping
                     el => new FileDTO { Task = null, Id = el.Id, Data = el.Data, Name = el.Name, AttachedDate = el.AttachedDate }
                     )));
             CreateMap<TaskDTO, Task>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(
-                    route => new Status { Id = route.Status.Id, Name = route.Status.Name, Tasks = null }
-                    ))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments.Select(
                     el => new Comment { Date = el.Date, Id = el.Id, Task = null, Text = el.Text, User = null }
                     )))

@@ -1,5 +1,5 @@
 <h1 mat-dialog-title align="center">Task creation</h1>
-<div mat-dialog-content >
+<div mat-dialog-content>
   <mat-horizontal-stepper [linear]="isLinear" #stepper class="task-form">
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
@@ -22,8 +22,7 @@
         <div class="deadLine-and-executor">
           <mat-form-field class="second-input">
             <mat-label>DeadLine</mat-label>
-            <input matInput formControlName="thirdCtrl"
-                   required>
+            <input matInput formControlName="thirdCtrl" placeholder="MM-DD-YYYY" required>
           </mat-form-field>
           <mat-form-field class="second-input">
             <mat-label>Executor`s email</mat-label>
@@ -32,7 +31,7 @@
         </div>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click) = "createTask()">Create</button>
+          <button mat-button matStepperNext (click)="createTask()">Create</button>
         </div>
       </form>
     </mat-step>

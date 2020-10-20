@@ -10,5 +10,6 @@ namespace DataLayer.Repositories
         List<Task> GetAllTasks();
         void Create(Task value);
         void Delete(int id);
+        string FindExetutorIdByEmail(string email);
     }
 }

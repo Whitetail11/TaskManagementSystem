@@ -27,6 +27,11 @@ namespace DataLayer.Repositories
             _dbContext.Tasks.Add(value);
             _dbContext.SaveChanges();
         }
+        public string FindExetutorIdByEmail(string email)
+        {
+            var res = _dbContext.Users.FirstOrDefault(m => m.Email == email);
+            return res.Id;
+        }
 
         public void Delete(int id)
         {
