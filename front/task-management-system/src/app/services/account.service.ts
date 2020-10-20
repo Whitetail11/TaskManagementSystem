@@ -28,6 +28,7 @@ export class AccountService {
     .pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
+        console.log(this.getUserId());
       })
     );
   }
@@ -54,25 +55,31 @@ export class AccountService {
     return token && !this.jwtHelper.isTokenExpired(token);
   }
 
-  isAdministrator(): boolean {
+  getUserId(): string {
     if (!this.isAuthenticated()) {
-      return false;
+      this.router.navigate(['login']);
+      return "";
     }
-    return this.decodeToken().role == AppConstants.ADMIN_ROLE_NAME;
+    return this.decodeToken().sub;
+  }
+
+  getUserRole(): string {
+    if (!this.isAuthenticated()) {
+      return "";
+    }
+    return this.decodeToken().role;
+  }
+
+  isAdministrator(): boolean {
+    return this.getUserRole() == AppConstants.ADMIN_ROLE_NAME;
   }
 
   isCustomer(): boolean {
-    if (!this.isAuthenticated()) {
-      return false;
-    }
-    return this.decodeToken().role == AppConstants.CUSTOMER_ROLE_NAME;
+    return this.getUserRole() == AppConstants.CUSTOMER_ROLE_NAME;
   }
 
   isExecutor(): boolean {
-    if (!this.isAuthenticated()) {
-      return false;
-    }
-    return this.decodeToken().role == AppConstants.EXECUTOR_ROLE_NAME;
+    return this.getUserRole() == AppConstants.EXECUTOR_ROLE_NAME;
   }
 
   decodeToken() {
