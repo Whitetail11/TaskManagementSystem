@@ -139,22 +139,22 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = 1,
                             Name = "New"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             Name = "In progress"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 3,
                             Name = "On hold"
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 4,
                             Name = "Done"
                         });
                 });
