@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
-import { TasksComponent } from './tasks/tasks.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 import { AuthenticatedUserService as AuthenticatedUser } from './services/authenticated-user.service'
 import { UnauthenticatedUserService as UnauthenticatedUser } from './services/unauthenticated-user.service'
-import { ProfileComponent } from './profile/profile.component';
-import { UserCreatingComponent } from './user-creating/user-creating.component';
-import { UsersComponent } from './users/users.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { UsersComponent } from './components/users/users.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},

@@ -17,7 +17,7 @@ a {
 
 .navbar-brand {
     padding-left: 40px;
-    background-image: url(../../assets/images/app_icon.svg);
+    background-image: url(../../../assets/images/app_icon.svg);
     background-position-x: 0;
     background-position-y: center;
     background-repeat: no-repeat;
@@ -52,5 +52,5 @@ a {
 
 .navbar-brand:hover {
     color: $active-color !important;
-    background-image: url(../../assets/images/app_icon_active.svg);
+    background-image: url(../../../assets/images/app_icon_active.svg);
 }

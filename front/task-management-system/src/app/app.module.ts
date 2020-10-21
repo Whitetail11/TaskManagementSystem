@@ -3,19 +3,19 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { LoginComponent } from './login/login.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { LoginComponent } from './components/login/login.component';
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { JwtModule } from '@auth0/angular-jwt'
 import { FormsModule} from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
-import { TasksComponent } from './tasks/tasks.component';
-import { SignupComponent } from './signup/signup.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { environment } from 'src/environments/environment';
 import { API_URL } from './app-injection-token';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ProfileComponent } from './profile/profile.component';
-import { UserCreatingComponent } from './user-creating/user-creating.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { UserCreatingComponent } from './components/user-creating/user-creating.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TaskCreateComponent } from './components/task-create/task-create.component';
@@ -25,7 +25,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UsersComponent } from './users/users.component';
+import { UsersComponent } from './components/users/users.component';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);

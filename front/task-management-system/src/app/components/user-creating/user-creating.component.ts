@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppConstants } from '../models/appConstants';
-import { CreateUserModel } from '../models/createUserModel';
-import { AccountService } from '../services/account.service';
+import { AppConstants } from 'src/app/models/appConstants';
+import { CreateUserModel } from 'src/app/models/createUserModel';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-user-creating',
