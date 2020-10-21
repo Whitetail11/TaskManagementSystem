@@ -43,7 +43,7 @@ export class DialogElement implements OnInit {
     Title : '',
     CreatorId :  '',
     ExecutorId : '',
-    StatusId: 2
+    StatusId: 0
   };
   ExecutorEmail: ''
 
