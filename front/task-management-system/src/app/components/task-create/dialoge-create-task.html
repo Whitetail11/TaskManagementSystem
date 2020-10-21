@@ -38,7 +38,13 @@
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <div class="final-message">
-        <p>You created task!</p>
+        <p *ngIf="!errorMessage">You created task!</p>
+        <mat-error *ngIf="errorMessage">
+          {{errorMessage}}
+        </mat-error>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious *ngIf="errorMessage">Back</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

@@ -7,6 +7,7 @@ using BusinessLayer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace TaskManagementSystemAPI.Controllers
 {
@@ -30,7 +31,12 @@ namespace TaskManagementSystemAPI.Controllers
         [Authorize]
         public IActionResult CreateTask(TaskDTO task, string email)
         {
-            _tasksService.CreateTask(task, email);
+            task.ExecutorId = _tasksService.FindExecutorIdByEmail(email);
+            if(task.ExecutorId == null)
+            {
+                return BadRequest(new { message = "Not found email of executor." });
+            }
+            _tasksService.CreateTask(task);
             return Ok();
         }
         [HttpDelete]

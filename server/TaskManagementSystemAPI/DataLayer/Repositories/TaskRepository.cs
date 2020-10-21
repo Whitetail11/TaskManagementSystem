@@ -30,6 +30,8 @@ namespace DataLayer.Repositories
         public string FindExetutorIdByEmail(string email)
         {
             var res = _dbContext.Users.FirstOrDefault(m => m.Email == email);
+            if (res == null)
+                return null;
             return res.Id;
         }
         public void Update(Task task)

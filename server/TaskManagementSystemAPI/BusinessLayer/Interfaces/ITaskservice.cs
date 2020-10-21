@@ -8,7 +8,7 @@ namespace BusinessLayer.Services
     public interface ITaskservice
     {
         List<TaskDTO> GetTasks();
-        void CreateTask(TaskDTO task, string email);
+        void CreateTask(TaskDTO task);
         void Delete(int id);
         string FindExecutorIdByEmail(string email);
         void Update(TaskDTO task);
