@@ -23,6 +23,7 @@ namespace BusinessLayer.Services
         public void CreateTask(TaskDTO taskdto, string email)
         {
             taskdto.ExecutorId = this.FindExecutorIdByEmail(email);
+            taskdto.StatusId = 1;
             Task task = _mapper.Map<TaskDTO, Task>(taskdto);
             _taskRepository.Create(task);
         }
