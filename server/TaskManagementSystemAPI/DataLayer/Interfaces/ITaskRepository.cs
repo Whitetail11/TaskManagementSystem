@@ -11,5 +11,6 @@ namespace DataLayer.Repositories
         void Create(Task value);
         void Delete(int id);
         string FindExetutorIdByEmail(string email);
+        void Update(Task task);
     }
 }

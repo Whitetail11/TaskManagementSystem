@@ -40,5 +40,12 @@ namespace TaskManagementSystemAPI.Controllers
             _tasksService.Delete(id);
             return Ok();
         }
+        [HttpPut]
+        [Authorize]
+        public IActionResult Update(TaskDTO task)
+        {
+            _tasksService.Update(task);
+            return Ok();
+        }
     }
 }

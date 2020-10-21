@@ -32,7 +32,11 @@ namespace DataLayer.Repositories
             var res = _dbContext.Users.FirstOrDefault(m => m.Email == email);
             return res.Id;
         }
-
+        public void Update(Task task)
+        {
+            _dbContext.Tasks.Update(task);
+            _dbContext.SaveChanges();
+        }
         public void Delete(int id)
         {
             var task = _dbContext.Tasks.FirstOrDefault(m => m.Id == id);
