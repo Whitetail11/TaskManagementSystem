@@ -9,20 +9,30 @@
   .deadLine-and-executor {
     display: flex;
     flex-direction: column;
-    .second-input {
+    .third-input
+    {
       height: 100px;
       width: 60%;
       .icon {
         font-size: 20px;
       }
     }
+    .second-input {
+      height: 100px;
+      width: 60%;
+      margin-top: 20px;
+      .icon {
+        font-size: 20px;
+      }
+    }
   }
   .header {
+    margin-top: 20px;
     width: 100%;
   }
   .description {
     width: 100%;
-
+    margin-top: 15px;
     textarea {
     min-height: 100px;
     }

@@ -3,12 +3,12 @@
   <mat-horizontal-stepper [linear]="isLinear" #stepper class="task-form">
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Header and description</ng-template>
-        <mat-form-field class="header">
-          <mat-label>Header</mat-label>
+        <ng-template matStepLabel>Title and description</ng-template>
+        <mat-form-field class="header" appearance="outline">
+          <mat-label>Title</mat-label>
           <input matInput formControlName="firstCtrl" required>
         </mat-form-field>
-        <mat-form-field class="description">
+        <mat-form-field class="description" appearance="outline">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="secondCtrl" required></textarea>
         </mat-form-field>
@@ -20,16 +20,16 @@
     <mat-step [stepControl]="secondFormGroup" label="DeadLine and executor">
       <form [formGroup]="secondFormGroup">
         <div class="deadLine-and-executor">
-          <mat-form-field class="second-input">
-            <mat-label>DeadLine</mat-label>
+          <mat-form-field class="second-input" appearance="outline">
+            <mat-label>Due Date</mat-label>
             <input matInput  [min]="minDate" [matDatepicker]="picker" formControlName="thirdCtrl" placeholder="MM-DD-YYYY" required>
             <mat-datepicker-toggle matSuffix [for]="picker">
               <mat-icon class="icon" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-          <mat-form-field class="second-input">
-            <mat-label>Executor`s email</mat-label>
+          <mat-form-field class="third-input" appearance="outline">
+            <mat-label>Assignee</mat-label>
             <input matInput required formControlName="fourthCtrl">
           </mat-form-field>
         </div>
