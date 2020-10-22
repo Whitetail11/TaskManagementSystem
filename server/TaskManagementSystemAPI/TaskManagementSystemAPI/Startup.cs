@@ -18,6 +18,7 @@ using BusinessLayer.Services;
 using DataLayer.Classes;
 using DataLayer.Repositories;
 using BusinessLayer.Mapping;
+using DataLayer.Interfaces;
 
 namespace TaskManagementSystemAPI
 {
@@ -120,6 +121,7 @@ namespace TaskManagementSystemAPI
             });
 
             // App Services
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddDbContext<ApplicationContext>(options =>
             {
@@ -127,6 +129,7 @@ namespace TaskManagementSystemAPI
             });
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskservice, TaskService>();
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
