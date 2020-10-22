@@ -47,13 +47,19 @@ export class DialogElement implements OnInit {
     ExecutorId: '',
     StatusId: 0
   };
+  minDate: Date;
   ExecutorEmail: '';
   errorMessage: '';
   constructor(
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
     private _taskService: TaskService
-  ) { }
+  ) {
+    const currentYear = new Date().getFullYear();
+    const currentDay = new Date().getDate();
+    const currentMonth = new Date().getMonth();
+    this.minDate = new Date(currentYear, currentMonth, 22);
+   }
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required],

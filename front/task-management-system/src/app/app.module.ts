@@ -26,6 +26,9 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersComponent } from './components/users/users.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatIconModule} from '@angular/material/icon';
  
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -62,12 +65,18 @@ export function tokenGetter() {
     MatDialogModule,
     MatInputModule,
     MatStepperModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule
   ],
   providers: [{
     provide: API_URL,
     useValue: environment.apiUrl
-  }],
+  },
+  MatDatepickerModule,
+  MatNativeDateModule 
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

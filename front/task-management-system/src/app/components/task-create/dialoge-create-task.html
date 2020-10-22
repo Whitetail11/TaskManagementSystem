@@ -22,7 +22,11 @@
         <div class="deadLine-and-executor">
           <mat-form-field class="second-input">
             <mat-label>DeadLine</mat-label>
-            <input matInput formControlName="thirdCtrl" placeholder="MM-DD-YYYY" required>
+            <input matInput  [min]="minDate" [matDatepicker]="picker" formControlName="thirdCtrl" placeholder="MM-DD-YYYY" required>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="second-input">
             <mat-label>Executor`s email</mat-label>
