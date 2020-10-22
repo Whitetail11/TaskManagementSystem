@@ -17,7 +17,6 @@ namespace DataLayer.Repositories
         public Comment Create(Comment comment)
         {
             _dbContext.Comments.Add(comment);
-            _dbContext.SaveChanges();
             return comment;
         }
 
