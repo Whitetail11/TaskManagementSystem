@@ -5,9 +5,10 @@ using System.Text;
 
 namespace DataLayer.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork: IDisposable
     {
         ITaskRepository TaskRepository { get; }
         ICommentRepository CommentRepository { get; }
+        void Save();
     }
 }

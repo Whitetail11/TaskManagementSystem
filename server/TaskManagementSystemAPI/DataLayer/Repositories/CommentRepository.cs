@@ -24,7 +24,6 @@ namespace DataLayer.Repositories
         public void Delete(int id)
         {
             _dbContext.Comments.AsNoTracking().Where(comment => comment.Id == id).Delete();
-            _dbContext.SaveChanges();
         }
     }
 }

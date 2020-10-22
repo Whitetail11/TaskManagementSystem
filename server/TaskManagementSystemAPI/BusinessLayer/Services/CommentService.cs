@@ -26,6 +26,7 @@ namespace BusinessLayer.Services
             comment.Date = DateTime.Now;
             comment.UserId = userId;
             _unitOfWork.CommentRepository.Create(comment);
+            _unitOfWork.Save();
 
             return _mapper.Map<Comment, ShowCommentDTO>(comment);
         }
