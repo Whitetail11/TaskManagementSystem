@@ -15,6 +15,7 @@ namespace TaskManagementSystemAPI.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<ICommentService, CommentService>();
             
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskservice, TaskService>();

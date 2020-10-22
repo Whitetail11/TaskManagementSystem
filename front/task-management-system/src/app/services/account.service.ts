@@ -60,7 +60,7 @@ export class AccountService {
       this.router.navigate(['login']);
       return "";
     }
-    return this.decodeToken().sub;
+    return this.decodeToken().userid;
   }
 
   getUserRole(): string {
