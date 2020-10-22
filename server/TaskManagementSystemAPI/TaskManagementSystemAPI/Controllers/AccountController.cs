@@ -62,5 +62,17 @@ namespace TaskManagementSystemAPI.Controllers
             }
             return Ok();
         }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var result = await _accountService.GetAllUsers();
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+
+            }
+            return Ok(result.Users);
+        }
     }
 }

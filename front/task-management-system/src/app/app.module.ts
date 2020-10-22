@@ -29,7 +29,8 @@ import { UsersComponent } from './components/users/users.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
- 
+import {MatSelectModule} from '@angular/material/select';
+
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
@@ -68,7 +69,8 @@ export function tokenGetter() {
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [{
     provide: API_URL,

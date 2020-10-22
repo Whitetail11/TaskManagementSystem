@@ -6,6 +6,8 @@ import { Task } from '../../models/task';
 import { AccountService } from '../../services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { Executor } from 'src/app/models/Executor';
 
 
 @Component({
@@ -15,7 +17,7 @@ import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 })
 export class TaskCreateComponent implements OnInit {
 
-  constructor(public dialog: MatDialog,) { }
+  constructor(public dialog: MatDialog) { }
 
   openDialog() {
     this.dialog.open(DialogElement);
@@ -37,6 +39,7 @@ export class DialogElement implements OnInit {
   isLinear = true;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  selectedExecutor: string;
   task: Task = {
     id: 0,
     Description: '',
@@ -50,15 +53,17 @@ export class DialogElement implements OnInit {
   minDate: Date;
   ExecutorEmail: '';
   errorMessage: '';
+  Executors: Executor[];
   constructor(
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
-    private _taskService: TaskService
+    private _taskService: TaskService,
+    private _userService: UserService
   ) {
     const currentYear = new Date().getFullYear();
     const currentDay = new Date().getDate();
     const currentMonth = new Date().getMonth();
-    this.minDate = new Date(currentYear, currentMonth, 22);
+    this.minDate = new Date(currentYear, currentMonth, currentDay);
    }
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -68,11 +73,13 @@ export class DialogElement implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       thirdCtrl: ['', Validators.required],
       fourthCtrl: new FormControl ('', [
-        Validators.required,
-        Validators.email
+        Validators.required
       ]
       )
     });
+    this._userService.get().subscribe((date) => {
+      this.Executors = date;
+    })
   }
   createTask() {
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {

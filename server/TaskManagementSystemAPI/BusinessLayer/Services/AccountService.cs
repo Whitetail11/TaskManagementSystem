@@ -26,7 +26,13 @@ namespace BusinessLayer.Services
             _userManager = userManager;
             _authOptions = options.Value;
         }
-
+        public async Task<AccountResult> GetAllUsers()
+        {
+            var users = _userManager.Users.Select(src =>
+            new GetUserViewModel { Id = src.Id, Name = src.Name, Surname = src.Surname, Email = src.Email }
+            );
+            return new AccountResult(true, users);
+        }
         public async Task<AccountResult> CreateUser(CreateUserViewModel model, bool registration = false)
         {
             var user = new ApplicationUser()

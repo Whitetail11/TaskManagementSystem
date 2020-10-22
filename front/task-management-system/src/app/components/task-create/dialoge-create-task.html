@@ -30,7 +30,11 @@
           </mat-form-field>
           <mat-form-field class="third-input" appearance="outline">
             <mat-label>Assignee</mat-label>
-            <input matInput required formControlName="fourthCtrl">
+            <mat-select formControlName="fourthCtrl">
+              <mat-option *ngFor="let executor of Executors" [value]="executor.email">
+                {{executor.name}} {{executor.surname}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div>
