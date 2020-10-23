@@ -11,12 +11,12 @@ namespace BusinessLayer.Services
 {
     public class CommentService: ICommentService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ICommentRepository _commentRepository;
 
-        public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _commentRepository = commentRepository;
             _mapper = mapper;
         }
 
@@ -25,8 +25,7 @@ namespace BusinessLayer.Services
             var comment = _mapper.Map<CreateCommentDTO, Comment>(createCommentDTO);
             comment.Date = DateTime.Now;
             comment.UserId = userId;
-            _unitOfWork.CommentRepository.Create(comment);
-            _unitOfWork.Save();
+            _commentRepository.Create(comment);
 
             return _mapper.Map<Comment, ShowCommentDTO>(comment);
         }

@@ -17,12 +17,14 @@ namespace DataLayer.Repositories
         public Comment Create(Comment comment)
         {
             _dbContext.Comments.Add(comment);
+            _dbContext.SaveChanges();
             return comment;
         }
 
         public void Delete(int id)
         {
             _dbContext.Comments.AsNoTracking().Where(comment => comment.Id == id).Delete();
+            _dbContext.SaveChanges();
         }
     }
 }
