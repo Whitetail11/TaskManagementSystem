@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterModel } from 'src/app/models/registerModel';
+import { Register } from 'src/app/models/register';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
   signup() {
     this.errors = [];
 
-    const registerModel: RegisterModel = 
+    const register: Register = 
     { 
       name: this.form.value.name,
       surname: this.form.value.surname,
@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit {
       passwordConfirm: this.form.value.passwordConfirm
     };
 
-    this.accountService.register(registerModel).subscribe(() => 
+    this.accountService.register(register).subscribe(() => 
     { 
       alert("You successfully signed up.");
       this.router.navigate(['tasks']);

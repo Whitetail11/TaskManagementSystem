@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppConstants } from 'src/app/models/appConstants';
-import { CreateUserModel } from 'src/app/models/createUserModel';
+import { CreateUser } from 'src/app/models/createUser';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class UserCreatingComponent implements OnInit {
   {
     this.errors = [];
 
-    const createUserModel: CreateUserModel = 
+    const createUser: CreateUser = 
     { 
       name: form.value.name,
       surname: form.value.surname,
@@ -41,7 +41,7 @@ export class UserCreatingComponent implements OnInit {
       role: form.value.role
     };
 
-    this.accountService.createUser(createUserModel).subscribe(() => 
+    this.accountService.createUser(createUser).subscribe(() => 
     { 
       this.modalService.dismissAll();
       alert("User was successfuly created.");

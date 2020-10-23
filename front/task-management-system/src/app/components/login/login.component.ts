@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginModel } from 'src/app/models/loginModel';
+import { Login } from 'src/app/models/login';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -22,13 +22,13 @@ export class LoginComponent implements OnInit {
   login() {
     this.errors = [];
 
-    const loginModel: LoginModel = 
+    const login: Login = 
     { 
       email: this.form.value.email, 
       password : this.form.value.password
     };
 
-    this.accountService.login(loginModel).subscribe(() => 
+    this.accountService.login(login).subscribe(() => 
     { 
       this.router.navigate(['tasks']);
     }, err => {

@@ -5,7 +5,9 @@ import { HttpClient } from '@angular/common/http'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { Router } from '@angular/router'
 import { Token } from '../models/token'
-import { LoginModel } from '../models/loginModel';
+import { Login } from '../models/login';
+import { CreateUser } from '../models/createUser';
+import { Register } from '../models/register';
 import { API_URL } from '../app-injection-token';
 import { AppConstants } from '../models/appConstants';
 
@@ -23,8 +25,8 @@ export class AccountService {
     private router: Router
   ) { }
 
-  login(loginModel: LoginModel): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}account/login`, loginModel)
+  login(login: Login): Observable<Token> {
+    return this.http.post<Token>(`${this.apiUrl}account/login`, login)
     .pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
@@ -38,16 +40,16 @@ export class AccountService {
     this.router.navigate(['']);
   }
 
-  register(registerModel): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}account/register`, registerModel).pipe(
+  register(register: Register): Observable<Token> {
+    return this.http.post<Token>(`${this.apiUrl}account/register`, register).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
       })
     );
   }
 
-  createUser(createUserModel): Observable<Object> {
-    return this.http.post(`${this.apiUrl}account/CreateUser`, createUserModel);
+  createUser(createUser: CreateUser): Observable<Object> {
+    return this.http.post(`${this.apiUrl}account/CreateUser`, createUser);
   }
 
   isAuthenticated(): boolean {
