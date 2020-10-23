@@ -1,5 +1,6 @@
 @import '/src/variables.scss';
+@import '/src/angular-material-overriding.scss';
 
-// .popover-body {
-//     color: $dark-red-color;
-// }
+.mat-form-field {
+    width: 100% !important;
+}

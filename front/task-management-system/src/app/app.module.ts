@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { LoginComponent } from './components/login/login.component';
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { JwtModule } from '@auth0/angular-jwt'
 import { FormsModule} from '@angular/forms'
@@ -30,6 +29,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
+import { LoginComponent } from './components/login/login.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);

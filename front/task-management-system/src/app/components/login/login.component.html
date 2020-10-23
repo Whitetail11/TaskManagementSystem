@@ -15,21 +15,22 @@
                 </div>
                 <div class="col-8" style="margin-top: 20vh;">
                     <div class="col-12 text-center">
-                        <h1>Log In</h1>
+                        <p style="font-size: 30px; font-weight:500;">Log In</p>
                     </div>
-                    <form (ngSubmit)="login()" #form="ngForm">
-                        <input type="text" class="form-control mt-2" 
-                            name="email" 
-                            placeholder="Email"
-                            ngModel
-                            > 
-                        <input type="text" class="form-control mt-2" 
-                            type="password"
-                            name="password" 
-                            placeholder="Password"
-                            ngModel
-                            >      
-                        <button type="submit" class="btn form-control btn-success mt-2">Log In</button>
+                    <form [formGroup]="form" (ngSubmit)="login()">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput type="text" style="width: 100%;" formControlName="email" required> 
+                            <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrors() }}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input matInput type="text" type="password" formControlName="password" required>  
+                            <mat-error *ngIf="form.get('password').invalid">Password is required</mat-error>
+                        </mat-form-field>
+                        <button type="submit" 
+                            class="btn form-control btn-success mt-1"
+                            [disabled]="form.invalid">Log In</button>
                     </form>
                     <div class="col-12 text-center">
                         <h3 class="mt-1"><a class="reset-password-link" href="">Forgotten password?</a></h3>

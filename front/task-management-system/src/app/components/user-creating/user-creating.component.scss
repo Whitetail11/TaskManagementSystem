@@ -1,13 +1,12 @@
 @import "/src/variables.scss";
+@import "/src/angular-material-overriding.scss";
 
 .modal-header, .modal-body, .modal-footer {
     background-color: $body-color !important;
 }
 
-.modal-header {
-    border-bottom: 1px solid $border-color;
+.mat-form-field {
+    width: 100% !important;
 }
 
-.modal-footer {
-    border-top: 1px solid $border-color;
-}
+

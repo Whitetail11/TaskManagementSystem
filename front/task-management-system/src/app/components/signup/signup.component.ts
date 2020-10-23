@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Register } from 'src/app/models/register';
 import { AccountService } from 'src/app/services/account.service';
@@ -13,10 +13,17 @@ export class SignupComponent implements OnInit {
 
   constructor(private accountService: AccountService, private router: Router) { }
 
-  @ViewChild("form", { static: false }) form: NgForm;
   errors: string[] = [];
+  form: FormGroup;
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.email]),
+      password: new FormControl('', Validators.required),
+      passwordConfirm: new FormControl('', Validators.required)
+    });
   }
 
   signup() {
@@ -39,5 +46,13 @@ export class SignupComponent implements OnInit {
       this.errors = err.error;
       console.log(this.errors);
     });
+  }
+
+  getEmailErrors() {
+    if (this.form.get('email').hasError('required'))
+    {
+      return 'Email is required';
+    }
+    return "Email is invalid";
   }
 }

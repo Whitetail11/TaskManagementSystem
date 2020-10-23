@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { UserCreatingComponent } from '../user-creating/user-creating.component';
 
 @Component({
@@ -8,12 +9,15 @@ import { UserCreatingComponent } from '../user-creating/user-creating.component'
 })
 export class UsersComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
-  createUser(userCreatingComponent: UserCreatingComponent) {
-    userCreatingComponent.showModal();
+  createUser() {
+    this.dialog.open(UserCreatingComponent, {
+      width: "60vw",
+      height: "auto"
+    });
   }
 }

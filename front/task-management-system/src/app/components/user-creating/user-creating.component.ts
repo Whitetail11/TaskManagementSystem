@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppConstants } from 'src/app/models/appConstants';
 import { CreateUser } from 'src/app/models/createUser';
 import { AccountService } from 'src/app/services/account.service';
@@ -13,40 +11,53 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class UserCreatingComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private modalService: NgbModal) { }
+  constructor(private accountService: AccountService) { }
 
-  @ViewChild("content", { static: false }) content;
   errors: string[] = [];
   roles = [AppConstants.EXECUTOR_ROLE_NAME, AppConstants.CUSTOMER_ROLE_NAME, AppConstants.ADMIN_ROLE_NAME];
+  form: FormGroup;
+  @ViewChild("dialogCloseBtn") dialogCloseBtn: ElementRef;
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      name: new FormControl('', Validators.required),
+      surname: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      role: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+      passwordConfirm: new FormControl('', [Validators.required])
+    });
   }
 
-  showModal()
-  {
-    this.modalService.open(this.content, { size: 'lg' });
-  }
-
-  create(form: NgForm)
+  create()
   {
     this.errors = [];
 
+    console.log(this.form);
     const createUser: CreateUser = 
     { 
-      name: form.value.name,
-      surname: form.value.surname,
-      email: form.value.email, 
-      password: form.value.password,
-      passwordConfirm: form.value.passwordConfirm,
-      role: form.value.role
+      name: this.form.value.name,
+      surname: this.form.value.surname,
+      email: this.form.value.email, 
+      password: this.form.value.password,
+      passwordConfirm: this.form.value.passwordConfirm,
+      role: this.form.value.role
     };
 
     this.accountService.createUser(createUser).subscribe(() => 
     { 
-      this.modalService.dismissAll();
+      this.dialogCloseBtn.nativeElement.click();
       alert("User was successfuly created.");
     }, err => {
       this.errors = err.error;
     });
+  }
+  
+  getEmailErrors() {
+    if (this.form.get('email').hasError('required'))
+    {
+      return 'Email is required';
+    }
+    return "Email is invalid";
   }
 }

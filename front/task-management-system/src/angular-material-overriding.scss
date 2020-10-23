@@ -1,0 +1,17 @@
+@import '/src/variables.scss';
+
+::ng-deep  .mat-form-field-outline {
+    background-color: #fff;
+}
+
+::ng-deep .mat-form-field-subscript-wrapper {
+    font-size: 90%;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick  {
+    color: $active-color;   
+}
+
+::ng-deep mat-dialog-container {
+    background-color: $body-color !important;
+}
