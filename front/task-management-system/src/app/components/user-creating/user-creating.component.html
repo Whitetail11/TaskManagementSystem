@@ -8,9 +8,11 @@
     <div class="modal-body pb-4">
         <div class="row justify-content-center">
             <div class="col-9">
-                <ul>
-                    <li class="error-text" *ngFor="let error of errors">{{error}}</li>
-                </ul>
+                <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
+                    <ul class="mb-0">
+                        <li *ngFor="let error of errors">{{error}}</li>
+                    </ul>
+                </ngb-alert>
                 <form id="user-creating-form" (ngSubmit)="create(form)" #form="ngForm">
                     <input type="text" 
                         class="form-control mt-2" 

@@ -1,5 +1,6 @@
 ﻿using DataLayer.Classes;
 using DataLayer.Entities;
+using DataLayer.Extensions;
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

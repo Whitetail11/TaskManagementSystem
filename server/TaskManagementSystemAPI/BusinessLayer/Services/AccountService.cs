@@ -107,8 +107,8 @@ namespace BusinessLayer.Services
         {
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
+                new Claim("userid", user.Id),
+                new Claim("useremail", user.Email)
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);

@@ -1,3 +1,5 @@
+using AutoMapper;
+using BusinessLayer.Classes;
 using DataLayer;
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,14 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
-using AutoMapper;
-using Microsoft.Extensions.Options;
-using BusinessLayer.Classes;
-using BusinessLayer.Interfaces;
-using BusinessLayer.Services;
-using DataLayer.Classes;
-using DataLayer.Repositories;
-using BusinessLayer.Mapping;
+using TaskManagementSystemAPI.Extensions;
 
 namespace TaskManagementSystemAPI
 {
@@ -119,20 +114,12 @@ namespace TaskManagementSystemAPI
                 });
             });
 
-            // App Services
-            services.AddTransient<IAccountService, AccountService>();
             services.AddDbContext<ApplicationContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<ITaskRepository, TaskRepository>();
-            services.AddScoped<ITaskservice, TaskService>();
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
+
+            services.AddAppDependencies();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

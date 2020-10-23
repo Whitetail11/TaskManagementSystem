@@ -28,7 +28,7 @@ export class AccountService {
     .pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
-        console.log(this.getUserId());
+        // console.log(this.getUserId());
       })
     );
   }
@@ -60,7 +60,7 @@ export class AccountService {
       this.router.navigate(['login']);
       return "";
     }
-    return this.decodeToken().sub;
+    return this.decodeToken().userid;
   }
 
   getUserRole(): string {

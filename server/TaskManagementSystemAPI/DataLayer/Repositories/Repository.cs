@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,17 @@ namespace DataLayer.Repositories
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly ApplicationContext _dbContext;
-        public Repository(ApplicationContext context)
+        private readonly DbSet<TEntity> _entities;
+
+        public Repository(ApplicationContext dbContext)
         {
-            this._dbContext = context;
+            _dbContext = dbContext;
+            _entities = dbContext.Set<TEntity>();
         }
-        public List<TEntity> GetAll()
+
+        public IEnumerable<TEntity> GetAll()
         {
-            return _dbContext.Set<TEntity>().ToList();
+            return _entities.ToList();
         }
     }
 }

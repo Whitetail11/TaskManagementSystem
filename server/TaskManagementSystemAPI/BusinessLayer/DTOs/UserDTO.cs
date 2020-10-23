@@ -10,7 +10,7 @@ namespace BusinessLayer.DTOs
         public string Surname { get; set; }
         public ICollection<TaskDTO> Tasks { get; set; }
         public ICollection<TaskDTO> ExecutorTasks { get; set; }
-        public ICollection<CommentDTO> Comments { get; set; }
+        public ICollection<ShowCommentDTO> Comments { get; set; }
         public ICollection<ErrorLogDTO> Errors { get; set; }
 
     }
