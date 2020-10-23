@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BusinessLayer.ViewModels
+namespace BusinessLayer.DTOs
 {
-    public class GetUserViewModel
+    public class GetUserDTO
     {
         public string Id { get; set; }
         public string Name { get; set; }

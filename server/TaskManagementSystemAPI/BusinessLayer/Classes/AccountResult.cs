@@ -1,8 +1,6 @@
-﻿using BusinessLayer.ViewModels;
+﻿using BusinessLayer.DTOs;
 using DataLayer.Identity;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLayer.Classes
 {
@@ -12,7 +10,7 @@ namespace BusinessLayer.Classes
         public string Token { get; }
         public List<string> Errors { get; }
         public ApplicationUser User { get; }
-        public IEnumerable<GetUserViewModel> Users { get; }
+        public IEnumerable<GetUserDTO> Users { get; }
 
         public AccountResult(bool succeeded)
         {
@@ -24,7 +22,7 @@ namespace BusinessLayer.Classes
             Succeeded = succeeded;
             User = user;
         }
-        public AccountResult(bool succeeded, IEnumerable<GetUserViewModel> users)
+        public AccountResult(bool succeeded, IEnumerable<GetUserDTO> users)
         {
             Succeeded = succeeded;
             Users = users;

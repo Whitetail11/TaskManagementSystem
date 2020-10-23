@@ -1,9 +1,10 @@
 ﻿using BusinessLayer.Classes;
+using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
-using BusinessLayer.ViewModels;
 using DataLayer.Classes;
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -28,26 +29,26 @@ namespace BusinessLayer.Services
         }
         public async Task<AccountResult> GetAllUsers()
         {
-            var users = _userManager.Users.Select(src =>
-            new GetUserViewModel { Id = src.Id, Name = src.Name, Surname = src.Surname, Email = src.Email }
-            );
+            var users = await _userManager.Users.Select(src =>
+                new GetUserDTO { Id = src.Id, Name = src.Name, Surname = src.Surname, Email = src.Email })
+                .ToListAsync();
             return new AccountResult(true, users);
         }
-        public async Task<AccountResult> CreateUser(CreateUserViewModel model, bool registration = false)
+        public async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, bool registration = false)
         {
             var user = new ApplicationUser()
             {
-                Name = model.Name,
-                Surname = model.Surname,
-                Email = model.Email,
-                UserName = model.Email
+                Name = createUserDTO.Name,
+                Surname = createUserDTO.Surname,
+                Email = createUserDTO.Email,
+                UserName = createUserDTO.Email
             };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, createUserDTO.Password);
             
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, model.Role);
+                await _userManager.AddToRoleAsync(user, createUserDTO.Role);
                 if (registration)
                 {
                     return new AccountResult(true, user);
@@ -66,15 +67,15 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<AccountResult> Register(RegisterViewModel model)
+        public async Task<AccountResult> Register(RegisterDTO registerDTO)
         {
-            var createUser = new CreateUserViewModel()
+            var createUser = new CreateUserDTO()
             {
-                Name = model.Name,
-                Surname = model.Surname,
-                Email = model.Email,
-                Password = model.Password,
-                PasswordConfirm = model.Password,
+                Name = registerDTO.Name,
+                Surname = registerDTO.Surname,
+                Email = registerDTO.Email,
+                Password = registerDTO.Password,
+                PasswordConfirm = registerDTO.Password,
                 Role = ApplicationConstants.Roles.EXECUTOR
             };
 
@@ -88,11 +89,11 @@ namespace BusinessLayer.Services
             return new AccountResult(true, token);
         }
 
-        public async Task<AccountResult> Login(LoginViewModel model)
+        public async Task<AccountResult> Login(LoginDTO loginDTO)
         {
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByNameAsync(loginDTO.Email);
 
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginDTO.Password))
             {
                 var token = await GenerateJWT(user);
                 return new AccountResult(true, token);

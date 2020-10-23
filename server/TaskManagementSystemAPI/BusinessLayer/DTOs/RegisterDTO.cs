@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace BusinessLayer.ViewModels
+namespace BusinessLayer.DTOs
 {
-    public class RegisterViewModel
+    public class RegisterDTO
     {
         [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BusinessLayer.ViewModels
+namespace BusinessLayer.DTOs
 {
-    public class LoginViewModel
+    public class LoginDTO
     {
         public string Email { get; set; }
         public string Password { get; set; }

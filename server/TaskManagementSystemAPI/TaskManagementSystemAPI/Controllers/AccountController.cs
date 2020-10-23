@@ -1,8 +1,7 @@
-﻿using BusinessLayer.Interfaces;
-using BusinessLayer.ViewModels;
+﻿using BusinessLayer.DTOs;
+using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
@@ -23,9 +22,9 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("Register")]
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
-            var result = await _accountService.Register(model);
+            var result = await _accountService.Register(registerDTO);
 
             if (!result.Succeeded)
             {
@@ -37,9 +36,9 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
-            var result = await _accountService.Login(model);
+            var result = await _accountService.Login(loginDTO);
 
             if (!result.Succeeded)
             {
@@ -51,9 +50,9 @@ namespace TaskManagementSystemAPI.Controllers
         [Route("CreateUser")]
         [HttpPost]
         [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
-        public async Task<IActionResult> CreateUser(CreateUserViewModel model)
+        public async Task<IActionResult> CreateUser(CreateUserDTO createUserDTO)
         {
-            var result = await _accountService.CreateUser(model);
+            var result = await _accountService.CreateUser(createUserDTO);
 
             if (!result.Succeeded)
             {
