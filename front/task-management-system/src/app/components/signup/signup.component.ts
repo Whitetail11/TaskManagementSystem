@@ -21,8 +21,8 @@ export class SignupComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       surname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.email]),
-      password: new FormControl('', Validators.required),
-      passwordConfirm: new FormControl('', Validators.required)
+      password: new FormControl('', [Validators.required]),
+      passwordConfirm: new FormControl('', [Validators.required])
     });
   }
 
@@ -40,7 +40,6 @@ export class SignupComponent implements OnInit {
 
     this.accountService.register(register).subscribe(() => 
     { 
-      alert("You successfully signed up.");
       this.router.navigate(['tasks']);
     }, err => {
       this.errors = err.error;
@@ -48,11 +47,17 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  getEmailErrors() {
-    if (this.form.get('email').hasError('required'))
-    {
+  getEmailErrorMessage() {
+    if (this.form.get('email').hasError('required')) {
       return 'Email is required';
     }
-    return "Email is invalid";
+    return 'Email is invalid';
+  }
+
+  getPasswordConfirmErrorMessage() {
+    if (this.form.get('passwordConfirm').hasError('required')) {
+      return 'Password confirmation is required';
+    }
+    return 'Passwords do not match'
   }
 }

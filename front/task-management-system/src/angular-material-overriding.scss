@@ -12,6 +12,6 @@
     color: $active-color;   
 }
 
-::ng-deep mat-dialog-container {
+::ng-deep mat-dialog-container, ::ng-deep mat-horizontal-stepper {
     background-color: $body-color !important;
 }

@@ -21,7 +21,7 @@
                         <mat-form-field appearance="outline">
                             <mat-label>Name</mat-label>
                             <input matInput type="text" style="width: 100%;" formControlName="name" required> 
-                            <mat-error *ngIf="form.get('email').invalid">Name is required</mat-error>
+                            <mat-error *ngIf="form.get('name').invalid">Name is required</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>Surname</mat-label>
@@ -31,7 +31,7 @@
                         <mat-form-field appearance="outline">
                             <mat-label>Email</mat-label>
                             <input matInput type="text" style="width: 100%;" formControlName="email" required> 
-                            <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrors() }}</mat-error>
+                            <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrorMessage() }}</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>Password</mat-label>
@@ -40,8 +40,12 @@
                         </mat-form-field> 
                         <mat-form-field appearance="outline">
                             <mat-label>Confirm password</mat-label>
-                            <input matInput type="text" type="password" formControlName="passwordConfirm" required>  
-                            <mat-error *ngIf="form.get('password').invalid">Password confirmation is required</mat-error>
+                            <input matInput type="text" 
+                                type="password" 
+                                formControlName="passwordConfirm"
+                                [pattern]="form.get('password').value" 
+                                required>  
+                            <mat-error *ngIf="form.get('passwordConfirm').invalid">{{ getPasswordConfirmErrorMessage() }}</mat-error>
                         </mat-form-field>
                         <button type="submit" 
                             class="btn form-control btn-success mt-1"

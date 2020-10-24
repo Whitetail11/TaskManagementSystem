@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  getEmailErrors() {
+  getEmailErrorMessage() {
     if (this.form.get('email').hasError('required'))
     {
       return 'Email is required';

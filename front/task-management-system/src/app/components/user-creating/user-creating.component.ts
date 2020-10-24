@@ -20,8 +20,8 @@ export class UserCreatingComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      name: new FormControl('', Validators.required),
-      surname: new FormControl('', Validators.required),
+      name: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       role: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
@@ -53,11 +53,17 @@ export class UserCreatingComponent implements OnInit {
     });
   }
   
-  getEmailErrors() {
-    if (this.form.get('email').hasError('required'))
-    {
+  getEmailErrorMessage() {
+    if (this.form.get('email').hasError('required')) {
       return 'Email is required';
     }
-    return "Email is invalid";
+    return 'Email is invalid';
+  }
+
+  getPasswordConfirmErrorMessage() {
+    if (this.form.get('passwordConfirm').hasError('required')) {
+      return 'Password confirmation is required';
+    }
+    return 'Passwords do not match'
   }
 }
