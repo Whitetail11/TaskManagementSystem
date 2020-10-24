@@ -35,15 +35,7 @@ export class UserCreatingComponent implements OnInit {
     this.errors = [];
 
     console.log(this.form);
-    const createUser: CreateUser = 
-    { 
-      name: this.form.value.name,
-      surname: this.form.value.surname,
-      email: this.form.value.email, 
-      password: this.form.value.password,
-      passwordConfirm: this.form.value.passwordConfirm,
-      role: this.form.value.role
-    };
+    const createUser: CreateUser = this.form.value;
 
     this.accountService.createUser(createUser).subscribe(() => 
     { 

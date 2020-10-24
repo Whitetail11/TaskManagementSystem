@@ -29,14 +29,7 @@ export class SignupComponent implements OnInit {
   signup() {
     this.errors = [];
 
-    const register: Register = 
-    { 
-      name: this.form.value.name,
-      surname: this.form.value.surname,
-      email: this.form.value.email, 
-      password: this.form.value.password,
-      passwordConfirm: this.form.value.passwordConfirm
-    };
+    const register: Register = this.form.value;
 
     this.accountService.register(register).subscribe(() => 
     { 
