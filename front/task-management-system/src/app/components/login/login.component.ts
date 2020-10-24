@@ -27,11 +27,8 @@ export class LoginComponent implements OnInit {
     this.errors = [];
     console.log(this.form);
 
-    const login: Login = { 
-      email: this.form.value.email, 
-      password : this.form.value.password
-    };
-
+    const login: Login = this.form.value;
+      
     this.accountService.login(login).subscribe(() => 
     { 
       this.router.navigate(['tasks']);

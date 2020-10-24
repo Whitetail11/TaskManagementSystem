@@ -1,7 +1,7 @@
 @import '/src/variables.scss';
 
 ::ng-deep  .mat-form-field-outline {
-    background-color: #fff;
+    background-color: $white-color;
 }
 
 ::ng-deep .mat-form-field-subscript-wrapper {
@@ -14,4 +14,12 @@
 
 ::ng-deep mat-dialog-container, ::ng-deep mat-horizontal-stepper {
     background-color: $body-color !important;
+}
+
+::ng-deep .toast-top-right {
+    top: 60px !important;
+}
+
+::ng-deep .toast-success {
+    background-color: $green-color;
 }

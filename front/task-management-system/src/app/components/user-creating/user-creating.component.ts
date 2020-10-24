@@ -48,7 +48,7 @@ export class UserCreatingComponent implements OnInit {
     this.accountService.createUser(createUser).subscribe(() => 
     { 
       this.dialogCloseBtn.nativeElement.click();
-      this.toastrService.success('User was successfuly created.');
+      this.toastrService.success('User has been successfuly created.', '');
     }, err => {
       this.errors = err.error;
     });
@@ -69,6 +69,8 @@ export class UserCreatingComponent implements OnInit {
   }
 
   showToastr() {
-    this.toastrService.success('User was successfuly created.!');
+    this.toastrService.success('User has been successfuly created.', '', {
+      timeOut: 30000,
+    });
   }
 }
