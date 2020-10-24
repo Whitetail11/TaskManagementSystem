@@ -30,6 +30,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import { LoginComponent } from './components/login/login.component';
+import { ToastrModule } from 'ngx-toastr';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -70,7 +71,8 @@ export function tokenGetter() {
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    ToastrModule.forRoot()
   ],
   providers: [{
     provide: API_URL,

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { AppConstants } from 'src/app/models/appConstants';
 import { CreateUser } from 'src/app/models/createUser';
 import { AccountService } from 'src/app/services/account.service';
@@ -11,7 +12,7 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class UserCreatingComponent implements OnInit {
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, private toastrService: ToastrService) { }
 
   errors: string[] = [];
   roles = [AppConstants.EXECUTOR_ROLE_NAME, AppConstants.CUSTOMER_ROLE_NAME, AppConstants.ADMIN_ROLE_NAME];
@@ -47,7 +48,7 @@ export class UserCreatingComponent implements OnInit {
     this.accountService.createUser(createUser).subscribe(() => 
     { 
       this.dialogCloseBtn.nativeElement.click();
-      alert("User was successfuly created.");
+      this.toastrService.success('User was successfuly created.');
     }, err => {
       this.errors = err.error;
     });
@@ -65,5 +66,9 @@ export class UserCreatingComponent implements OnInit {
       return 'Password confirmation is required';
     }
     return 'Passwords do not match'
+  }
+
+  showToastr() {
+    this.toastrService.success('User was successfuly created.!');
   }
 }
