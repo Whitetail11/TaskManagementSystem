@@ -1,8 +1,8 @@
 ﻿namespace BusinessLayer.DTOs
 {
-    public class StatusDTO
+    public class UserShortInfoDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public string Surname { get; set; }
     }
 }

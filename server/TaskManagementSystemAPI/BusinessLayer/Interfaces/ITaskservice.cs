@@ -5,12 +5,13 @@ using System.Text;
 
 namespace BusinessLayer.Services
 {
-    public interface ITaskservice
+    public interface ITaskService
     {
-        List<TaskDTO> GetTasks();
+        IEnumerable<TaskShortInfoDTO> GetForPage(TaskPageDTO taskPageDTO);
         void CreateTask(TaskDTO task);
         void Delete(int id);
         string FindExecutorIdByEmail(string email);
         void Update(TaskDTO task);
+        int GetPageCount(int pageSize);
     }
 }

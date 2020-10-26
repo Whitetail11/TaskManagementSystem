@@ -30,6 +30,9 @@ namespace BusinessLayer.Mapping
 
             CreateMap<CreateCommentDTO, Comment>();
             CreateMap<Comment, ShowCommentDTO>();
+            CreateMap<Task, TaskShortInfoDTO>();
+            CreateMap<Status, StatusDTO>();
+            CreateMap<ApplicationUser, UserShortInfoDTO>();
         }
     }
 }

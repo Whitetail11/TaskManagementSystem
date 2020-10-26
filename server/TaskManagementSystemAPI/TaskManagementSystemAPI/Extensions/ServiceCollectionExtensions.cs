@@ -16,7 +16,7 @@ namespace TaskManagementSystemAPI.Extensions
             services.AddTransient<ICommentService, CommentService>();
             
             services.AddScoped<ITaskRepository, TaskRepository>();
-            services.AddScoped<ITaskservice, TaskService>();
+            services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ICommentRepository, CommentRepository>();
 
             var mappingConfig = new MapperConfiguration(mc =>

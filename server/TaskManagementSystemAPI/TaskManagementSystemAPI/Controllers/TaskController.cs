@@ -1,34 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BusinessLayer.DTOs;
+﻿using BusinessLayer.DTOs;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace TaskManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TaskController : ControllerBase
     {
-        private readonly ITaskservice _tasksService;
-        public TaskController(ITaskservice _tasksService)
+        private readonly ITaskService _tasksService;
+
+        public TaskController(ITaskService _tasksService)
         {
             this._tasksService = _tasksService;
         }
+
+        [Route("GetForPage")]
         [HttpGet]
-        [Authorize]
-        public IActionResult GetTasks()
+        public IActionResult GetForPage([FromQuery]TaskPageDTO taskPageDTO)
         {
-            List<TaskDTO> objectList = _tasksService.GetTasks();
-            return Ok(objectList);
+            var tasks = _tasksService.GetForPage(taskPageDTO);
+            return Ok(tasks);
         }
+
         [HttpPost]
-        [Authorize]
         public IActionResult CreateTask(TaskDTO task, string email)
         {
             task.ExecutorId = _tasksService.FindExecutorIdByEmail(email);
@@ -39,19 +36,27 @@ namespace TaskManagementSystemAPI.Controllers
             _tasksService.CreateTask(task);
             return Ok();
         }
+
         [HttpDelete]
-        [Authorize]
         public IActionResult Delete(int id)
          {
             _tasksService.Delete(id);
             return Ok();
         }
+        
         [HttpPut]
-        [Authorize]
         public IActionResult Update(TaskDTO task)
         {
             _tasksService.Update(task);
             return Ok();
         }
+
+        [Route("GetPageCount")]
+        [HttpGet]
+        public IActionResult GetPageCount(int pageSize)
+        {
+            var count = _tasksService.GetPageCount(pageSize);
+            return Ok(count);
+        } 
     }
 }
