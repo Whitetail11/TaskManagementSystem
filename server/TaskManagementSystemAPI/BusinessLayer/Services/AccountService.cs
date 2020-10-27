@@ -27,12 +27,13 @@ namespace BusinessLayer.Services
             _userManager = userManager;
             _authOptions = options.Value;
         }
-        public async Task<AccountResult> GetAllUsers()
+        public async Task<IEnumerable<GetUserDTO>> GetAllUsers()
         {
-            var users = await _userManager.Users.Select(src =>
+            var users = await _userManager.GetUsersInRoleAsync("Executor");
+            var res = users.Select(src =>
                 new GetUserDTO { Id = src.Id, Name = src.Name, Surname = src.Surname, Email = src.Email })
-                .ToListAsync();
-            return new AccountResult(true, users);
+                .ToList();
+            return res;
         }
         public async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, bool registration = false)
         {

@@ -3,6 +3,7 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
 
@@ -63,15 +64,10 @@ namespace TaskManagementSystemAPI.Controllers
         }
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IEnumerable<GetUserDTO>> GetAllUsers()
         {
             var result = await _accountService.GetAllUsers();
-            if (!result.Succeeded)
-            {
-                return BadRequest(result.Errors);
-
-            }
-            return Ok(result.Users);
+            return result;
         }
     }
 }

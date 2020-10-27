@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Classes;
 using BusinessLayer.DTOs;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BusinessLayer.Interfaces
@@ -9,6 +10,6 @@ namespace BusinessLayer.Interfaces
         Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, bool registration = false);
         Task<AccountResult> Register(RegisterDTO registerDTO);
         Task<AccountResult> Login(LoginDTO loginDTO);
-        Task<AccountResult> GetAllUsers();
+        Task<IEnumerable<GetUserDTO>> GetAllUsers();
     }
 }
