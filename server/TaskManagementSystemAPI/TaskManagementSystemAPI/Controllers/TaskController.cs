@@ -2,6 +2,7 @@
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagementSystemAPI.Extensions;
 
 namespace TaskManagementSystemAPI.Controllers
 {
@@ -19,8 +20,9 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("GetForPage")]
         [HttpGet]
-        public IActionResult GetForPage([FromQuery]TaskPageDTO taskPageDTO)
+        public IActionResult GetForPage([FromQuery]int pageNumber, [FromQuery]int pageSize)
         {
+            var taskPageDTO = new TaskPageDTO(pageNumber, pageSize, HttpContext.GetUserId(), HttpContext.GetUserRole());
             var tasks = _tasksService.GetForPage(taskPageDTO);
             return Ok(tasks);
         }
@@ -55,7 +57,8 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpGet]
         public IActionResult GetPageCount(int pageSize)
         {
-            var count = _tasksService.GetPageCount(pageSize);
+            var taskPageDTO = new TaskPageDTO(pageSize, HttpContext.GetUserId(), HttpContext.GetUserRole());
+            var count = _tasksService.GetPageCount(taskPageDTO);
             return Ok(count);
         } 
     }

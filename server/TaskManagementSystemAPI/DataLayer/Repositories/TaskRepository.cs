@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities;
+﻿using DataLayer.Classes;
+using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,42 @@ namespace DataLayer.Repositories
             : base(context)
         { }
 
-        public IEnumerable<Task> GetForPage(int pageNumber, int pageSize)
+        private IQueryable<Task> GetForAdmin()
         {
-            var tasks = _dbContext.Tasks
-                .OrderByDescending(task => task.Date)
-                .Include(task => task.Executor)
-                .Include(task => task.Status);
+            return _dbContext.Tasks.AsNoTracking();
+        }
 
-            return tasks.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        private IQueryable<Task> GetForCustomer(string creatorId)
+        {
+            return _dbContext.Tasks.AsNoTracking().Where(task => task.CreatorId == creatorId);
+        }
+
+        private IQueryable<Task> GetForExecutor(string executorId)
+        {
+            return _dbContext.Tasks.AsNoTracking().Where(task => task.ExecutorId == executorId);
+        }
+
+        public IEnumerable<Task> GetForPage(int pageNumber, int pageSize, string userId, string role)
+        {
+            IQueryable<Task> tasks = null;
+            switch (role)
+            {
+                case ApplicationConstants.Roles.EXECUTOR:
+                    tasks = GetForExecutor(userId);
+                    break;
+                case ApplicationConstants.Roles.CUSTOMER:
+                    tasks = GetForCustomer(userId);
+                    break;
+                default:
+                    tasks = GetForAdmin();
+                    break;
+            }
+
+            return tasks.OrderByDescending(task => task.Date)
+                .Include(task => task.Executor)
+                .Include(task => task.Status)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize).ToList();
         }
 
         public void Create(Task value)
@@ -48,9 +77,23 @@ namespace DataLayer.Repositories
             _dbContext.SaveChanges();
         }
 
-        public int GetTaskCount()
+        public int GetTaskCount(string userId, string role)
         {
-            return _dbContext.Tasks.AsNoTracking().Count();
+            IQueryable<Task> tasks = null;
+            switch (role)
+            {
+                case ApplicationConstants.Roles.EXECUTOR:
+                    tasks = GetForExecutor(userId);
+                    break;
+                case ApplicationConstants.Roles.CUSTOMER:
+                    tasks = GetForCustomer(userId);
+                    break;
+                default:
+                    tasks = GetForAdmin();
+                    break;
+            }
+
+            return tasks.AsNoTracking().Count();
         }
     }
 }

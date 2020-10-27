@@ -7,11 +7,11 @@ namespace DataLayer.Repositories
 {
     public interface ITaskRepository : IRepository<Task>
     {
-        IEnumerable<Task> GetForPage(int pageNumber, int pageSize);
+        IEnumerable<Task> GetForPage(int pageNumber, int pageSize, string userId, string role);
         void Create(Task value);
         void Delete(int id);
         string FindExetutorIdByEmail(string email);
         void Update(Task task);
-        int GetTaskCount();
+        int GetTaskCount(string userId, string role);
     }
 }

@@ -30,7 +30,13 @@ namespace BusinessLayer.Mapping
 
             CreateMap<CreateCommentDTO, Comment>();
             CreateMap<Comment, ShowCommentDTO>();
-            CreateMap<Task, TaskShortInfoDTO>();
+            CreateMap<Task, TaskShortInfoDTO>()
+                .ForMember(
+                    destinationMember => destinationMember.ExecutorName, 
+                    memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
+                .ForMember(
+                    destinationMember => destinationMember.Deadline,
+                    memberOptions => memberOptions.MapFrom(task => $"{ task.Deadline.ToShortDateString() }"));
             CreateMap<Status, StatusDTO>();
             CreateMap<ApplicationUser, UserShortInfoDTO>();
         }
