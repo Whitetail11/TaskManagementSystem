@@ -47,9 +47,14 @@ namespace BusinessLayer.Services
             _taskRepository.Update(res);
         }
 
+        public int GetTaskCount(string userId, string role)
+        {
+            return _taskRepository.GetTaskCount(userId, role);
+        }
+
         public int GetPageCount(TaskPageDTO taskPageDTO)
         {
-            var taskCount = _taskRepository.GetTaskCount(taskPageDTO.UserId, taskPageDTO.Role);
+            var taskCount = GetTaskCount(taskPageDTO.UserId, taskPageDTO.Role);
             return (taskCount + taskPageDTO.PageSize - 1) / taskPageDTO.PageSize;
         }
     }

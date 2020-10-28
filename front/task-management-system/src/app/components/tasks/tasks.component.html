@@ -1,1 +1,56 @@
 <title>Tasks</title>
+
+<div class="container-fluid pt-2" style="padding-bottom: 100px;">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <h1 class="mat-display-1 mb-0">Tasks</h1>
+        </div>
+    </div>
+    <div class="task-content">
+        <div class="row justify-content-center">
+            <div class="task col-10 mt-3 p-0" *ngFor="let task of pageTasks">
+                <div class="task-header px-3 py-2">
+                    <p class="mb-1 fs-18">{{ task.title }}</p>
+                    <p class="mb-0 fs-17">{{ task.executorName }}</p>
+                    <div class="context-menu-content">
+                        <button class="context-menu-toggle" 
+                            id="context-menu-dropdown" 
+                            data-toggle="dropdown" 
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right mt-1"
+                            aria-labelledby="context-menu-dropdown">
+                            <a class="dropdown-item">Edit</a>
+                            <a class="dropdown-item">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-body px-3 py-2">
+                    <p class="fs-17">{{ task.description }}</p>
+                    <p class="fs-17"><b>Due date: </b>{{ task.deadline }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination-content col-12 pt-3">
+        <div class="row justify-content-center">
+            <div class="tasks-per-page-text">
+                <p>Tasks per page:</p>
+            </div>
+            <select class="form-control mr-3 tasks-per-page-select" 
+                [(ngModel)]="pageSize"
+                (change)="onPageSizeChange()">
+                <option value="2">2</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <ngb-pagination [collectionSize]="taskCount" 
+                [pageSize]="pageSize"
+                [maxSize]="6" 
+                [(page)]="pageNumber" 
+                (pageChange)="onPageChange()"></ngb-pagination>
+        </div>
+    </div>
+</div>

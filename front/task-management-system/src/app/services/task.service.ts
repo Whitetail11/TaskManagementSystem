@@ -21,7 +21,10 @@ export class TaskService {
   }
   
   getForPage(pageNumber: number, pageSize: number): Observable<TaskShortInfo[]> {
-    return this.httpClient
-      .get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+    return this.httpClient.get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+  }
+
+  getTaskCount(): Observable<number> {
+    return this.httpClient.get<number>(`${this.apiUrl}task/getTaskCount`);
   }
 }
