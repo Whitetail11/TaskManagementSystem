@@ -7,6 +7,8 @@ namespace DataLayer.Classes
     public class ApplicationConstants
     {
         public const int DEFAULT_TASK_PAGE_SIZE = 10;
+        public const int TASK_SHORT_INFO_CHARACTER_COUNT = 200;
+
         public class Roles
         {
             public const string ADMINISTRATOR = "administrator";

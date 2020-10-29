@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskShortInfo } from 'src/app/models/taskShortInfo';
+import { AccountService } from 'src/app/services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TasksComponent implements OnInit {
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService, private accountService: AccountService) { }
   
   pageTasks: TaskShortInfo[] = [];
   taskCount: number;
@@ -40,5 +41,9 @@ export class TasksComponent implements OnInit {
   onPageSizeChange() {
     this.pageNumber = 1;
     this.setTasks();
+  }
+  
+  public get isExecutor(): boolean {
+    return this.accountService.isExecutor();
   }
 }

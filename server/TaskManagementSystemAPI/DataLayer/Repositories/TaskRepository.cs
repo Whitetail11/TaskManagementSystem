@@ -45,7 +45,15 @@ namespace DataLayer.Repositories
 
             return tasks.OrderByDescending(task => task.Date)
                 .Include(task => task.Executor)
-                .Include(task => task.Status)
+                .Select(task => new Task() 
+                { 
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description.Substring(0, ApplicationConstants.TASK_SHORT_INFO_CHARACTER_COUNT),
+                    Deadline = task.Deadline,
+                    StatusId = task.StatusId,
+                    Executor = task.Executor,
+                })
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize).ToList();
         }
