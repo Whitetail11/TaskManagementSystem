@@ -12,7 +12,6 @@ namespace DataLayer.Repositories
         void Delete(int id);
         string FindExetutorIdByEmail(string email);
         void Update(Task task);
-        int GetTaskCount();
         void ChangeStatus(int taskId, int statusId);
         int GetTaskCount(string userId, string role);
     }
