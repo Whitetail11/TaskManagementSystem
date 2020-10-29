@@ -8,6 +8,7 @@ import { TaskService } from 'src/app/services/task.service';
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Executor } from 'src/app/models/Executor';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -58,7 +59,8 @@ export class DialogElement implements OnInit {
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
     private _taskService: TaskService,
-    private _userService: UserService
+    private _userService: UserService,
+    private toastrService: ToastrService
   ) {
     const currentYear = new Date().getFullYear();
     const currentDay = new Date().getDate();
@@ -91,9 +93,16 @@ export class DialogElement implements OnInit {
       this.ExecutorEmail = this.secondFormGroup.value.fourthCtrl;
       this._taskService.post(this.task, this.ExecutorEmail).subscribe(() => {
         this.errorMessage = '';
+        this.toastrService.success('Task has been successfuly created.', '');
       }, error => {
         this.errorMessage = error.error.message;
       })
     }
+  }
+  
+  showToastr() {
+    this.toastrService.success('Task has been successfuly created.', '', {
+      timeOut: 30000,
+    });
   }
 }
