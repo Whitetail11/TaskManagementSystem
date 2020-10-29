@@ -19,6 +19,10 @@ export class TaskService {
   post(task: Task, email: string): Observable<Task> {
     return this.httpClient.post<Task>(`${this.apiUrl}task?email=${email}`, task);
   }
+  changeStatus(taskId: number, statusId: number) : Observable<{}>
+  {
+    return this.httpClient.put(`${this.apiUrl}/ChangeStatus?taskId=${taskId}&statusId=${statusId}`, []);
+  }
   
   getForPage(pageNumber: number, pageSize: number): Observable<TaskShortInfo[]> {
     return this.httpClient.get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage?pageNumber=${pageNumber}&pageSize=${pageSize}`)
