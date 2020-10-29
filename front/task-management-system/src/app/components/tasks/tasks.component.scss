@@ -1,0 +1,86 @@
+@import '/src/variables.scss';
+
+.pagination-content {
+    position: fixed;
+    bottom: 0;
+    background-color: $body-color;
+}
+
+::ng-deep .page-link {
+    color: $black-color;
+    box-shadow: none !important;
+    height: 40px;
+    width: 50px;
+    padding-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+::ng-deep .page-item.active .page-link {
+    background-color: $active-color;
+    border-color: $active-color;
+}
+
+select.form-control {
+    box-shadow: none !important;
+}
+
+.tasks-per-page-text {
+    height: 40px; 
+    margin-right: 10px;
+    font-size: 18px; 
+    line-height: 40px; 
+}
+
+.tasks-per-page-select {
+    width: 80px;
+}
+
+.task {
+    background-color: $white-color;
+    border: 1px solid $black-color;
+    border-radius: 5px 5px 15px 15px;
+    min-height: 100px;
+}
+
+.task-header {
+    position: relative;
+    background-color: $active-color;
+    color: $white-color;
+    border-radius: 5px 5px 0 0;
+}
+
+.fs-17 {
+    font-size: 17px;
+}
+
+.fs-18 {
+    font-size: 18px;
+}
+
+.context-menu-content {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.context-menu-toggle {
+    width: 45px;
+    height: 15px;
+    background-color: transparent;
+    background-image: url(../../../assets/images/context_menu_white.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px;
+    border: none;
+    box-shadow: none !important;
+}
+
+.context-menu-toggle:hover {
+    background-image: url(../../../assets/images/context_menu_black.svg);
+}
+
+.context-menu-toggle:focus {
+    outline: none;
+}

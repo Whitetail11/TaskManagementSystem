@@ -1,5 +1,12 @@
 @import '/src/variables.scss';
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus
+input:-webkit-autofill:hover
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 10px white inset !important;
+}
+
 ::ng-deep  .mat-form-field-outline {
     background-color: $white-color;
 }

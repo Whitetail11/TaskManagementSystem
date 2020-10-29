@@ -30,9 +30,8 @@ body {
     background-color: $hover-green-color;
 }
 
-input.form-control, select.form-control {
+input.form-control {
     height: 40px;
-    border: 1px solid $border-color;
 }
 
 .form-control.ng-invalid.ng-touched {

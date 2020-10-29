@@ -19,7 +19,7 @@ namespace BusinessLayer.Services
 
         public IEnumerable<TaskShortInfoDTO> GetForPage(TaskPageDTO taskPageDTO)
         {
-            var tasks = _taskRepository.GetForPage(taskPageDTO.PageNumber, taskPageDTO.PageSize);
+            var tasks = _taskRepository.GetForPage(taskPageDTO.PageNumber, taskPageDTO.PageSize, taskPageDTO.UserId, taskPageDTO.Role);
             return _mapper.Map<IEnumerable<TaskShortInfoDTO>>(tasks);
         }
 
@@ -47,14 +47,15 @@ namespace BusinessLayer.Services
             _taskRepository.Update(res);
         }
 
-        public int GetPageCount(int pageSize)
+        public int GetTaskCount(string userId, string role)
         {
-            if(pageSize < 1)
-            {
-                return 1;
-            }
+            return _taskRepository.GetTaskCount(userId, role);
+        }
 
-            return (_taskRepository.GetTaskCount() + pageSize - 1) / pageSize;
+        public int GetPageCount(TaskPageDTO taskPageDTO)
+        {
+            var taskCount = GetTaskCount(taskPageDTO.UserId, taskPageDTO.Role);
+            return (taskCount + taskPageDTO.PageSize - 1) / taskPageDTO.PageSize;
         }
     }
 }

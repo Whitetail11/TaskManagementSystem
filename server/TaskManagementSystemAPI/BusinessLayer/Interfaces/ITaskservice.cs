@@ -12,6 +12,7 @@ namespace BusinessLayer.Services
         void Delete(int id);
         string FindExecutorIdByEmail(string email);
         void Update(TaskDTO task);
-        int GetPageCount(int pageSize);
+        int GetTaskCount(string userId, string role);
+        int GetPageCount(TaskPageDTO taskPageDTO);
     }
 }

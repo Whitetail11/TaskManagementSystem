@@ -42,7 +42,7 @@
                     formControlName="passwordConfirm" 
                     [pattern]="form.get('password').value"
                     required>  
-                    <mat-error *ngIf="form.get('passwordConfirm').invalid">Password confirmation is required</mat-error>
+                    <mat-error *ngIf="form.get('passwordConfirm').invalid">{{ getPasswordConfirmErrorMessage() }}</mat-error>
                 </mat-form-field>
             </form>
         </div>
