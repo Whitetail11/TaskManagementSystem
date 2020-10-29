@@ -13,5 +13,6 @@ namespace BusinessLayer.Services
         string FindExecutorIdByEmail(string email);
         void Update(TaskDTO task);
         int GetPageCount(int pageSize);
+        void ChangeStatus(int taskId, int statusId);
     }
 }

@@ -43,7 +43,13 @@ namespace TaskManagementSystemAPI.Controllers
             _tasksService.Delete(id);
             return Ok();
         }
-        
+        [Route("ChangeStatus")]
+        [HttpPut]
+        public IActionResult ChangeStatus(int taskId, int statusId)
+        {
+            _tasksService.ChangeStatus(taskId, statusId);
+            return Ok();
+        }
         [HttpPut]
         public IActionResult Update(TaskDTO task)
         {

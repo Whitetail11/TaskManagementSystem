@@ -34,7 +34,12 @@ namespace DataLayer.Repositories
                 return null;
             return res.Id;
         }
-
+        public void ChangeStatus(int taskId, int statusId)
+        {
+            var res = _dbContext.Tasks.FirstOrDefault(t => t.Id == taskId);
+            res.StatusId = statusId;
+            this.Update(res);
+        }
         public void Update(Task task)
         {
             _dbContext.Tasks.Update(task);

@@ -13,5 +13,6 @@ namespace DataLayer.Repositories
         string FindExetutorIdByEmail(string email);
         void Update(Task task);
         int GetTaskCount();
+        void ChangeStatus(int taskId, int statusId);
     }
 }

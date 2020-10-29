@@ -29,6 +29,10 @@ namespace BusinessLayer.Services
             Task task = _mapper.Map<TaskDTO, Task>(taskdto);
             _taskRepository.Create(task);
         }
+        public void ChangeStatus(int taskId, int statusId)
+        {
+            _taskRepository.ChangeStatus(taskId, statusId);
+        }
 
         public void Delete(int id)
         {
