@@ -21,7 +21,13 @@ export class TasksComponent implements OnInit {
     this.setTaskCount();
     this.setTasks();
   }
-
+  deleteTask(id: number)
+  {
+    this.taskService.deleteTask(id).subscribe(() => {
+      this.setTaskCount();
+      this.setTasks();
+    })
+  }
   setTaskCount() {
     this.taskService.getTaskCount().subscribe((data: number) => {
       this.taskCount = data;
