@@ -55,6 +55,7 @@ export class DialogElement implements OnInit {
   ExecutorEmail: '';
   errorMessage: '';
   Executors: Executor[];
+  isThirdStep: Boolean;
   constructor(
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
@@ -66,6 +67,7 @@ export class DialogElement implements OnInit {
     const currentDay = new Date().getDate();
     const currentMonth = new Date().getMonth();
     this.minDate = new Date(currentYear, currentMonth, currentDay);
+    this.isThirdStep = false;
    }
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({

@@ -17,7 +17,7 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" label="DeadLine and executor">
+    <mat-step [stepControl]="secondFormGroup" label="Due date and assignee">
       <form [formGroup]="secondFormGroup">
         <div class="deadLine-and-executor">
           <mat-form-field class="second-input" appearance="outline">
@@ -38,24 +38,19 @@
         </div>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click)="createTask()">Create</button>
+          <button mat-button matStepperNext (click)="isThirdStep=true">Next</button>
         </div>
       </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
-      <div class="final-message">
-        <p *ngIf="!errorMessage">You created task!</p>
-        <mat-error *ngIf="errorMessage">
-          {{errorMessage}}
-        </mat-error>
-      </div>
       <div>
-        <button mat-button matStepperPrevious *ngIf="errorMessage">Back</button>
+        <button mat-button matStepperPrevious (click)="isThirdStep=false">Back</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="createTask()"[mat-dialog-close]="true" *ngIf="isThirdStep">Create</button>
 </div>
