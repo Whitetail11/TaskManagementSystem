@@ -21,11 +21,11 @@ export class TaskService {
   }
   changeStatus(taskId: number, statusId: number) : Observable<{}>
   {
-    return this.httpClient.put(`${this.apiUrl}/ChangeStatus?taskId=${taskId}&statusId=${statusId}`, []);
+    return this.httpClient.put(`${this.apiUrl}Task/ChangeStatus?taskId=${taskId}&statusId=${statusId}`, []);
   }
   deleteTask(id: number) : Observable<{}>
   {
-    return this.httpClient.delete(`${this.apiUrl}?id=${id}`);
+    return this.httpClient.delete(`${this.apiUrl}Task?id=${id}`);
   }
   getForPage(pageNumber: number, pageSize: number): Observable<TaskShortInfo[]> {
     return this.httpClient.get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage?pageNumber=${pageNumber}&pageSize=${pageSize}`)
