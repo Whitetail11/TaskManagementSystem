@@ -1,6 +1,6 @@
 @import '/src/variables.scss';
 
-.pagination-content {
+::ng-deep .pagination-content {
     position: fixed;
     bottom: 0;
     background-color: $body-color;
@@ -24,17 +24,6 @@
 
 select.form-control {
     box-shadow: none !important;
-}
-
-.tasks-per-page-text {
-    height: 40px; 
-    margin-right: 10px;
-    font-size: 18px; 
-    line-height: 40px; 
-}
-
-.tasks-per-page-select {
-    width: 80px;
 }
 
 .task {

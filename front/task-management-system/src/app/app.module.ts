@@ -32,6 +32,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { LoginComponent } from './components/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
 import { TaskEditingComponent } from './components/task-editing/task-editing.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -49,7 +50,8 @@ export function tokenGetter() {
     TaskCreateComponent,
     DialogElement,
     UsersComponent,
-    TaskEditingComponent
+    TaskEditingComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
