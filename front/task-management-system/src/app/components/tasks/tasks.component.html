@@ -23,7 +23,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right mt-1"
                             aria-labelledby="context-menu-dropdown">
-                            <button class="dropdown-item" >Edit</button>
+                            <button class="dropdown-item">Edit</button>
                             <button class="dropdown-item" (click)="deleteTask(task.id)">Delete</button>
                         </div>
                     </div>
@@ -35,24 +35,11 @@
             </div>
         </div>
     </div>
-    <div class="pagination-content col-12 pt-3">
-        <div class="row justify-content-center">
-            <div class="tasks-per-page-text">
-                <p>Tasks per page:</p>
-            </div>
-            <select class="form-control mr-3 tasks-per-page-select" 
-                [(ngModel)]="pageSize"
-                (change)="onPageSizeChange()">
-                <option value="2">2</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <ngb-pagination [collectionSize]="taskCount" 
-                [pageSize]="pageSize"
-                [maxSize]="6" 
-                [(page)]="pageNumber" 
-                (pageChange)="onPageChange()"></ngb-pagination>
-        </div>
-    </div>
+    <app-pagination class="pt-3" 
+        [collectionSize]="taskCount"
+        [pageSize]="pageSize"
+        [pageNumber]="pageNumber"
+        (pageSizeChange)="onPageSizeChange($event)"
+        (pageChange)="onPageChange($event)"
+        ></app-pagination>
 </div>

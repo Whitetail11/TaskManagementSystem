@@ -6,14 +6,7 @@
         </div>
         <div class="col-6">
             <div class="row justify-content-center">
-                <div class="col-8" style="position: absolute; top: 13vh">
-                    <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
-                        <ul class="mb-0">
-                            <li *ngFor="let error of errors">{{error}}</li>
-                        </ul>
-                    </ngb-alert>
-                </div>
-                <div class="col-8" style="margin-top: 20vh;">
+                <div class="col-8" style="margin-top: 15vh;">
                     <div class="col-12 text-center">
                         <p style="font-size: 30px; font-weight:500;">Log In</p>
                     </div>
@@ -33,8 +26,15 @@
                             [disabled]="form.invalid">Log In</button>
                     </form>
                     <div class="col-12 text-center">
-                        <h3 class="mt-1"><a class="reset-password-link" href="">Forgotten password?</a></h3>
+                        <h3 class="my-1"><a class="reset-password-link" href="">Forgotten password?</a></h3>
                     </div>
+                </div>
+                <div class="col-8">
+                    <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
+                        <ul class="mb-0">
+                            <li *ngFor="let error of errors">{{error}}</li>
+                        </ul>
+                    </ngb-alert>
                 </div>
             </div>
         </div>

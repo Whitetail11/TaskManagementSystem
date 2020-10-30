@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>User creating</h2>
 <mat-dialog-content class="mat-typography">
     <div class="row justify-content-center">
-        <div class="col-9">
+        <div class="col-11">
             <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
                 <ul class="mb-0">
                     <li *ngFor="let error of errors">{{error}}</li>
@@ -49,14 +49,18 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button type="button" 
-        style="width: 100px;"
-        class="btn btn-dark mr-2" 
-        mat-dialog-close
-        #dialogCloseBtn>Cancel</button>
-    <button type="submit"
-        form="user-creating-form" 
-        class="btn btn-success"
-        [disabled]="form.invalid"
-        style="width: 170px;">Create</button>
+    <div class="col-12 mb-1">
+        <div class="row justify-content-center">
+            <button type="button" 
+                style="width: 150px;"
+                class="btn btn-dark mr-2" 
+                mat-dialog-close
+                #dialogCloseBtn>Cancel</button>
+            <button type="submit"
+                form="user-creating-form" 
+                class="btn btn-success"
+                [disabled]="form.invalid"
+                style="width: 150px;">Create</button>
+        </div>
+    </div>
 </mat-dialog-actions>

@@ -40,12 +40,14 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  onPageChange() {
+  onPageChange(pageNumber) {
+    this.pageNumber = pageNumber;
     this.setTasks()
   }
 
-  onPageSizeChange() {
+  onPageSizeChange(pageSize) {
     this.pageNumber = 1;
+    this.pageSize = pageSize;
     this.setTasks();
   }
   
