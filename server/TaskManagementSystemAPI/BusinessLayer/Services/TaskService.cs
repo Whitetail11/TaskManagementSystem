@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.DTOs;
+using DataLayer.Classes;
 using DataLayer.Entities;
 using DataLayer.Repositories;
 using System.Collections.Generic;
@@ -17,9 +18,14 @@ namespace BusinessLayer.Services
             this._mapper = _mapper;
         }
 
-        public IEnumerable<TaskShortInfoDTO> GetForPage(TaskPageDTO taskPageDTO)
+        public IEnumerable<TaskShortInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
         {
-            var tasks = _taskRepository.GetForPage(taskPageDTO.PageNumber, taskPageDTO.PageSize, taskPageDTO.UserId, taskPageDTO.Role);
+            var taskPage = _mapper.Map<TaskPageDTO, TaskPage>(taskPageDTO);
+            var taskFilter = _mapper.Map<TaskFilterDTO, TaskFilter>(taskFilterDTO);
+            taskFilter.UserId = userId;
+            taskFilter.Role = role;
+            
+            var tasks = _taskRepository.GetForPage(taskPage, taskFilter);
             return _mapper.Map<IEnumerable<TaskShortInfoDTO>>(tasks);
         }
 
@@ -51,15 +57,23 @@ namespace BusinessLayer.Services
             _taskRepository.Update(res);
         }
 
-        public int GetTaskCount(string userId, string role)
+        public int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role)
         {
-            return _taskRepository.GetTaskCount(userId, role);
+            var taskFilter = _mapper.Map<TaskFilterDTO, TaskFilter>(taskFilterDTO);
+            taskFilter.UserId = userId;
+            taskFilter.Role = role;
+            return _taskRepository.GetTaskCount(taskFilter);
         }
 
-        public int GetPageCount(TaskPageDTO taskPageDTO)
+        public int GetPageCount(int pageSize, TaskFilterDTO taskPageDTO, string userId, string role)
         {
-            var taskCount = GetTaskCount(taskPageDTO.UserId, taskPageDTO.Role);
-            return (taskCount + taskPageDTO.PageSize - 1) / taskPageDTO.PageSize;
+            if (pageSize < 1)
+            {
+                pageSize = ApplicationConstants.DEFAULT_TASK_PAGE_SIZE;
+            }
+            var taskCount = GetTaskCount(taskPageDTO, userId, role);
+
+            return (taskCount + pageSize - 1) / pageSize;
         }
     }
 }

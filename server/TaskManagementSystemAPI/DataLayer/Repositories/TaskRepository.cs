@@ -27,23 +27,50 @@ namespace DataLayer.Repositories
             return _dbContext.Tasks.AsNoTracking().Where(task => task.ExecutorId == executorId);
         }
 
-        public IEnumerable<Task> GetForPage(int pageNumber, int pageSize, string userId, string role)
+        private IQueryable<Task> GetFilteredTasks(TaskFilter taskFilter)
         {
-            IQueryable<Task> tasks = null;
-            switch (role)
+            IQueryable<Task> tasks;
+            switch (taskFilter.Role)
             {
                 case ApplicationConstants.Roles.EXECUTOR:
-                    tasks = GetForExecutor(userId);
+                    tasks = GetForExecutor(taskFilter.UserId);
                     break;
                 case ApplicationConstants.Roles.CUSTOMER:
-                    tasks = GetForCustomer(userId);
+                    tasks = GetForCustomer(taskFilter.UserId);
                     break;
                 default:
                     tasks = GetForAdmin();
                     break;
             }
 
-            return tasks.OrderByDescending(task => task.Date)
+            if (taskFilter.Title != null)
+            {
+                tasks = tasks.Where(task => task.Title.Contains(taskFilter.Title));
+            }
+
+            if (taskFilter.StatusId != null)
+            {
+                var statusId = taskFilter.StatusId ?? 0;
+                tasks = tasks.Where(task => task.StatusId == statusId);
+            }
+
+            if (taskFilter.ExecutorId != null)
+            {
+                tasks = tasks.Where(task => task.ExecutorId == taskFilter.ExecutorId);
+            }
+
+            if (taskFilter.Deadline != null)
+            {
+                var deadline = taskFilter.Deadline.Value;
+                tasks = tasks.Where(task => task.Deadline <= deadline);
+            }
+
+            return tasks;
+        }
+
+        public IEnumerable<Task> GetForPage(TaskPage taskPage, TaskFilter taskFilter)
+        {
+            return GetFilteredTasks(taskFilter).OrderByDescending(task => task.Date)
                 .Include(task => task.Executor)
                 .Select(task => new Task() 
                 { 
@@ -54,8 +81,8 @@ namespace DataLayer.Repositories
                     StatusId = task.StatusId,
                     Executor = task.Executor,
                 })
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize).ToList();
+                .Skip((taskPage.PageNumber - 1) * taskPage.PageSize)
+                .Take(taskPage.PageSize).ToList();
         }
 
         public void Create(Task value)
@@ -90,23 +117,9 @@ namespace DataLayer.Repositories
             _dbContext.SaveChanges();
         }
 
-        public int GetTaskCount(string userId, string role)
+        public int GetTaskCount(TaskFilter taskFilter)
         {
-            IQueryable<Task> tasks = null;
-            switch (role)
-            {
-                case ApplicationConstants.Roles.EXECUTOR:
-                    tasks = GetForExecutor(userId);
-                    break;
-                case ApplicationConstants.Roles.CUSTOMER:
-                    tasks = GetForCustomer(userId);
-                    break;
-                default:
-                    tasks = GetForAdmin();
-                    break;
-            }
-
-            return tasks.AsNoTracking().Count();
+            return GetFilteredTasks(taskFilter).Count();
         }
     }
 }
