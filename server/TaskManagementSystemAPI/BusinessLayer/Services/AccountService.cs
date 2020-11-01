@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Classes;
+﻿using AutoMapper;
+using BusinessLayer.Classes;
 using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using DataLayer.Classes;
@@ -21,10 +22,13 @@ namespace BusinessLayer.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AuthOptions _authOptions;
+        private readonly IMapper _mapper;
 
-        public AccountService(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> options)
+        public AccountService(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> options,
+            IMapper mapper)
         {
             _userManager = userManager;
+            _mapper = mapper;
             _authOptions = options.Value;
         }
         public async Task<IEnumerable<GetUserDTO>> GetAllUsers()
@@ -134,6 +138,17 @@ namespace BusinessLayer.Services
                 signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        private async Task<IEnumerable<ApplicationUser>> GetUserForRole(string role)
+        {
+            return await _userManager.GetUsersInRoleAsync(role);
+        }
+
+        public async Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role)
+        {
+            var users = await GetUserForRole(role);
+            return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<SelectUserDTO>>(users);
         }
     }
 }

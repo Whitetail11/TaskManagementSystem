@@ -69,5 +69,14 @@ namespace TaskManagementSystemAPI.Controllers
             var result = await _accountService.GetAllUsers();
             return result;
         }
+
+        [Route("GetExecutorsForSelect")]
+        [HttpGet]
+        [Authorize(Roles = "administrator,customer")]
+        public async Task<IActionResult> GetExecutorsForSelect()
+        {
+            var executors = await _accountService.GetUsersForSelect(ApplicationConstants.Roles.EXECUTOR);
+            return Ok(executors);
+        } 
     }
 }

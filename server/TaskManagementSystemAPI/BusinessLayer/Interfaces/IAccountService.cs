@@ -11,5 +11,6 @@ namespace BusinessLayer.Interfaces
         Task<AccountResult> Register(RegisterDTO registerDTO);
         Task<AccountResult> Login(LoginDTO loginDTO);
         Task<IEnumerable<GetUserDTO>> GetAllUsers();
+        Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
     }
 }

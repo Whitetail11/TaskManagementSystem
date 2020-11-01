@@ -10,6 +10,7 @@ import { CreateUser } from '../models/createUser';
 import { Register } from '../models/register';
 import { API_URL } from '../app-injection-token';
 import { AppConstants } from '../models/appConstants';
+import { SelectUser } from '../models/selectUser';
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 
@@ -19,14 +20,14 @@ export const ACCESS_TOKEN_KEY = 'access_token'
 export class AccountService {
 
   constructor(
-    private http: HttpClient,
+    private httpClient: HttpClient,
     @Inject(API_URL) private apiUrl: string,
     private jwtHelper: JwtHelperService,
     private router: Router
   ) { }
 
   login(login: Login): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}account/login`, login)
+    return this.httpClient.post<Token>(`${this.apiUrl}account/login`, login)
     .pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
@@ -41,7 +42,7 @@ export class AccountService {
   }
 
   register(register: Register): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}account/register`, register).pipe(
+    return this.httpClient.post<Token>(`${this.apiUrl}account/register`, register).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.access_token);
       })
@@ -49,7 +50,7 @@ export class AccountService {
   }
 
   createUser(createUser: CreateUser): Observable<Object> {
-    return this.http.post(`${this.apiUrl}account/CreateUser`, createUser);
+    return this.httpClient.post(`${this.apiUrl}account/CreateUser`, createUser);
   }
 
   isAuthenticated(): boolean {
@@ -87,5 +88,9 @@ export class AccountService {
   decodeToken() {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     return this.jwtHelper.decodeToken(token);
+  }
+
+  getExecutorsForSelect(): Observable<SelectUser[]> {
+    return this.httpClient.get<SelectUser[]>(`${this.apiUrl}account/getExecutorsForSelect`);
   }
 }

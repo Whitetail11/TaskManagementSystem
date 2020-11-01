@@ -48,10 +48,9 @@ namespace DataLayer.Repositories
                 tasks = tasks.Where(task => task.Title.Contains(taskFilter.Title));
             }
 
-            if (taskFilter.StatusId != null)
+            if (taskFilter.StatusIds != null && taskFilter.StatusIds.Length != 0)
             {
-                var statusId = taskFilter.StatusId ?? 0;
-                tasks = tasks.Where(task => task.StatusId == statusId);
+                tasks = tasks.Where(task => taskFilter.StatusIds.Contains(task.StatusId));
             }
 
             if (taskFilter.ExecutorId != null)
@@ -120,6 +119,11 @@ namespace DataLayer.Repositories
         public int GetTaskCount(TaskFilter taskFilter)
         {
             return GetFilteredTasks(taskFilter).Count();
+        }
+
+        public IEnumerable<Status> GetStatuses()
+        {
+            return _dbContext.Statuses.AsNoTracking().ToList();
         }
     }
 }

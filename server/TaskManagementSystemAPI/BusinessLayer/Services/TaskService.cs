@@ -75,5 +75,12 @@ namespace BusinessLayer.Services
 
             return (taskCount + pageSize - 1) / pageSize;
         }
+
+        public IEnumerable<StatusDTO> GetStatuses()
+        {
+            var statuses = _taskRepository.GetStatuses();
+            return _mapper.Map<IEnumerable<StatusDTO>>(statuses);
+        }
+         
     }
 }

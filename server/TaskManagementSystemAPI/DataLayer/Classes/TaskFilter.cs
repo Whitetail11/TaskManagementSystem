@@ -9,7 +9,7 @@ namespace DataLayer.Classes
         public string UserId { get; set; }
         public string Role { get; set; }
         public string Title { get; set; }
-        public int? StatusId { get; set; }
+        public int[] StatusIds { get; set; }
         public string ExecutorId { get; set; }
         public DateTime? Deadline { get; set; }
     }
