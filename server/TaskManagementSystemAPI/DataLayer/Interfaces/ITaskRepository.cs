@@ -14,5 +14,6 @@ namespace DataLayer.Repositories
         void Update(Task task);
         void ChangeStatus(int taskId, int statusId);
         int GetTaskCount(string userId, string role);
+        Task GetTaskById(int id);
     }
 }

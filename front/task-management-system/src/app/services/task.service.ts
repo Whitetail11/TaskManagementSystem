@@ -19,18 +19,23 @@ export class TaskService {
   post(task: Task, email: string): Observable<Task> {
     return this.httpClient.post<Task>(`${this.apiUrl}task?email=${email}`, task);
   }
-  changeStatus(taskId: number, statusId: number) : Observable<{}>
-  {
+  changeStatus(taskId: number, statusId: number) : Observable<{}> {
     return this.httpClient.put(`${this.apiUrl}Task/ChangeStatus?taskId=${taskId}&statusId=${statusId}`, []);
   }
-  deleteTask(id: number) : Observable<{}>
-  {
+  deleteTask(id: number) : Observable<{}> {
     return this.httpClient.delete(`${this.apiUrl}Task?id=${id}`);
   }
+  editTask(task: Task, email: string) : Observable<Task> {
+    return this.httpClient.put<Task>(`${this.apiUrl}Task?email=${email}`, task);
+  }
+  
   getForPage(pageNumber: number, pageSize: number): Observable<TaskShortInfo[]> {
     return this.httpClient.get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage?pageNumber=${pageNumber}&pageSize=${pageSize}`)
   }
   getTaskCount(): Observable<number> {
     return this.httpClient.get<number>(`${this.apiUrl}task/getTaskCount`);
+  }
+  getTaskById(id: number): Observable<Task> {
+    return this.httpClient.get<Task>(`${this.apiUrl}task?id=${id}`)
   }
 }

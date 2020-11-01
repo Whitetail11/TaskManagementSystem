@@ -15,5 +15,6 @@ namespace BusinessLayer.Services
         void ChangeStatus(int taskId, int statusId);
         int GetTaskCount(string userId, string role);
         int GetPageCount(TaskPageDTO taskPageDTO);
+        TaskDTO GetTaskById(int id);
     }
 }

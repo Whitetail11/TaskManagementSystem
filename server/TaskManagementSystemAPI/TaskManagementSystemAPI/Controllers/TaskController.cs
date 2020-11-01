@@ -28,6 +28,12 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(tasks);
         }
 
+        [HttpGet]
+        public IActionResult GetTaskById(int id)
+        {
+            var res = _tasksService.GetTaskById(id);
+            return Ok(res);
+        }
         [HttpPost]
         public IActionResult CreateTask(TaskDTO task, string email)
         {
@@ -54,8 +60,13 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
         [HttpPut]
-        public IActionResult Update(TaskDTO task)
+        public IActionResult Update(TaskDTO task, string email)
         {
+            task.ExecutorId = _tasksService.FindExecutorIdByEmail(email);
+            if (task.ExecutorId == null)
+            {
+                return BadRequest(new { message = "Not found email of executor." });
+            }
             _tasksService.Update(task);
             return Ok();
         }

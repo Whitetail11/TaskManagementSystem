@@ -23,7 +23,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right mt-1"
                             aria-labelledby="context-menu-dropdown">
-                            <button class="dropdown-item" >Edit</button>
+                            <button class="dropdown-item" (click)="openEditTaskDialogue(task.id)">Edit</button>
                             <button class="dropdown-item" (click)="deleteTask(task.id)">Delete</button>
                         </div>
                     </div>

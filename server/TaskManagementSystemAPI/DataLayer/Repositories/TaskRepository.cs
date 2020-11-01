@@ -79,8 +79,10 @@ namespace DataLayer.Repositories
         }
         public void Update(Task task)
         {
-            _dbContext.Tasks.Update(task);
-            _dbContext.SaveChanges();
+            
+                _dbContext.Update(task);
+                _dbContext.SaveChanges();
+            
         }
 
         public void Delete(int id)
@@ -107,6 +109,11 @@ namespace DataLayer.Repositories
             }
 
             return tasks.AsNoTracking().Count();
+        }
+
+        public Task GetTaskById(int id)
+        {
+            return _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
         }
     }
 }

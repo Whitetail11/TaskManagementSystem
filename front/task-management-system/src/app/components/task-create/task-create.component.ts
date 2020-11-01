@@ -43,13 +43,13 @@ export class DialogElement implements OnInit {
   selectedExecutor: string;
   task: Task = {
     id: 0,
-    Description: '',
-    DeadLine: new Date(),
-    Date: new Date(),
-    Title: '',
-    CreatorId: '',
-    ExecutorId: '',
-    StatusId: 0
+    description: '',
+    deadline: new Date(),
+    date: new Date(),
+    title: '',
+    creatorId: '',
+    executorId: '',
+    statusId: 0
   };
   minDate: Date;
   ExecutorEmail: '';
@@ -81,17 +81,17 @@ export class DialogElement implements OnInit {
       ]
       )
     });
-    this._userService.get().subscribe((date) => {
-      this.Executors = date;
+    this._userService.get().subscribe((data) => {
+      this.Executors = data;
     })
   }
   createTask() {
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
-      this.task.Title = this.firstFormGroup.value.firstCtrl;
-      this.task.Description = this.firstFormGroup.value.secondCtrl;
-      this.task.DeadLine = new Date(this.secondFormGroup.value.thirdCtrl);
-      this.task.Date = new Date();
-      this.task.CreatorId = this._accountService.getUserId();
+      this.task.title = this.firstFormGroup.value.firstCtrl;
+      this.task.description = this.firstFormGroup.value.secondCtrl;
+      this.task.deadline = new Date(this.secondFormGroup.value.thirdCtrl);
+      this.task.date = new Date();
+      this.task.creatorId = this._accountService.getUserId();
       this.ExecutorEmail = this.secondFormGroup.value.fourthCtrl;
       this._taskService.post(this.task, this.ExecutorEmail).subscribe(() => {
         this.errorMessage = '';

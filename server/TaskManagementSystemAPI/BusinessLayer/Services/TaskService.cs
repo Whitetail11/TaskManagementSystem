@@ -22,6 +22,11 @@ namespace BusinessLayer.Services
             var tasks = _taskRepository.GetForPage(taskPageDTO.PageNumber, taskPageDTO.PageSize, taskPageDTO.UserId, taskPageDTO.Role);
             return _mapper.Map<IEnumerable<TaskShortInfoDTO>>(tasks);
         }
+        public TaskDTO GetTaskById(int id)
+        {
+            var task = _taskRepository.GetTaskById(id);
+            return _mapper.Map<TaskDTO>(task);
+        }
 
         public void CreateTask(TaskDTO taskdto)
         {
@@ -47,6 +52,7 @@ namespace BusinessLayer.Services
 
         public void Update(TaskDTO task)
         {
+            task.StatusId = 1;
             var res = _mapper.Map<TaskDTO, Task>(task);
             _taskRepository.Update(res);
         }
