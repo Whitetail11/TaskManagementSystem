@@ -16,8 +16,7 @@ export class UsersComponent implements OnInit {
 
   createUser() {
     this.dialog.open(UserCreatingComponent, {
-      width: "60vw",
-      height: "auto"
+      width: "500px"
     });
   }
 }

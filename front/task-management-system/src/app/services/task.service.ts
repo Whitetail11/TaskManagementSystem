@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { API_URL } from '../app-injection-token';
-import { TasksComponent } from '../components/tasks/tasks.component';
+import { Status } from '../models/status';
 import { Task } from '../models/task';
 import { TaskShortInfo } from '../models/taskShortInfo';
 
@@ -29,11 +29,19 @@ export class TaskService {
     return this.httpClient.put<Task>(`${this.apiUrl}Task?email=${email}`, task);
   }
   
-  getForPage(pageNumber: number, pageSize: number): Observable<TaskShortInfo[]> {
-    return this.httpClient.get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+  
+  getForPage(taskPage, taskFilter): Observable<TaskShortInfo[]> {
+    var params = new HttpParams({ fromObject: { ...taskPage, ...taskFilter } });
+    return this.httpClient.get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage`, { params: params });
   }
-  getTaskCount(): Observable<number> {
-    return this.httpClient.get<number>(`${this.apiUrl}task/getTaskCount`);
+  
+  getTaskCount(taskFilter): Observable<number> {
+    var params = new HttpParams({ fromObject: taskFilter });
+    return this.httpClient.get<number>(`${this.apiUrl}task/getTaskCount`, { params: params });
+  }
+
+  getStatuses(): Observable<Status[]> {
+    return this.httpClient.get<Status[]>(`${this.apiUrl}task/getStatuses`);
   }
   getTaskById(id: number): Observable<Task> {
     return this.httpClient.get<Task>(`${this.apiUrl}task?id=${id}`)

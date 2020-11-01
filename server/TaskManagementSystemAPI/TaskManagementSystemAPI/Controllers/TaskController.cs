@@ -21,10 +21,9 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("GetForPage")]
         [HttpGet]
-        public IActionResult GetForPage([FromQuery]int pageNumber, [FromQuery]int pageSize)
+        public IActionResult GetForPage([FromQuery]TaskPageDTO taskPageDTO, [FromQuery]TaskFilterDTO taskFilterDTO)
         {
-            var taskPageDTO = new TaskPageDTO(pageNumber, pageSize, HttpContext.GetUserId(), HttpContext.GetUserRole());
-            var tasks = _tasksService.GetForPage(taskPageDTO);
+            var tasks = _tasksService.GetForPage(taskPageDTO, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok(tasks);
         }
 
@@ -73,19 +72,26 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("GetTaskCount")]
         [HttpGet]
-        public IActionResult GetTaskCount()
+        public IActionResult GetTaskCount([FromQuery]TaskFilterDTO taskFilterDTO)
         {
-            var count = _tasksService.GetTaskCount(HttpContext.GetUserId(), HttpContext.GetUserRole());
+            var count = _tasksService.GetTaskCount(taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok(count);
         }
 
         [Route("GetPageCount")]
         [HttpGet]
-        public IActionResult GetPageCount([FromQuery]int pageSize)
+        public IActionResult GetPageCount([FromQuery]int pageSize, [FromQuery]TaskFilterDTO taskFilterDTO)
         {
-            var taskPageDTO = new TaskPageDTO(pageSize, HttpContext.GetUserId(), HttpContext.GetUserRole());
-            var count = _tasksService.GetPageCount(taskPageDTO);
+            var count = _tasksService.GetPageCount(pageSize, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok(count);
         } 
+
+        [Route("GetStatuses")]
+        [HttpGet]
+        public IActionResult GetStatuses()
+        {
+            var statuses = _tasksService.GetStatuses();
+            return Ok(statuses);
+        }
     }
 }

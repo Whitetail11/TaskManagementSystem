@@ -4,6 +4,18 @@ body {
     background-color: $body-color !important;
 }
 
+input, button {
+    box-shadow: none !important;
+}
+
+input.form-control {
+    height: 40px;
+}
+
+button.active-btn {
+    background-color: $active-color !important;
+}
+
 .btn.btn-green {
     background-color: $green-color;
     color: $white-color;
@@ -30,16 +42,28 @@ body {
     background-color: $hover-green-color;
 }
 
-input.form-control {
-    height: 40px;
-}
-
 .form-control.ng-invalid.ng-touched {
     border: 1px solid $red-color;
 }
 
 .error-text {
     color: $red-color;
+}
+
+.fs-17 {
+    font-size: 17px;
+}
+
+.fs-18 {
+    font-size: 18px;
+}
+
+.badge.badge-active {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: $active-color;
+    border-radius: 50%;
 }
 
 /* Importing Bootstrap SCSS file. */

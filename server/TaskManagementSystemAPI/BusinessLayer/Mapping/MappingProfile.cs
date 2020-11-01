@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.DTOs;
+using DataLayer.Classes;
 using DataLayer.Entities;
 using DataLayer.Identity;
 using System;
@@ -39,6 +40,13 @@ namespace BusinessLayer.Mapping
                     memberOptions => memberOptions.MapFrom(task => $"{ task.Deadline.ToShortDateString() }"));
             CreateMap<Status, StatusDTO>();
             CreateMap<ApplicationUser, UserShortInfoDTO>();
+            CreateMap<ApplicationUser, SelectUserDTO>()
+                .ForMember(
+                    destinationMember => destinationMember.FullName,
+                    memberOptions => memberOptions.MapFrom(user => $"{ user.Name } { user.Surname }"));
+            CreateMap<TaskPageDTO, TaskPage>();
+            CreateMap<TaskFilterDTO, TaskFilter>();
+
         }
     }
 }
