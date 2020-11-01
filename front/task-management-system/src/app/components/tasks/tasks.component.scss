@@ -3,7 +3,13 @@
 select.form-control {
     box-shadow: none !important;
 }
-
+.head {
+    display: flex;
+    justify-content: start;
+    .task-creating-button {
+        margin-left: 10px;
+    }
+}
 .task {
     background-color: $white-color;
     border: 1px solid $black-color;
