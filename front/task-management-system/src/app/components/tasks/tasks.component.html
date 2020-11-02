@@ -1,14 +1,16 @@
 <title>Tasks</title>
 <div class="container-fluid pt-2" style="padding-bottom: 100px;">
     <div class="row justify-content-center">
-        <div class="col-10 head">
-            <h1 class="mat-display-1 mb-0">Tasks</h1>
-            <div class="task-creating-button">
-                <app-task-create ></app-task-create>
+        <div class="col-10">
+            <div class="row">
+                <h1 class="mat-display-1 mb-0 mr-2">Tasks</h1>
+                <div class="task-creating-button">
+                    <app-task-create ></app-task-create>
+                </div>
             </div>
         </div>
     </div>
-    <div class="filters-content mt-2">
+    <div class="filters-content mt-3">
         <div class="row justify-content-center">
             <div class="col-10">
                 <form [formGroup]="filtersForm">

@@ -40,15 +40,21 @@ export class TasksComponent implements OnInit {
       title: new FormControl(),
       statusIds: new FormControl(),
       executorId: new FormControl(),
-      deadline: new FormControl(null)
+      deadline: new FormControl(null, [])
     });
 
     this.setTaskCount();
     this.setTasks();
+    this.setStatuses();
+
+    if (!this.isExecutor) {
+      this.setExecutors();
+    }
     this._userService.get().subscribe((data) => {
       this.Executors = data;
     })
   }
+
   openEditTaskDialogue(taskId: number) : void 
   {
     this.taskService.getTaskById(taskId).subscribe((task) => {
@@ -61,11 +67,6 @@ export class TasksComponent implements OnInit {
         this.setTasks();
       });
     })
-    this.setStatuses();
-
-    if (!this.isExecutor) {
-      this.setExecutors();
-    }
   }
   
   deleteTask(id: number)
