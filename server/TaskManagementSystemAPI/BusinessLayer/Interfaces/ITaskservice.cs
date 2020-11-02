@@ -11,6 +11,7 @@ namespace BusinessLayer.Services
         void CreateTask(TaskDTO task);
         void Delete(int id);
         string FindExecutorIdByEmail(string email);
+        string FindExecutorEmailById(string id);
         void Update(TaskDTO task);
         void ChangeStatus(int taskId, int statusId);
         TaskDTO GetTaskById(int id);

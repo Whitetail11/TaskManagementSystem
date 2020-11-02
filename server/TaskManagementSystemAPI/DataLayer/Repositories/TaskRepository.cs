@@ -97,6 +97,13 @@ namespace DataLayer.Repositories
                 return null;
             return res.Id;
         }
+        public string FindExecutorEmailById(string id)
+        {
+            var res = _dbContext.Users.FirstOrDefault(m => m.Id == id);
+            if (res == null)
+                return null;
+            return res.Email;
+        }
         public void ChangeStatus(int taskId, int statusId)
         {
             var res = _dbContext.Tasks.FirstOrDefault(t => t.Id == taskId);

@@ -150,5 +150,11 @@ namespace BusinessLayer.Services
             var users = await GetUserForRole(role);
             return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<SelectUserDTO>>(users);
         }
+        public async Task<bool> EmailConfirmed(string id)
+        {
+            var users = await _userManager.GetUsersInRoleAsync("Executor");
+            var res = users.FirstOrDefault(src => src.Id == id);
+            return res.EmailConfirmed;
+        }
     }
 }

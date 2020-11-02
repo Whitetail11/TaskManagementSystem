@@ -12,5 +12,6 @@ namespace BusinessLayer.Interfaces
         Task<AccountResult> Login(LoginDTO loginDTO);
         Task<IEnumerable<GetUserDTO>> GetAllUsers();
         Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
+        Task<bool> EmailConfirmed(string id);
     }
 }

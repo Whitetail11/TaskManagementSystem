@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.DTOs;
+using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading;
 using TaskManagementSystemAPI.Extensions;
 
@@ -13,10 +15,14 @@ namespace TaskManagementSystemAPI.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _tasksService;
+        private readonly INotificationService _notificationService;
+        private readonly IAccountService _accountService;
 
-        public TaskController(ITaskService _tasksService)
+        public TaskController(ITaskService _tasksService, INotificationService _notificationService, IAccountService accountService)
         {
             this._tasksService = _tasksService;
+            this._accountService = accountService;
+            this._notificationService = _notificationService;
         }
 
         [Route("GetForPage")]
@@ -42,6 +48,12 @@ namespace TaskManagementSystemAPI.Controllers
                 return BadRequest(new { message = "Not found email of executor." });
             }
             _tasksService.CreateTask(task);
+            if (_accountService.EmailConfirmed(task.ExecutorId).Result)
+            {
+                var executorEmail = _tasksService.FindExecutorEmailById(task.ExecutorId);
+                _notificationService.SendEmailAsync(executorEmail, "New Task", $"{task.Title} - {task.Description} \n {task.Deadline}");
+            }
+
             return Ok();
         }
 

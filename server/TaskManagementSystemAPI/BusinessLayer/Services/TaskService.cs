@@ -55,6 +55,11 @@ namespace BusinessLayer.Services
             var res = _taskRepository.FindExetutorIdByEmail(email);
             return res;
         }
+        public string FindExecutorEmailById(string id)
+        {
+            var res = _taskRepository.FindExecutorEmailById(id);
+            return res;
+        }
 
         public void Update(TaskDTO task)
         {
