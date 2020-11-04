@@ -30,20 +30,29 @@ namespace BusinessLayer.Mapping
                     )));
 
             CreateMap<CreateCommentDTO, Comment>();
-            CreateMap<Comment, ShowCommentDTO>();
-            CreateMap<Task, TaskShortInfoDTO>()
+            CreateMap<Task, ShowTaskShorInfoDTO>()
                 .ForMember(
                     destinationMember => destinationMember.ExecutorName, 
                     memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
                 .ForMember(
                     destinationMember => destinationMember.Deadline,
                     memberOptions => memberOptions.MapFrom(task => $"{ task.Deadline.ToShortDateString() }"));
+            CreateMap<Task, ShowTaskDTO>()
+                .ForMember(
+                    destinationMember => destinationMember.ExecutorName,
+                    memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
+                .ForMember(
+                    destinationMember => destinationMember.CreatorName,
+                    memberOptions => memberOptions.MapFrom(task => $"{ task.Creator.Name } { task.Creator.Surname }"));
             CreateMap<Status, StatusDTO>();
-            CreateMap<ApplicationUser, UserShortInfoDTO>();
             CreateMap<ApplicationUser, SelectUserDTO>()
                 .ForMember(
                     destinationMember => destinationMember.FullName,
                     memberOptions => memberOptions.MapFrom(user => $"{ user.Name } { user.Surname }"));
+            CreateMap<Comment, ShowCommentDTO>()
+                .ForMember(
+                    destinationMember => destinationMember.UserName,
+                    memberOptions => memberOptions.MapFrom(comment => $"{ comment.User.Name } { comment.User.Surname }"));
             CreateMap<TaskPageDTO, TaskPage>();
             CreateMap<TaskFilterDTO, TaskFilter>();
 

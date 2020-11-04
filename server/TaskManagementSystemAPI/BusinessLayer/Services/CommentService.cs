@@ -5,6 +5,7 @@ using DataLayer.Entities;
 using DataLayer.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BusinessLayer.Services
@@ -28,6 +29,50 @@ namespace BusinessLayer.Services
             _commentRepository.Create(comment);
 
             return _mapper.Map<Comment, ShowCommentDTO>(comment);
+        }
+
+        public IEnumerable<ShowCommentDTO> GroupComments(IEnumerable<ShowCommentDTO> comments)
+        {
+            var groupedComments = comments.ToList();
+            foreach (var comment in comments)
+            {
+                if (comment.ReplyCommentId == null)
+                {
+                    continue;
+                }
+
+                groupedComments.Remove(comment);
+
+                var parentComment = GetParentComment(comment.ReplyCommentId.Value, groupedComments);
+                if (parentComment.Replies == null)
+                {
+                    parentComment.Replies = new List<ShowCommentDTO>();
+                }
+                parentComment.Replies.Add(comment);
+
+                var replyComment = GetReplyComment(comment.ReplyCommentId.Value, groupedComments);
+                if (replyComment.Id != parentComment.Id)
+                {
+                    comment.ReplyUserName = replyComment.UserName;
+                }
+            }
+            return groupedComments;
+        }
+
+        private ShowCommentDTO GetReplyComment(int replyCommentId, IEnumerable<ShowCommentDTO> comments)
+        {
+            var replyComment = comments.FirstOrDefault(comment => comment.Id == replyCommentId);
+            if (replyComment != null)
+            {
+                return replyComment;
+            }
+            return comments.SelectMany(comment => comment.Replies).First(comment => comment.Id == replyCommentId);
+        }
+
+        private ShowCommentDTO GetParentComment(int replyCommentId, IEnumerable<ShowCommentDTO> comments)
+        {
+            return comments.First(comment => comment.Id == replyCommentId 
+                || (comment.Replies != null && comment.Replies.Any(c => c.Id == replyCommentId)));
         }
     }
 }

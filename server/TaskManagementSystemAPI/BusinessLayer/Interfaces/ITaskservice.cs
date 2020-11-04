@@ -7,7 +7,7 @@ namespace BusinessLayer.Services
 {
     public interface ITaskService
     {
-        IEnumerable<TaskShortInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role);
+        IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role);
         void CreateTask(TaskDTO task);
         void Delete(int id);
         string FindExecutorIdByEmail(string email);
@@ -18,5 +18,7 @@ namespace BusinessLayer.Services
         int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role);
         int GetPageCount(int pageSize, TaskFilterDTO taskPageDTO, string userId, string role);
         IEnumerable<StatusDTO> GetStatuses();
+        IEnumerable<ShowCommentDTO> GetComments(int id);
+        ShowTaskDTO GetForShowing(int id);
     }
 }

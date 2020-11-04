@@ -8,8 +8,12 @@ namespace BusinessLayer.DTOs
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public int TaskId { get; set; }
         public string UserId { get; set; }
+        public int? ReplyCommentId { get; set; }
         public DateTime Date { get; set; }
+
+        public string ReplyUserName { get; set; }
+        public string UserName { get; set; }
+        public List<ShowCommentDTO> Replies { get; set; }
     }
 }

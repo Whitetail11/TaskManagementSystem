@@ -33,6 +33,14 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(tasks);
         }
 
+        [Route("GetForShowing")]
+        [HttpGet]
+        public IActionResult GetForShowing(int id)
+        {
+            var task = _tasksService.GetForShowing(id);
+            return Ok(task);
+        }
+
         [HttpGet]
         public IActionResult GetTaskById(int id)
         {

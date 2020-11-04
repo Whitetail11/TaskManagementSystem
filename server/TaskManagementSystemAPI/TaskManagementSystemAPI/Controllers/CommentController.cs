@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,10 +16,12 @@ namespace TaskManagementSystemAPI.Controllers
     public class CommentController: ControllerBase
     {
         private readonly ICommentService _commentService;
+        private readonly ITaskService _taskService;
 
-        public CommentController(ICommentService commentService)
+        public CommentController(ICommentService commentService, ITaskService taskService)
         {
             _commentService = commentService;
+            _taskService = taskService;
         }
 
         [HttpPost]
@@ -28,6 +31,13 @@ namespace TaskManagementSystemAPI.Controllers
             var showCommentDTO = _commentService.Create(createCommentDTO, userId);
 
             return Ok(showCommentDTO);
+        }
+
+        [HttpGet]
+        public IActionResult GetComments()
+        {
+            var comments = _taskService.GetComments(4);
+            return Ok(_commentService.GroupComments(comments));
         }
     }
 }
