@@ -17,10 +17,12 @@ namespace TaskManagementSystemAPI.Extensions
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<IStatusRepository, StatusRepository>();
             services.AddTransient<IStatusService, StatusService>();
+            services.AddTransient<IFileService, FileService>();
             
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
 
             var mappingConfig = new MapperConfiguration(mc =>
             {

@@ -20,6 +20,7 @@ namespace DataLayer
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.EnsureCreated();
+            
             DbInitializer.Initialize(this);
         }
 
