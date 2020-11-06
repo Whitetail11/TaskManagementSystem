@@ -16,8 +16,8 @@ export class TaskService {
     @Inject(API_URL) private apiUrl: string
   ) { }
 
-  post(task: Task, email: string): Observable<Task> {
-    return this.httpClient.post<Task>(`${this.apiUrl}task?email=${email}`, task);
+  post(task: Task): Observable<Task> {
+    return this.httpClient.post<Task>(`${this.apiUrl}task`, task);
   }
   changeStatus(taskId: number, statusId: number) : Observable<{}> {
     return this.httpClient.put(`${this.apiUrl}Task/ChangeStatus?taskId=${taskId}&statusId=${statusId}`, []);
@@ -25,8 +25,8 @@ export class TaskService {
   deleteTask(id: number) : Observable<{}> {
     return this.httpClient.delete(`${this.apiUrl}Task?id=${id}`);
   }
-  editTask(task: Task, email: string) : Observable<Task> {
-    return this.httpClient.put<Task>(`${this.apiUrl}Task?email=${email}`, task);
+  editTask(task: Task) : Observable<Task> {
+    return this.httpClient.put<Task>(`${this.apiUrl}Task`, task);
   }
   
   

@@ -82,8 +82,8 @@ export class TaskEditingComponent implements OnInit {
       this.task.deadline = new Date(this.secondFormGroup.value.thirdCtrl);
       this.task.date = this.data.task.date;
       this.task.creatorId = this.data.task.creatorId;
-      this.ExecutorEmail = this.secondFormGroup.value.fourthCtrl;
-      this._taskService.editTask(this.task, this.ExecutorEmail).subscribe(() => {
+      this.task.executorId = this.secondFormGroup.value.fourthCtrl;
+      this._taskService.editTask(this.task).subscribe(() => {
         this.errorMessage = '';
         this.toastrService.success('Task has been successfuly edited.', '');
       }, error => {
