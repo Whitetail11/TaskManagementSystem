@@ -12,6 +12,7 @@ namespace DataLayer.Entities
         public int TaskId { get; set; }
         public string Name { get; set;}
         public byte[] Data { get; set; }
+        public string ContentType { get; set;}
         public DateTime AttachedDate { get; set; }
 
         public virtual Task Task { get; set; }
