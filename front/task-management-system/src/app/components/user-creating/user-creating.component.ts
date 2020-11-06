@@ -62,7 +62,7 @@ export class UserCreatingComponent implements OnInit {
 
   showToastr() {
     this.toastrService.success('User has been successfuly created.', '', {
-      timeOut: 30000,
+      timeOut: 5000,
     });
   }
 }

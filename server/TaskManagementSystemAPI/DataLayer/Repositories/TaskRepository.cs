@@ -12,6 +12,18 @@ namespace DataLayer.Repositories
             : base(context)
         { }
 
+        public Task GetIncludedRelatedData(int id)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Where(task => task.Id == id)
+                .Include(task => task.Executor)
+                .Include(task => task.Creator)
+                .Include(task => task.Files)
+                .Include(task => task.Comments)
+                .ThenInclude(comment => comment.User)
+                .FirstOrDefault();
+        }
+
         private IQueryable<Task> GetForAdmin()
         {
             return _dbContext.Tasks.AsNoTracking();
@@ -138,6 +150,14 @@ namespace DataLayer.Repositories
         public Task GetTaskById(int id)
         {
             return _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
+        }
+
+        public IEnumerable<Comment> GetComments(int id)
+        {
+            return _dbContext.Comments.AsNoTracking()
+                .Where(comment => comment.TaskId == id)
+                .Include(comment => comment.User)
+                .ToList();
         }
     }
 }

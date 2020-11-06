@@ -1,0 +1,14 @@
+@import '/src/variables.scss';
+
+.blue-color {
+    color: $active-color;
+}
+
+.comments-content {
+    background-color: $white-color;
+    border-radius: 10px;
+}
+
+.reply-text {
+    color: $border-color;
+}

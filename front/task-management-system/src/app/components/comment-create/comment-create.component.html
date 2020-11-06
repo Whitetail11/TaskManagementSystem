@@ -1,0 +1,30 @@
+<div class="col-12 new-comment-content mt-3 p-0">
+    <form [formGroup]="commentForm" (ngSubmit)="add()">
+        <div class="row">
+            <div class="px-3">
+                <img [width]="width" src="../../../assets/images/user.svg" alt="">
+            </div>
+            <mat-form-field class="comment-textarea">
+                <mat-label>Add comment</mat-label>
+                <textarea #commentText 
+                    matInput
+                    cdkTextareaAutosize 
+                    formControlName="commentText"
+                    (focus)="focus()"
+                    (blur)="blur()"></textarea>
+            </mat-form-field>
+        </div>
+        <div class="row" *ngIf="textareaFocused">
+            <button type="button" 
+                class="btn btn-dark ml-auto mr-2"
+                (click)="cancel()">
+                Cancel
+            </button>
+            <button type="submit"
+                class="btn btn-success mr-4"
+                [disabled]="!commentForm.get('commentText').value">
+                Add
+            </button>
+        </div>
+    </form>
+</div>

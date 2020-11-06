@@ -3,7 +3,7 @@ using System;
 
 namespace BusinessLayer.DTOs
 {
-    public class TaskShortInfoDTO
+    public class ShowTaskShorInfoDTO
     {
         public int Id { get; set; }
         public string Deadline { get; set; }
