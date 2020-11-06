@@ -21,14 +21,12 @@ namespace BusinessLayer.Services
             _mapper = mapper;
         }
 
-        public ShowCommentDTO Create(CreateCommentDTO createCommentDTO, string userId)
+        public void Create(CreateCommentDTO createCommentDTO, string userId)
         {
             var comment = _mapper.Map<CreateCommentDTO, Comment>(createCommentDTO);
             comment.Date = DateTime.Now;
             comment.UserId = userId;
             _commentRepository.Create(comment);
-
-            return _mapper.Map<Comment, ShowCommentDTO>(comment);
         }
 
         public IEnumerable<ShowCommentDTO> GroupComments(IEnumerable<ShowCommentDTO> comments)

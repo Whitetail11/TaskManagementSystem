@@ -107,8 +107,8 @@ namespace BusinessLayer.Services
 
         public IEnumerable<ShowCommentDTO> GetComments(int id)
         {
-            var comments = _taskRepository.GetComments(id);
-            return _mapper.Map<IEnumerable<Comment>, IEnumerable<ShowCommentDTO>>(comments);
+            var comments = _mapper.Map<IEnumerable<Comment>, IEnumerable<ShowCommentDTO>>(_taskRepository.GetComments(id));
+            return _commentService.GroupComments(comments);
         }
     }
 }

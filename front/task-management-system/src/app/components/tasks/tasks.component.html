@@ -78,8 +78,10 @@
         <div class="row justify-content-center">
             <div class="task col-10 mt-3 p-0" *ngFor="let task of pageTasks">
                 <div class="task-header px-3 py-2">
-                    <p class="mb-1 fs-18">{{ task.title }}</p>
-                    <p class="mb-0 fs-17">{{ task.executorName }}</p>
+                    <a [routerLink]="[task.id]">
+                        <p class="mb-1 fs-18">{{ task.title }}</p>
+                        <p class="mb-0 fs-17">{{ task.executorName }}</p>
+                    </a>
                     <div class="context-menu-content" *ngIf="!isExecutor">
                         <button class="menu-toggle context-menu-toggle" 
                             id="context-menu-dropdown" 
@@ -95,8 +97,10 @@
                     </div>
                 </div>
                 <div class="task-body px-3 py-2">
-                    <p class="fs-17">{{ task.description }}</p>
-                    <p class="fs-17"><b>Due date: </b>{{ task.deadline }}</p>
+                    <a [routerLink]="[task.id]">
+                        <p class="fs-17">{{ task.description }}</p>
+                        <p class="fs-17"><b>Due date: </b>{{ task.deadline }}</p>
+                    </a>
                 </div>
             </div>
         </div>

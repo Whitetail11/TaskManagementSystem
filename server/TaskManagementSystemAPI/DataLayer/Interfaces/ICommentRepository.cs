@@ -8,7 +8,7 @@ namespace DataLayer.Interfaces
 {
     public interface ICommentRepository: IRepository<Comment>
     {
-        Comment Create(Comment comment);
+        void Create(Comment comment);
         void Delete(int id);
     }
 }

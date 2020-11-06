@@ -33,6 +33,8 @@ import { LoginComponent } from './components/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
 import { TaskEditingComponent } from './components/task-editing/task-editing.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { TaskComponent } from './components/task/task.component';
+import { CommentCreateComponent } from './components/comment-create/comment-create.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -51,7 +53,9 @@ export function tokenGetter() {
     DialogElement,
     UsersComponent,
     TaskEditingComponent,
-    PaginationComponent
+    PaginationComponent,
+    TaskComponent,
+    CommentCreateComponent
   ],
   imports: [
     BrowserModule,

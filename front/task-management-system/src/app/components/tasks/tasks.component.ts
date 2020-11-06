@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SelectUser } from 'src/app/models/selectUser';
 import { Status } from 'src/app/models/status';
-import { TaskShortInfo } from 'src/app/models/taskShortInfo';
+import { ShowTaskShortInfo } from 'src/app/models/showTaskShortInfo';
 import { AccountService } from 'src/app/services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
@@ -24,7 +24,7 @@ export class TasksComponent implements OnInit {
      private _userService: UserService
      ) { }
   
-  pageTasks: TaskShortInfo[] = [];
+  pageTasks: ShowTaskShortInfo[] = [];
   statuses: Status[] = [];
   executors: SelectUser[] = [];
   taskPage = { pageSize: 20, pageNumber: 1 };
@@ -86,7 +86,7 @@ export class TasksComponent implements OnInit {
 
   setTasks() {
     this.taskService.getForPage(this.taskPage, this.getFilters())
-      .subscribe((data: TaskShortInfo[]) => {
+      .subscribe((data: ShowTaskShortInfo[]) => {
         this.pageTasks = data;
     });
   }
