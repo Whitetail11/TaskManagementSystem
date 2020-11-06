@@ -7,6 +7,7 @@ namespace BusinessLayer.Interfaces
 {
     public interface ICommentService
     {
-        ShowCommentDTO Create(CreateCommentDTO createCommentDTO, string userId);
+        void Create(CreateCommentDTO createCommentDTO, string userId);
+        IEnumerable<ShowCommentDTO> GroupComments(IEnumerable<ShowCommentDTO> comments);
     }
 }

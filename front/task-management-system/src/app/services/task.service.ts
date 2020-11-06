@@ -4,7 +4,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { API_URL } from '../app-injection-token';
 import { Status } from '../models/status';
 import { Task } from '../models/task';
-import { TaskShortInfo } from '../models/taskShortInfo';
+import { ShowTaskShortInfo } from '../models/showTaskShortInfo';
+import { ShowTask } from '../models/showTask';
+import { ShowComment } from '../models/showComment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +31,15 @@ export class TaskService {
     return this.httpClient.put<Task>(`${this.apiUrl}Task?email=${email}`, task);
   }
   
-  
-  getForPage(taskPage, taskFilter): Observable<TaskShortInfo[]> {
+  getForPage(taskPage, taskFilter): Observable<ShowTaskShortInfo[]> {
     var params = new HttpParams({ fromObject: { ...taskPage, ...taskFilter } });
-    return this.httpClient.get<TaskShortInfo[]>(`${this.apiUrl}task/getForPage`, { params: params });
+    return this.httpClient.get<ShowTaskShortInfo[]>(`${this.apiUrl}task/getForPage`, { params: params });
   }
   
+  getForShowig(id: number): Observable<ShowTask> {
+    return this.httpClient.get<ShowTask>(`${this.apiUrl}task/getForShowing/${id}`);
+  }
+
   getTaskCount(taskFilter): Observable<number> {
     var params = new HttpParams({ fromObject: taskFilter });
     return this.httpClient.get<number>(`${this.apiUrl}task/getTaskCount`, { params: params });
@@ -43,7 +48,12 @@ export class TaskService {
   getStatuses(): Observable<Status[]> {
     return this.httpClient.get<Status[]>(`${this.apiUrl}task/getStatuses`);
   }
+
   getTaskById(id: number): Observable<Task> {
     return this.httpClient.get<Task>(`${this.apiUrl}task?id=${id}`)
+  }
+
+  getComments(id: number): Observable<ShowComment[]> {
+    return this.httpClient.get<ShowComment[]>(`${this.apiUrl}task/getComments/${id}`)
   }
 }

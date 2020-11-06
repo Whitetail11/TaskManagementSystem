@@ -15,35 +15,44 @@ namespace BusinessLayer.Mapping
         public MappingProfile()
         {
             CreateMap<Task, TaskDTO>()
-                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments.Select(
-                    el => new ShowCommentDTO { Date = el.Date, Id = el.Id, Text = el.Text, UserId = el.UserId }
-                    )))
                 .ForMember(dest => dest.Files, opt => opt.MapFrom(src => src.Files.Select(
                     el => new FileDTO { Task = null, Id = el.Id, Data = el.Data, Name = el.Name, AttachedDate = el.AttachedDate }
                     )));
             CreateMap<TaskDTO, Task>()
-                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments.Select(
-                    el => new Comment { Date = el.Date, Id = el.Id, Task = null, Text = el.Text, User = null }
-                    )))
                 .ForMember(dest => dest.Files, opt => opt.MapFrom(src => src.Files.Select(
                     el => new File { Task = null, Id = el.Id, Data = el.Data, Name = el.Name, AttachedDate = el.AttachedDate }
                     )));
 
             CreateMap<CreateCommentDTO, Comment>();
-            CreateMap<Comment, ShowCommentDTO>();
-            CreateMap<Task, TaskShortInfoDTO>()
+            CreateMap<Task, ShowTaskShorInfoDTO>()
                 .ForMember(
                     destinationMember => destinationMember.ExecutorName, 
                     memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
                 .ForMember(
                     destinationMember => destinationMember.Deadline,
-                    memberOptions => memberOptions.MapFrom(task => $"{ task.Deadline.ToShortDateString() }"));
+                    memberOptions => memberOptions.MapFrom(task => task.Deadline.ToShortDateString()));
+            CreateMap<Task, ShowTaskDTO>()
+                .ForMember(
+                    destinationMember => destinationMember.ExecutorName,
+                    memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
+                .ForMember(
+                    destinationMember => destinationMember.CreatorName,
+                    memberOptions => memberOptions.MapFrom(task => $"{ task.Creator.Name } { task.Creator.Surname }"))
+                .ForMember(
+                    destinationMember => destinationMember.Deadline,
+                    memberOptions => memberOptions.MapFrom(task => task.Deadline.ToShortDateString()));
             CreateMap<Status, StatusDTO>();
-            CreateMap<ApplicationUser, UserShortInfoDTO>();
             CreateMap<ApplicationUser, SelectUserDTO>()
                 .ForMember(
                     destinationMember => destinationMember.FullName,
                     memberOptions => memberOptions.MapFrom(user => $"{ user.Name } { user.Surname }"));
+            CreateMap<Comment, ShowCommentDTO>()
+                .ForMember(
+                    destinationMember => destinationMember.UserName,
+                    memberOptions => memberOptions.MapFrom(comment => $"{ comment.User.Name } { comment.User.Surname }"))
+                .ForMember(
+                    destinationMember => destinationMember.Date,
+                    memberOptions => memberOptions.MapFrom(comment => comment.Date.ToShortDateString()));
             CreateMap<TaskPageDTO, TaskPage>();
             CreateMap<TaskFilterDTO, TaskFilter>();
 

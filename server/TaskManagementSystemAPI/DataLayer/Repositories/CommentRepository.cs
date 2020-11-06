@@ -14,11 +14,10 @@ namespace DataLayer.Repositories
         public CommentRepository(ApplicationContext dbContext): base(dbContext)
         {}
 
-        public Comment Create(Comment comment)
+        public void Create(Comment comment)
         {
             _dbContext.Comments.Add(comment);
             _dbContext.SaveChanges();
-            return comment;
         }
 
         public void Delete(int id)

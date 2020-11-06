@@ -33,6 +33,14 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(tasks);
         }
 
+        [Route("GetForShowing/{id}")]
+        [HttpGet]
+        public IActionResult GetForShowing([FromRoute]int id)
+        {
+            var task = _tasksService.GetForShowing(id);
+            return Ok(task);
+        }
+
         [HttpGet]
         public IActionResult GetTaskById(int id)
         {
@@ -97,6 +105,14 @@ namespace TaskManagementSystemAPI.Controllers
             var count = _tasksService.GetPageCount(pageSize, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok(count);
         } 
+
+        [Route("GetComments/{id}")]
+        [HttpGet]
+        public IActionResult GetComments([FromRoute]int id)
+        {
+            var comments = _tasksService.GetComments(id);
+            return Ok(comments);
+        }
 
         [Route("GetStatuses")]
         [HttpGet]

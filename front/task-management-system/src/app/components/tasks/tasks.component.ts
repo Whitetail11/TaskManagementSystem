@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SelectUser } from 'src/app/models/selectUser';
 import { Status } from 'src/app/models/status';
-import { TaskShortInfo } from 'src/app/models/taskShortInfo';
+import { ShowTaskShortInfo } from 'src/app/models/showTaskShortInfo';
 import { AccountService } from 'src/app/services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
@@ -24,7 +24,7 @@ export class TasksComponent implements OnInit {
      private _userService: UserService
      ) { }
   
-  pageTasks: TaskShortInfo[] = [];
+  pageTasks: ShowTaskShortInfo[] = [];
   statuses: Status[] = [];
   executors: SelectUser[] = [];
   taskPage = { pageSize: 20, pageNumber: 1 };
@@ -40,7 +40,7 @@ export class TasksComponent implements OnInit {
       title: new FormControl(),
       statusIds: new FormControl(),
       executorId: new FormControl(),
-      deadline: new FormControl(null, [])
+      deadline: new FormControl(null)
     });
 
     this.setTaskCount();
@@ -86,7 +86,7 @@ export class TasksComponent implements OnInit {
 
   setTasks() {
     this.taskService.getForPage(this.taskPage, this.getFilters())
-      .subscribe((data: TaskShortInfo[]) => {
+      .subscribe((data: ShowTaskShortInfo[]) => {
         this.pageTasks = data;
     });
   }
@@ -122,10 +122,10 @@ export class TasksComponent implements OnInit {
 
   toggleFiltersMenu() {
     this.displayFiltersMenu = !this.displayFiltersMenu;
-  }
 
-  closeFiltersMenu() {
-    this.displayFiltersMenu = false;
+    if (!this.displayFiltersMenu && this.filtersForm.get('deadline').invalid) {
+      this.filtersForm.get('deadline').reset();
+    }
   }
 
   getFilters() {
@@ -150,10 +150,10 @@ export class TasksComponent implements OnInit {
   public get appliedFilterCount(): number {
     let count = 0;
     for(let [key, value] of Object.entries(this.filtersForm.value)) {
-      if (key !== "title" && key !== "statusIds" && value !== null) {
+      if (key !== 'title' && key !== 'statusIds' && value !== null) {
         count++;
       }
-      else if (key === "statusIds" && value !== null && (value as any[]).length !== 0) {
+      else if (key === 'statusIds' && value !== null && (value as any[]).length !== 0) {
         count++;
       }
     }

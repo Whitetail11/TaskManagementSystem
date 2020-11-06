@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BusinessLayer.DTOs;
+using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Entities;
 using DataLayer.Repositories;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Generic;
 
 namespace BusinessLayer.Services
@@ -10,15 +12,17 @@ namespace BusinessLayer.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly ICommentService _commentService;
         private readonly IMapper _mapper;
 
-        public TaskService(ITaskRepository _taskRepository, IMapper _mapper)
+        public TaskService(ITaskRepository taskRepository, ICommentService commentService, IMapper mapper)
         {
-            this._taskRepository = _taskRepository;
-            this._mapper = _mapper;
+            _taskRepository = taskRepository;
+            _commentService = commentService;
+            _mapper = mapper;
         }
 
-        public IEnumerable<TaskShortInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
+        public IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
         {
             var taskPage = _mapper.Map<TaskPageDTO, TaskPage>(taskPageDTO);
             var taskFilter = _mapper.Map<TaskFilterDTO, TaskFilter>(taskFilterDTO);
@@ -26,8 +30,16 @@ namespace BusinessLayer.Services
             taskFilter.Role = role;
             
             var tasks = _taskRepository.GetForPage(taskPage, taskFilter);
-            return _mapper.Map<IEnumerable<TaskShortInfoDTO>>(tasks);
+            return _mapper.Map<IEnumerable<ShowTaskShorInfoDTO>>(tasks);
         }
+
+        public ShowTaskDTO GetForShowing(int id)
+        {
+            var task = _mapper.Map<Task, ShowTaskDTO>(_taskRepository.GetIncludedRelatedData(id));
+            task.Comments = _commentService.GroupComments(task.Comments);
+            return task;
+        }
+
         public TaskDTO GetTaskById(int id)
         {
             var task = _taskRepository.GetTaskById(id);
@@ -92,6 +104,11 @@ namespace BusinessLayer.Services
             var statuses = _taskRepository.GetStatuses();
             return _mapper.Map<IEnumerable<StatusDTO>>(statuses);
         }
-         
+
+        public IEnumerable<ShowCommentDTO> GetComments(int id)
+        {
+            var comments = _mapper.Map<IEnumerable<Comment>, IEnumerable<ShowCommentDTO>>(_taskRepository.GetComments(id));
+            return _commentService.GroupComments(comments);
+        }
     }
 }

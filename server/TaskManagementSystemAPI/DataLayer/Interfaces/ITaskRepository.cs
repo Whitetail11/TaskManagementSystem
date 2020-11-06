@@ -18,5 +18,7 @@ namespace DataLayer.Repositories
         Task GetTaskById(int id);
         int GetTaskCount(TaskFilter taskFilter);
         IEnumerable<Status> GetStatuses();
+        IEnumerable<Comment> GetComments(int id);
+        Task GetIncludedRelatedData(int id);
     }
 }

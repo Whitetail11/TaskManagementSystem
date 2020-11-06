@@ -1,0 +1,68 @@
+<title>{{ task.title }}</title>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-10 task-header">
+            <h1 class="mat-display-1 mb-1">{{ task.title }}</h1>
+        </div>
+        <div class="col-10 task-body fs-17">
+            <p>{{ task.description }}</p>
+            <p><b>Due date: </b>{{ task.deadline }}</p>
+            <p><b>Creator: </b>{{ task.creatorName }}</p>
+            <p><b>Assignee: </b>{{ task.executorName }}</p>
+        </div>
+        <div class="col-10 comments-content fs-17">
+            <app-comment-create
+                [taskId]="task.id"
+                (commentCreate)="onCommentCreate()"></app-comment-create>
+            <div class="row mb-3" *ngFor="let comment of task.comments">
+                <div class="pl-3">
+                    <img width="50" src="../../../assets/images/user.svg" alt="">
+                </div>
+                <div class="pl-3" style="width: calc(100% - 100px);">
+                    <p class="mb-1"><span class="fw-500">{{ comment.userName }}</span> {{ comment.date }}</p>
+                    <p class="mb-1">{{ comment.text }}</p>
+                    <p class="mb-1 reply-text cursor-pointer" (click)="replyToComment(comment.id)">REPLY</p>
+                    <p class="blue-color cursor-pointer fw-500" 
+                        *ngIf="comment.replies && !showRepliesOfComments.includes(comment.id)"
+                        (click)="showReplies(comment.id)">
+                        Show {{ comment.replies.length }} replies
+                    </p>
+                    <p class="blue-color cursor-pointer fw-500" 
+                        *ngIf="showRepliesOfComments.includes(comment.id)"
+                        (click)="hideReplies(comment.id)">
+                        Hide {{ comment.replies.length }} replies
+                    </p>
+                </div>
+                <div style="width: calc(100% - 100px); margin-left: 75px;">
+                    <app-comment-create *ngIf="comment.id == replyCommentId"
+                        [taskId]="task.id"
+                        [replyCommentId]="comment.id"
+                        (commentCreate)="onCommentCreate()"
+                        (commentCancel)="onCommentCancel()"></app-comment-create>
+                </div>
+                <div class="col-12" *ngIf="showRepliesOfComments.includes(comment.id)">
+                    <div class="row" *ngFor="let reply of comment.replies">
+                        <div class="pl-3" style="margin-left: 60px;">
+                            <img width="40" src="../../../assets/images/user.svg" alt="">
+                        </div>
+                        <div class="pl-3" style="width: calc(100% - 150px);">
+                            <p class="mb-1"><span class="fw-500">{{ reply.userName }}</span> {{ reply.date }}</p>
+                            <p class="mb-1">
+                                <span class="blue-color">{{ reply.replyUserName ? '@' + reply.replyUserName : '' }}</span>
+                                {{ reply.text }}
+                            </p>
+                            <p class="reply-text cursor-pointer" (click)="replyToComment(reply.id)">REPLY</p>
+                        </div>
+                        <div style="width: calc(100% - 160px); margin-left: 125px;">
+                            <app-comment-create *ngIf="reply.id == replyCommentId"
+                                [taskId]="task.id"
+                                [replyCommentId]="reply.id"
+                                (commentCreate)="onCommentCreate()"
+                                (commentCancel)="onCommentCancel()"></app-comment-create>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
