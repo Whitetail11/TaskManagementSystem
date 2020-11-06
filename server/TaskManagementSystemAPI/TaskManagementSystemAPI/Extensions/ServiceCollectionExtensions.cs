@@ -15,6 +15,8 @@ namespace TaskManagementSystemAPI.Extensions
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IStatusRepository, StatusRepository>();
+            services.AddTransient<IStatusService, StatusService>();
             
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
