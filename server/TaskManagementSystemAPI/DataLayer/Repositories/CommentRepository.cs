@@ -25,5 +25,10 @@ namespace DataLayer.Repositories
             _dbContext.Comments.AsNoTracking().Where(comment => comment.Id == id).Delete();
             _dbContext.SaveChanges();
         }
+
+        public bool ExistAny(int id, string userId)
+        {
+            return _dbContext.Comments.Any(comment => comment.Id == id && comment.UserId == userId);
+        }
     }
 }

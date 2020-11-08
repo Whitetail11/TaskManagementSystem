@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskManagementSystemAPI.Extensions;
 
 namespace TaskManagementSystemAPI.Controllers
 {
@@ -16,12 +17,10 @@ namespace TaskManagementSystemAPI.Controllers
     public class CommentController: ControllerBase
     {
         private readonly ICommentService _commentService;
-        private readonly ITaskService _taskService;
 
-        public CommentController(ICommentService commentService, ITaskService taskService)
+        public CommentController(ICommentService commentService)
         {
             _commentService = commentService;
-            _taskService = taskService;
         }
 
         [HttpPost]
@@ -32,11 +31,18 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public IActionResult GetComments()
+        [Route("{id}")]
+        [HttpDelete]
+        public IActionResult Delete(int id)
         {
-            var comments = _taskService.GetComments(4);
-            return Ok(_commentService.GroupComments(comments));
+            if (!_commentService.ExistAny(id, HttpContext.GetUserId()))
+            {
+                return NotFound();
+            }
+
+            _commentService.Delete(id);
+
+            return Ok();
         }
     }
 }

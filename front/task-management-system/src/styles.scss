@@ -74,6 +74,35 @@ button.active-btn {
     border-radius: 50%;
 }
 
+.context-menu-content {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.menu-toggle {
+    background-color: transparent;
+    border: none;
+    box-shadow: none !important;
+}
+
+.menu-toggle:focus {
+    outline: none;
+}
+
+.context-menu-toggle {
+    width: 45px;
+    height: 15px;
+    background-image: url(./assets/images/context_menu_white.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px;
+}
+
+.context-menu-toggle:hover {
+    background-image: url(./assets/images/context_menu_black.svg);
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 

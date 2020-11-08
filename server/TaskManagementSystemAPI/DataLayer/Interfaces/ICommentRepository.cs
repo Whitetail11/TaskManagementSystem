@@ -10,5 +10,6 @@ namespace DataLayer.Interfaces
     {
         void Create(Comment comment);
         void Delete(int id);
+        bool ExistAny(int id, string userId);
     }
 }

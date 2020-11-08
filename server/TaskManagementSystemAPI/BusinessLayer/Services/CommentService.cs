@@ -29,6 +29,16 @@ namespace BusinessLayer.Services
             _commentRepository.Create(comment);
         }
 
+        public void Delete(int id)
+        {
+            _commentRepository.Delete(id);
+        }
+
+        public bool ExistAny(int id, string userId)
+        {
+            return _commentRepository.ExistAny(id, userId);
+        }
+
         public IEnumerable<ShowCommentDTO> GroupComments(IEnumerable<ShowCommentDTO> comments)
         {
             var groupedComments = comments.ToList();

@@ -32,6 +32,12 @@ export class TaskComponent implements OnInit {
     });
   }
 
+  setComments() {
+    this.taskService.getComments(this.task.id).subscribe((data) => {
+      this.task.comments = data;
+    });
+  }
+
   replyToComment(commentId) {
     this.replyCommentId = commentId;
   }
@@ -45,10 +51,8 @@ export class TaskComponent implements OnInit {
   }
 
   onCommentCreate() {
-    this.taskService.getComments(this.task.id).subscribe((data) => {
-      this.task.comments = data;
-      this.replyCommentId = null;
-    });
+    this.setComments();
+    this.replyCommentId = null;
   }
 
   onCommentCancel() {
