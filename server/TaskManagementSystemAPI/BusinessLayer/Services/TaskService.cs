@@ -36,7 +36,10 @@ namespace BusinessLayer.Services
         public ShowTaskDTO GetForShowing(int id)
         {
             var task = _mapper.Map<Task, ShowTaskDTO>(_taskRepository.GetIncludedRelatedData(id));
-            task.Comments = _commentService.GroupComments(task.Comments);
+            if (task != null)
+            {
+                task.Comments = _commentService.GroupComments(task.Comments);
+            }
             return task;
         }
 

@@ -8,6 +8,7 @@ import { UnauthenticatedUserService as UnauthenticatedUser } from './services/un
 import { ProfileComponent } from './components/profile/profile.component';
 import { UsersComponent } from './components/users/users.component';
 import { TaskComponent } from './components/task/task.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -16,7 +17,8 @@ const appRoutes: Routes = [
   { path: 'tasks', component: TasksComponent, canActivate: [AuthenticatedUser] },
   { path: 'tasks/:id', component: TaskComponent, canActivate: [AuthenticatedUser] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedUser] },
-  { path: 'users', component: UsersComponent, canActivate: [AuthenticatedUser] }
+  { path: 'users', component: UsersComponent, canActivate: [AuthenticatedUser] },
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

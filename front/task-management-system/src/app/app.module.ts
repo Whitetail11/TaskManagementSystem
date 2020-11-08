@@ -35,6 +35,7 @@ import { TaskEditingComponent } from './components/task-editing/task-editing.com
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { TaskComponent } from './components/task/task.component';
 import { CommentCreateComponent } from './components/comment-create/comment-create.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -55,7 +56,8 @@ export function tokenGetter() {
     TaskEditingComponent,
     PaginationComponent,
     TaskComponent,
-    CommentCreateComponent
+    CommentCreateComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

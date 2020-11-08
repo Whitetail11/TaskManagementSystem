@@ -38,6 +38,12 @@ namespace TaskManagementSystemAPI.Controllers
         public IActionResult GetForShowing([FromRoute]int id)
         {
             var task = _tasksService.GetForShowing(id);
+
+            if (task == null)
+            {
+                return NotFound();
+            }
+
             return Ok(task);
         }
 
