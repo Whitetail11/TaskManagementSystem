@@ -12,7 +12,11 @@ import { TaskService } from 'src/app/services/task.service';
 export class TaskComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private taskService: TaskService,
-    private commentService: CommentService) { }
+    private commentService: CommentService) { 
+      this.route.params.subscribe(params => {
+        this.id = +params['id'];
+      });
+    }
 
   id: number;
   task: ShowTask;
@@ -20,10 +24,7 @@ export class TaskComponent implements OnInit {
   showRepliesOfComments: number[] = [];
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.id = +params['id'];
-      this.setTask(this.id);
-    });
+    this.setTask(this.id);
   }
 
   setTask(id: number) {

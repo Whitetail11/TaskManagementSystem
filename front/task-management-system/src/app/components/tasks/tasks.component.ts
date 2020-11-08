@@ -63,7 +63,6 @@ export class TasksComponent implements OnInit {
         data: {task, executor}
       })
       dialogRef.afterClosed().subscribe(result => {
-        this.setTaskCount();
         this.setTasks();
       });
     })
@@ -72,8 +71,13 @@ export class TasksComponent implements OnInit {
   deleteTask(id: number)
   {
     this.taskService.deleteTask(id).subscribe(() => {
-      this.setTaskCount();
-      this.setTasks();
+      this.taskService.getTaskCount(this.getFilters()).subscribe((data: number) => {
+        this.taskCount = data;
+        if (this.pageCount < this.pageNumber) {
+          this.pageNumber = 1;
+        }
+        this.setTasks();
+      });
     })
   }
 
@@ -141,6 +145,10 @@ export class TasksComponent implements OnInit {
       }
     }
     return filters;
+  }
+
+  public get pageCount() {
+    return (this.taskCount + this.pageSize - 1) / this.pageSize;
   }
 
   public get filterApplied(): boolean {
