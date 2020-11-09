@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ShowTask } from 'src/app/models/showTask';
 import { AccountService } from 'src/app/services/account.service';
@@ -15,10 +15,7 @@ export class TaskComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private taskService: TaskService,
     private commentService: CommentService, private accountService: AccountService,
-    private toastrService: ToastrService) { 
-      this.route.params.subscribe(params => {
-        this.id = +params['id'];
-      });
+    private toastrService: ToastrService, private router: Router) { 
     }
 
   id: number;
@@ -27,13 +24,21 @@ export class TaskComponent implements OnInit {
   showRepliesOfComments: number[] = [];
 
   ngOnInit(): void {
-    this.setTask(this.id);
+    this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      this.setTask(this.id);
+    });
   }
 
   setTask(id: number) {
-    this.taskService.getForShowig(id).subscribe((data: ShowTask) => {
-      this.task = data;
-    });
+    this.taskService.getForShowig(id).subscribe(
+      (data: ShowTask) => {
+        this.task = data;
+      }, (error) => {
+        if (error.status == 404) {
+          this.router.navigate(['not-found']);
+        }
+      });
   }
 
   setComments() {
