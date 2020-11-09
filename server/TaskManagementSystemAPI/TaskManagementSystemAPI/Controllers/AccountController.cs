@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
+using TaskManagementSystemAPI.Extensions;
 
 namespace TaskManagementSystemAPI.Controllers
 {
@@ -46,6 +47,31 @@ namespace TaskManagementSystemAPI.Controllers
                 return BadRequest(result.Errors);
             }
             return Ok(new { access_token = result.Token });
+        }
+
+        [Route("ConfirmEmail")]
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail([FromQuery]string userId, [FromQuery]string code)
+        {
+            if (userId == null || code == null)
+            {
+                return BadRequest(new List<string>() { "Email address confirmation link is invalid." });
+            }
+
+            var result = await _accountService.ConfirmEmail(userId, code);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(new { access_token = result.Token });
+        }
+
+        [Route("SendEmailConfirmationLink")]
+        [HttpGet]
+        public async Task<IActionResult> SendEmailConfirmationLink()
+        {
+            await _accountService.SendEmailConfirmationLink(HttpContext.GetUserId());
+            return Ok();
         }
 
         [Route("CreateUser")]

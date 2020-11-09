@@ -22,7 +22,7 @@ namespace BusinessLayer.Services
             // тема письма
             emailMessage.Subject = subject;
             // добавления тела месседжа
-            emailMessage.Body = new TextPart("Plain")
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
                 Text = message
             };

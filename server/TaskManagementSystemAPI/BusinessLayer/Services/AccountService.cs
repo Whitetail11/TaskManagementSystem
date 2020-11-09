@@ -5,7 +5,6 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -13,8 +12,8 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace BusinessLayer.Services
 {
@@ -23,13 +22,15 @@ namespace BusinessLayer.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AuthOptions _authOptions;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
 
         public AccountService(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> options,
-            IMapper mapper)
+            IMapper mapper, INotificationService notificationService)
         {
             _userManager = userManager;
             _mapper = mapper;
             _authOptions = options.Value;
+            _notificationService = notificationService;
         }
         public async Task<IEnumerable<GetUserDTO>> GetAllUsers()
         {
@@ -54,6 +55,7 @@ namespace BusinessLayer.Services
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, createUserDTO.Role);
+                await SendEmailConfirmationLink(user);
                 if (registration)
                 {
                     return new AccountResult(true, user);
@@ -109,12 +111,47 @@ namespace BusinessLayer.Services
             }
         }
 
+        public async Task<AccountResult> ConfirmEmail(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return new AccountResult(new List<string>() { "Email address confirmation link is invalid." });
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                var token = await GenerateJWT(user);
+                return new AccountResult(true, token);
+            }
+            else
+            {
+                return new AccountResult(new List<string>() { "Email address confirmation link is invalid." });
+            }
+        }
+
+        public async Task SendEmailConfirmationLink(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            await SendEmailConfirmationLink(user);
+        }
+
+        private async Task SendEmailConfirmationLink(ApplicationUser user)
+        {
+            var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedCode = HttpUtility.UrlEncode(confirmationCode);
+            var confirmationLink = new Uri($"https://localhost:44393/api/account/ConfirmEmail?userId={user.Id}&code={encodedCode}");
+            _notificationService.SendEmailAsync(user.Email, "Confirm your email",
+                $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink.AbsoluteUri}'>link</a>.");
+        }
+
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)
         {
             var claims = new List<Claim>()
             {
                 new Claim("userid", user.Id),
-                new Claim("useremail", user.Email)
+                new Claim("useremail", user.Email),
+                new Claim("useremailconfirmed", user.EmailConfirmed.ToString().ToLower())
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);
