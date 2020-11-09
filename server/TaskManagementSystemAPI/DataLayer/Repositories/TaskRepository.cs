@@ -151,13 +151,5 @@ namespace DataLayer.Repositories
         {
             return _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
         }
-
-        public IEnumerable<Comment> GetComments(int id)
-        {
-            return _dbContext.Comments.AsNoTracking()
-                .Where(comment => comment.TaskId == id)
-                .Include(comment => comment.User)
-                .ToList();
-        }
     }
 }

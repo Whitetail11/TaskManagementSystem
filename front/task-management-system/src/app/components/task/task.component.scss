@@ -4,11 +4,12 @@
     color: $active-color;
 }
 
+.gray-color {
+    color: $border-color;
+}
+
 .comments-content {
     background-color: $white-color;
     border-radius: 10px;
 }
 
-.reply-text {
-    color: $border-color;
-}

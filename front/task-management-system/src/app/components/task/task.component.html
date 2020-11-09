@@ -23,7 +23,12 @@
                         <span class="fw-500">{{ comment.userName }}</span> {{ comment.date }}
                     </p>
                     <p class="mb-1">{{ comment.text }}</p>
-                    <p class="mb-1 reply-text cursor-pointer" (click)="replyToComment(comment.id)">REPLY</p>
+                    <p class="mb-1 gray-color">
+                        <span class="cursor-pointer mr-2" (click)="replyToComment(comment.id)">REPLY</span>
+                        <span class="cursor-pointer" 
+                            *ngIf="comment.userId == userId"
+                            (click)="deleteComment(comment.id)">DELETE</span>
+                    </p>
                     <p class="blue-color cursor-pointer fw-500" 
                         *ngIf="comment.replies && !showRepliesOfComments.includes(comment.id)"
                         (click)="showReplies(comment.id)">
@@ -53,7 +58,12 @@
                                 <span class="blue-color">{{ reply.replyUserName ? '@' + reply.replyUserName : '' }}</span>
                                 {{ reply.text }}
                             </p>
-                            <p class="reply-text cursor-pointer" (click)="replyToComment(reply.id)">REPLY</p>
+                            <p class="gray-color">
+                                <span class="cursor-pointer mr-2" (click)="replyToComment(reply.id)">REPLY</span>
+                                <span class="cursor-pointer" 
+                                *ngIf="reply.userId == userId"
+                                (click)="deleteComment(reply.id)">DELETE</span>
+                            </p>
                         </div>
                         <div style="width: calc(100% - 160px); margin-left: 125px;">
                             <app-comment-create *ngIf="reply.id == replyCommentId"

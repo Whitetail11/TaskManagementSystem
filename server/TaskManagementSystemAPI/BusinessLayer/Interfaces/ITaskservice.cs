@@ -18,7 +18,6 @@ namespace BusinessLayer.Services
         int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role);
         int GetPageCount(int pageSize, TaskFilterDTO taskPageDTO, string userId, string role);
         IEnumerable<StatusDTO> GetStatuses();
-        IEnumerable<ShowCommentDTO> GetComments(int id);
         ShowTaskDTO GetForShowing(int id);
     }
 }

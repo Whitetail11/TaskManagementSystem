@@ -107,11 +107,5 @@ namespace BusinessLayer.Services
             var statuses = _taskRepository.GetStatuses();
             return _mapper.Map<IEnumerable<StatusDTO>>(statuses);
         }
-
-        public IEnumerable<ShowCommentDTO> GetComments(int id)
-        {
-            var comments = _mapper.Map<IEnumerable<Comment>, IEnumerable<ShowCommentDTO>>(_taskRepository.GetComments(id));
-            return _commentService.GroupComments(comments);
-        }
     }
 }

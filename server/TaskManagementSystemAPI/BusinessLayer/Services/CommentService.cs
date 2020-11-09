@@ -29,9 +29,18 @@ namespace BusinessLayer.Services
             _commentRepository.Create(comment);
         }
 
-        public void Delete(int id)
+        public IEnumerable<ShowCommentDTO> GetForTask(int taskId)
         {
-            _commentRepository.Delete(id);
+            var comments = _mapper.Map<IEnumerable<Comment>, IEnumerable<ShowCommentDTO>>(_commentRepository.GetForTask(taskId));
+            return GroupComments(comments);
+        }
+
+        public void Delete(int id, int taskId)
+        {
+            var comments = _commentRepository.GetForTask(taskId);
+            var commentToDeleteIds = GetChildIds(id, comments);
+            commentToDeleteIds.Add(id);
+            _commentRepository.Delete(commentToDeleteIds.ToArray());
         }
 
         public bool ExistAny(int id, string userId)
@@ -74,13 +83,33 @@ namespace BusinessLayer.Services
             {
                 return replyComment;
             }
-            return comments.SelectMany(comment => comment.Replies).First(comment => comment.Id == replyCommentId);
+            return comments.Where(comment => comment.Replies != null)
+                .SelectMany(comment => comment.Replies)
+                .First(comment => comment.Id == replyCommentId);
         }
 
         private ShowCommentDTO GetParentComment(int replyCommentId, IEnumerable<ShowCommentDTO> comments)
         {
             return comments.First(comment => comment.Id == replyCommentId 
                 || (comment.Replies != null && comment.Replies.Any(c => c.Id == replyCommentId)));
+        }
+
+        private List<int> GetChildIds(int id, IEnumerable<Comment> comments)
+        {
+            var allChildIds = new List<int>();
+
+            var commentChildIds = comments
+                .Where(comment => comment.ReplyCommentId == id)
+                .Select(comment => comment.Id);
+
+            allChildIds.AddRange(commentChildIds);
+
+            foreach(var commentChildId in commentChildIds)
+            {
+                allChildIds.AddRange(GetChildIds(commentChildId, comments));
+            }
+
+            return allChildIds;
         }
     }
 }

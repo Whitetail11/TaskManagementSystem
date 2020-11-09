@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ShowTask } from 'src/app/models/showTask';
+import { AccountService } from 'src/app/services/account.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { TaskService } from 'src/app/services/task.service';
 
@@ -12,7 +14,8 @@ import { TaskService } from 'src/app/services/task.service';
 export class TaskComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private taskService: TaskService,
-    private commentService: CommentService) { 
+    private commentService: CommentService, private accountService: AccountService,
+    private toastrService: ToastrService) { 
       this.route.params.subscribe(params => {
         this.id = +params['id'];
       });
@@ -34,7 +37,7 @@ export class TaskComponent implements OnInit {
   }
 
   setComments() {
-    this.taskService.getComments(this.task.id).subscribe((data) => {
+    this.commentService.getForTask(this.task.id).subscribe((data) => {
       this.task.comments = data;
     });
   }
@@ -51,6 +54,19 @@ export class TaskComponent implements OnInit {
     this.showRepliesOfComments = this.showRepliesOfComments.filter((e) => e != commentId);
   }
 
+  deleteComment(commentId) {
+    this.commentService.delete(commentId, this.task.id).subscribe(() => {
+      this.setComments();
+      this.toastrService.success('Comment has been successfuly deleted.', '', {
+        timeOut: 5000
+      });
+    }, () => {
+      this.toastrService.error('Comment has not been deleted.', '', {
+        timeOut: 5000
+      });
+    });
+  }
+
   onCommentCreate() {
     this.setComments();
     this.replyCommentId = null;
@@ -58,5 +74,9 @@ export class TaskComponent implements OnInit {
 
   onCommentCancel() {
     this.replyCommentId = null;
+  }
+
+  public get userId() {
+    return this.accountService.getUserId();
   }
 }

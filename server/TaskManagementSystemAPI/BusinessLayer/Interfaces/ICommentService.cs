@@ -7,9 +7,10 @@ namespace BusinessLayer.Interfaces
 {
     public interface ICommentService
     {
-        void Create(CreateCommentDTO createCommentDTO, string userId);
-        void Delete(int id);
-        bool ExistAny(int id, string userId);
+        IEnumerable<ShowCommentDTO> GetForTask(int taskId);
         IEnumerable<ShowCommentDTO> GroupComments(IEnumerable<ShowCommentDTO> comments);
+        void Create(CreateCommentDTO createCommentDTO, string userId);
+        void Delete(int id, int taskId);
+        bool ExistAny(int id, string userId);
     }
 }

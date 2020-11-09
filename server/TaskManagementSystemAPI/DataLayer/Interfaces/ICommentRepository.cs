@@ -8,8 +8,9 @@ namespace DataLayer.Interfaces
 {
     public interface ICommentRepository: IRepository<Comment>
     {
+        IEnumerable<Comment> GetForTask(int taskId);
         void Create(Comment comment);
-        void Delete(int id);
+        void Delete(params int[] ids);
         bool ExistAny(int id, string userId);
     }
 }

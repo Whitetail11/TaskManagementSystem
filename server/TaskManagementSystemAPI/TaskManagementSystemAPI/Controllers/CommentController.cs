@@ -23,6 +23,14 @@ namespace TaskManagementSystemAPI.Controllers
             _commentService = commentService;
         }
 
+        [Route("GetForTask/{taskId}")]
+        [HttpGet]
+        public IActionResult GetForTask(int taskId)
+        {
+            var comments = _commentService.GetForTask(taskId);
+            return Ok(comments);
+        }
+
         [HttpPost]
         public IActionResult Post(CreateCommentDTO createCommentDTO)
         {
@@ -33,14 +41,14 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("{id}")]
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int id, [FromQuery]int taskId)
         {
             if (!_commentService.ExistAny(id, HttpContext.GetUserId()))
             {
                 return NotFound();
             }
 
-            _commentService.Delete(id);
+            _commentService.Delete(id, taskId);
 
             return Ok();
         }

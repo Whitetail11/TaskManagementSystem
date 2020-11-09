@@ -6,7 +6,6 @@ import { Status } from '../models/status';
 import { Task } from '../models/task';
 import { ShowTaskShortInfo } from '../models/showTaskShortInfo';
 import { ShowTask } from '../models/showTask';
-import { ShowComment } from '../models/showComment';
 
 @Injectable({
   providedIn: 'root'
@@ -51,9 +50,5 @@ export class TaskService {
 
   getTaskById(id: number): Observable<Task> {
     return this.httpClient.get<Task>(`${this.apiUrl}task?id=${id}`)
-  }
-
-  getComments(id: number): Observable<ShowComment[]> {
-    return this.httpClient.get<ShowComment[]>(`${this.apiUrl}task/getComments/${id}`)
   }
 }

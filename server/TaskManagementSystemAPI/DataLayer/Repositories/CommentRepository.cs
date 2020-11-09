@@ -14,15 +14,23 @@ namespace DataLayer.Repositories
         public CommentRepository(ApplicationContext dbContext): base(dbContext)
         {}
 
+        public IEnumerable<Comment> GetForTask(int taskId)
+        {
+            return _dbContext.Comments.AsNoTracking()
+                .Where(comment => comment.TaskId == taskId)
+                .Include(comment => comment.User)
+                .ToList();
+        }
+
         public void Create(Comment comment)
         {
             _dbContext.Comments.Add(comment);
             _dbContext.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(params int[] ids)
         {
-            _dbContext.Comments.AsNoTracking().Where(comment => comment.Id == id).Delete();
+            _dbContext.Comments.AsNoTracking().Where(comment => ids.Contains(comment.Id)).Delete();
             _dbContext.SaveChanges();
         }
 

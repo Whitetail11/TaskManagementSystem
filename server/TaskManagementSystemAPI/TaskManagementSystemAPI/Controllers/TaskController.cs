@@ -112,14 +112,6 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(count);
         } 
 
-        [Route("GetComments/{id}")]
-        [HttpGet]
-        public IActionResult GetComments([FromRoute]int id)
-        {
-            var comments = _tasksService.GetComments(id);
-            return Ok(comments);
-        }
-
         [Route("GetStatuses")]
         [HttpGet]
         public IActionResult GetStatuses()
