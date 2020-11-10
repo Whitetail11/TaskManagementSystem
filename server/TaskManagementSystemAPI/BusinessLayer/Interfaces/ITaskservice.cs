@@ -17,7 +17,6 @@ namespace BusinessLayer.Services
         TaskDTO GetTaskById(int id);
         int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role);
         int GetPageCount(int pageSize, TaskFilterDTO taskPageDTO, string userId, string role);
-        IEnumerable<StatusDTO> GetStatuses();
         ShowTaskDTO GetForShowing(int id);
         bool HasUserAccess(int taskId, string userId);
     }

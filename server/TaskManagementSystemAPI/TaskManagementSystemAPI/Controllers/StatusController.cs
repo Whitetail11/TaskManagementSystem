@@ -21,7 +21,7 @@ namespace TaskManagementSystemAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             var statuses = _statusService.GetAll();
             return Ok(statuses);

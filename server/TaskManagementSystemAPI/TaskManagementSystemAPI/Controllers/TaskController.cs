@@ -117,13 +117,5 @@ namespace TaskManagementSystemAPI.Controllers
             var count = _tasksService.GetPageCount(pageSize, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok(count);
         } 
-
-        [Route("GetStatuses")]
-        [HttpGet]
-        public IActionResult GetStatuses()
-        {
-            var statuses = _tasksService.GetStatuses();
-            return Ok(statuses);
-        }
     }
 }

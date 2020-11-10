@@ -5,11 +5,11 @@ import { Status } from 'src/app/models/status';
 import { ShowTaskShortInfo } from 'src/app/models/showTaskShortInfo';
 import { AccountService } from 'src/app/services/account.service';
 import { TaskService } from 'src/app/services/task.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { TaskEditingComponent } from 'src/app/components/task-editing/task-editing.component'
-import { Task } from 'src/app/models/task';
 import { UserService } from 'src/app/services/user.service';
 import { Executor } from 'src/app/models/Executor';
+import { StatusService } from 'src/app/services/status.service';
 
 @Component({
   selector: 'app-tasks',
@@ -19,6 +19,7 @@ import { Executor } from 'src/app/models/Executor';
 export class TasksComponent implements OnInit {
 
   constructor(private taskService: TaskService,
+     private statusService: StatusService,
      private accountService: AccountService,
      public dialog: MatDialog,
      private _userService: UserService
@@ -96,7 +97,7 @@ export class TasksComponent implements OnInit {
   }
 
   setStatuses() {
-    this.taskService.getStatuses().subscribe((data: Status[]) => {
+    this.statusService.get().subscribe((data: Status[]) => {
       this.statuses = data;
     });
   }

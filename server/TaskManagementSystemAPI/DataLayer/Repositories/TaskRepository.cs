@@ -142,11 +142,6 @@ namespace DataLayer.Repositories
             return GetFilteredTasks(taskFilter).Count();
         }
 
-        public IEnumerable<Status> GetStatuses()
-        {
-            return _dbContext.Statuses.AsNoTracking().ToList();
-        }
-
         public Task GetTaskById(int id)
         {
             return _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
