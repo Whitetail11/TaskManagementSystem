@@ -21,7 +21,10 @@ export class TaskCreateComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
   openDialog() {
-    this.dialog.open(DialogElement);
+    const dialogRef = this.dialog.open(DialogElement);
+    dialogRef.afterClosed().subscribe(() => {
+      console.log("task created!");
+    })
   }
   ngOnInit(): void {
   }

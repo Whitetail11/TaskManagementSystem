@@ -118,7 +118,7 @@ namespace DataLayer.Repositories
         }
         public void ChangeStatus(int taskId, int statusId)
         {
-            var res = _dbContext.Tasks.FirstOrDefault(t => t.Id == taskId);
+            var res = _dbContext.Tasks.AsNoTracking().FirstOrDefault(t => t.Id == taskId);
             res.StatusId = statusId;
             this.Update(res);
         }
