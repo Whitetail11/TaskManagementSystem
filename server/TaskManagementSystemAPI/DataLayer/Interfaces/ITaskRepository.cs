@@ -19,5 +19,6 @@ namespace DataLayer.Repositories
         int GetTaskCount(TaskFilter taskFilter);
         IEnumerable<Status> GetStatuses();
         Task GetIncludedRelatedData(int id);
+        bool HasUserAccess(int taskId, string userId);
     }
 }

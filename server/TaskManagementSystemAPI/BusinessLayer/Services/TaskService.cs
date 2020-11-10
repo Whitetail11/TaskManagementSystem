@@ -107,5 +107,10 @@ namespace BusinessLayer.Services
             var statuses = _taskRepository.GetStatuses();
             return _mapper.Map<IEnumerable<StatusDTO>>(statuses);
         }
+
+        public bool HasUserAccess(int taskId, string userId)
+        {
+            return _taskRepository.HasUserAccess(taskId, userId);
+        }
     }
 }

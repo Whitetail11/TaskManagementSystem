@@ -151,5 +151,11 @@ namespace DataLayer.Repositories
         {
             return _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
         }
+        
+        public bool HasUserAccess(int taskId, string userId)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Any(task => task.Id == taskId && (task.ExecutorId == userId || task.CreatorId == userId));
+        }
     }
 }

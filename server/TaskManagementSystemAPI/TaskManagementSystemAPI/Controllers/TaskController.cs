@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
+using DataLayer.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -37,8 +38,13 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpGet]
         public IActionResult GetForShowing([FromRoute]int id)
         {
-            var task = _tasksService.GetForShowing(id);
+            if (HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR
+                && !_tasksService.HasUserAccess(id, HttpContext.GetUserId()))
+            {
+                return NotFound();
+            }
 
+            var task = _tasksService.GetForShowing(id);
             if (task == null)
             {
                 return NotFound();
