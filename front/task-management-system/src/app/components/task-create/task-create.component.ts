@@ -21,7 +21,10 @@ export class TaskCreateComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
   openDialog() {
-    this.dialog.open(DialogElement);
+    const dialogRef = this.dialog.open(DialogElement);
+    dialogRef.afterClosed().subscribe(() => {
+      console.log("task created!");
+    })
   }
   ngOnInit(): void {
   }
@@ -92,8 +95,9 @@ export class DialogElement implements OnInit {
       this.task.deadline = new Date(this.secondFormGroup.value.thirdCtrl);
       this.task.date = new Date();
       this.task.creatorId = this._accountService.getUserId();
-      this.ExecutorEmail = this.secondFormGroup.value.fourthCtrl;
-      this._taskService.post(this.task, this.ExecutorEmail).subscribe(() => {
+      this.task.executorId = this.secondFormGroup.value.fourthCtrl;
+      console.log(this.task);
+      this._taskService.post(this.task).subscribe(() => {    
         this.errorMessage = '';
         this.toastrService.success('Task has been successfuly created.', '');
       }, error => {
