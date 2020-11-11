@@ -88,6 +88,14 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
+        [Route("ForgotPassword")]
+        [HttpGet]
+        public async Task<IActionResult> ForgotPassword([FromQuery]ForgotPasswordDTO forgotPasswordDTO)
+        {
+            await _accountService.ForgotPassword(forgotPasswordDTO);
+            return Ok();
+        } 
+
         [Route("CreateUser")]
         [HttpPost]
         [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]

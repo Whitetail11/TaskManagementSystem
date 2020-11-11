@@ -148,8 +148,23 @@ namespace BusinessLayer.Services
             var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedCode = HttpUtility.UrlEncode(confirmationCode);
             var confirmationLink = new Uri($"http://localhost:4200/confirm-email?userId={user.Id}&code={encodedCode}");
-            _notificationService.SendEmailAsync(user.Email, "Confirm your email",
+            _notificationService.SendEmailAsync(user.Email, "Confirm email address",
                 $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink}'>link</a>.");
+        }
+
+        public async Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(forgotPasswordDTO.Email);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                return;
+            }
+
+            var resetCode = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedCode = HttpUtility.UrlEncode(resetCode);
+            var passwordResetLink = new Uri($"http://localhost:4200/reset-password?userId={user.Id}&code={encodedCode}");
+            _notificationService.SendEmailAsync(user.Email, "Reset password",
+                $"In order to reset your password, follow the <a href='{passwordResetLink}'>link</a>.");
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)

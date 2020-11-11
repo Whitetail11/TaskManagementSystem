@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { Router } from '@angular/router'
 import { Token } from '../models/token'
@@ -105,5 +105,10 @@ export class AccountService {
 
   confirmEmail(userId: string, code: string): Observable<string> {
     return this.httpClient.get<string>(`${this.apiUrl}account/confirmEmail?userId=${userId}&code=${code}`);
+  }
+
+  forgotPassword(forgotPassword): Observable<{}> {
+    var params = new HttpParams({ fromObject: forgotPassword });
+    return this.httpClient.get(`${this.apiUrl}account/forgotPassword`, { params: params });
   }
 }

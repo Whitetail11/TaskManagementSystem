@@ -37,6 +37,7 @@ import { CommentCreateComponent } from './components/comment-create/comment-crea
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UserComponent } from './components/user/user.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -59,7 +60,8 @@ export function tokenGetter() {
     CommentCreateComponent,
     NotFoundComponent,
     UserComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

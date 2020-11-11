@@ -10,6 +10,7 @@ import { TaskComponent } from './components/task/task.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UserComponent } from './components/user/user.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   { path: 'profile/:id', component: UserComponent, canActivate: [AuthenticatedUser] },
   { path: 'users', component: UsersComponent, canActivate: [AuthenticatedUser] },
   { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '**', component: NotFoundComponent }
 ];
 
