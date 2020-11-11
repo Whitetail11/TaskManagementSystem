@@ -32,6 +32,13 @@ namespace BusinessLayer.Services
             _authOptions = options.Value;
             _notificationService = notificationService;
         }
+
+        public async Task<ShowUserDTO> Get(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
+        }
+
         public async Task<IEnumerable<GetUserDTO>> GetAllUsers()
         {
             var users = await _userManager.GetUsersInRoleAsync("Executor");
@@ -121,8 +128,8 @@ namespace BusinessLayer.Services
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
-                var token = await GenerateJWT(user);
-                return new AccountResult(true, token);
+                //var token = await GenerateJWT(user);
+                return new AccountResult(true);
             }
             else
             {
@@ -140,9 +147,9 @@ namespace BusinessLayer.Services
         {
             var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedCode = HttpUtility.UrlEncode(confirmationCode);
-            var confirmationLink = new Uri($"https://localhost:44393/api/account/ConfirmEmail?userId={user.Id}&code={encodedCode}");
+            var confirmationLink = new Uri($"http://localhost:4200/confirm-email?userId={user.Id}&code={encodedCode}");
             _notificationService.SendEmailAsync(user.Email, "Confirm your email",
-                $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink.AbsoluteUri}'>link</a>.");
+                $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink}'>link</a>.");
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)
@@ -151,7 +158,7 @@ namespace BusinessLayer.Services
             {
                 new Claim("userid", user.Id),
                 new Claim("useremail", user.Email),
-                new Claim("useremailconfirmed", user.EmailConfirmed.ToString().ToLower())
+                //new Claim("useremailconfirmed", user.EmailConfirmed.ToString().ToLower())
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);

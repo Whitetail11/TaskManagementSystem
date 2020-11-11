@@ -7,6 +7,7 @@ namespace BusinessLayer.Interfaces
 {
     public interface IAccountService
     {
+        Task<ShowUserDTO> Get(string id);
         Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, bool registration = false);
         Task<AccountResult> Register(RegisterDTO registerDTO);
         Task<AccountResult> Login(LoginDTO loginDTO);

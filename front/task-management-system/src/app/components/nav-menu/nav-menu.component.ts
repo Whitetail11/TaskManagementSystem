@@ -39,6 +39,10 @@ export class NavMenuComponent implements OnInit {
     return this.accountService.isExecutor();
   }
 
+  public get userId(): string {
+    return this.accountService.getUserId();
+  }
+
   logout() {
     this.accountService.logout();
   }

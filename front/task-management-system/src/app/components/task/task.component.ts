@@ -18,15 +18,13 @@ export class TaskComponent implements OnInit {
     private toastrService: ToastrService, private router: Router) { 
     }
 
-  id: number;
   task: ShowTask;
   replyCommentId: number;
   showRepliesOfComments: number[] = [];
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.id = +params['id'];
-      this.setTask(this.id);
+      this.setTask(+params['id']);
     });
   }
 

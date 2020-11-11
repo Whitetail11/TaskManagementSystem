@@ -13,7 +13,6 @@ import { SignupComponent } from './components/signup/signup.component';
 import { environment } from 'src/environments/environment';
 import { API_URL } from './app-injection-token';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ProfileComponent } from './components/profile/profile.component';
 import { UserCreatingComponent } from './components/user-creating/user-creating.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -36,6 +35,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { TaskComponent } from './components/task/task.component';
 import { CommentCreateComponent } from './components/comment-create/comment-create.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UserComponent } from './components/user/user.component';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -48,7 +49,6 @@ export function tokenGetter() {
     LoginComponent,
     TasksComponent,
     SignupComponent,
-    ProfileComponent,
     UserCreatingComponent,
     TaskCreateComponent,
     DialogElement,
@@ -57,7 +57,9 @@ export function tokenGetter() {
     PaginationComponent,
     TaskComponent,
     CommentCreateComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    UserComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     BrowserModule,

@@ -40,7 +40,7 @@
                 Account
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" [routerLink]="['/profile']">Profile</a>
+                <a class="dropdown-item" [routerLink]="['profile', userId]">Profile</a>
                 <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Log Out</a>
               </div>
             </li>
