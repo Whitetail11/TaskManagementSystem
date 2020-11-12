@@ -67,7 +67,7 @@ export class TaskEditingComponent implements OnInit {
       thirdCtrl: new FormControl (new Date(this.data.task.deadline), [
         Validators.required
       ]),
-      fourthCtrl: new FormControl (this.data.executor.email, [
+      fourthCtrl: new FormControl (this.data.executor.id, [
         Validators.required
       ]
       )
