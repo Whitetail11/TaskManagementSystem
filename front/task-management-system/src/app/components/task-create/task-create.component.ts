@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -19,11 +19,11 @@ import { SelectUser } from 'src/app/models/selectUser';
 export class TaskCreateComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
-
+  @Output() onCloseDialogue = new EventEmitter<any>();
   openDialog() {
     const dialogRef = this.dialog.open(DialogElement);
     dialogRef.afterClosed().subscribe(() => {
-      console.log("task created!");
+      this.onCloseDialogue.emit()
     })
   }
   ngOnInit(): void {
@@ -85,7 +85,6 @@ export class DialogElement implements OnInit {
     });
     this._accountService.getExecutorsForSelect().subscribe((data) => {
       this.Executors = data;
-      console.log(data)
     })
   }
   createTask() {

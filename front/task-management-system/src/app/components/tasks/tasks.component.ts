@@ -54,7 +54,9 @@ export class TasksComponent implements OnInit {
       this.Executors = data;
     })
   }
-
+  onCloseDialogue() {
+    console.log('dialog has been closed!');
+  }
   openEditTaskDialogue(taskId: number) : void 
   {
     this.taskService.getTaskById(taskId).subscribe((task) => {

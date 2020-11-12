@@ -5,7 +5,7 @@
             <div class="row">
                 <h1 class="mat-display-1 mb-0 mr-2">Tasks</h1>
                 <div class="task-creating-button" *ngIf="!isExecutor">
-                    <app-task-create ></app-task-create>
+                    <app-task-create (onCloseDialogue)="onCloseDialogue()"></app-task-create>
                 </div>
             </div>
         </div>
