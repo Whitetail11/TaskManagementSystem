@@ -31,7 +31,7 @@
             <mat-label>Assignee</mat-label>
             <mat-select formControlName="fourthCtrl" disableOptionCentering>
               <mat-option *ngFor="let executor of Executors" [value]="executor.id">
-                {{executor.name}} {{executor.surname}}
+                {{executor.fullName}}
               </mat-option>
             </mat-select>
           </mat-form-field>

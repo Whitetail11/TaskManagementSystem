@@ -7,8 +7,8 @@ import { AccountService } from '../../services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-import { Executor } from 'src/app/models/Executor';
 import { ToastrService } from 'ngx-toastr';
+import { SelectUser } from 'src/app/models/selectUser';
 
 
 @Component({
@@ -55,9 +55,8 @@ export class DialogElement implements OnInit {
     statusId: 0
   };
   minDate: Date;
-  ExecutorEmail: '';
   errorMessage: '';
-  Executors: Executor[];
+  Executors: SelectUser[];
   isThirdStep: Boolean;
   constructor(
     private _formBuilder: FormBuilder,
@@ -84,8 +83,9 @@ export class DialogElement implements OnInit {
       ]
       )
     });
-    this._userService.get().subscribe((data) => {
+    this._accountService.getExecutorsForSelect().subscribe((data) => {
       this.Executors = data;
+      console.log(data)
     })
   }
   createTask() {

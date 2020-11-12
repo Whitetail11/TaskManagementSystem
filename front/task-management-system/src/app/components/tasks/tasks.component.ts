@@ -8,7 +8,6 @@ import { TaskService } from 'src/app/services/task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskEditingComponent } from 'src/app/components/task-editing/task-editing.component'
 import { UserService } from 'src/app/services/user.service';
-import { Executor } from 'src/app/models/Executor';
 import { StatusService } from 'src/app/services/status.service';
 
 @Component({
@@ -32,7 +31,7 @@ export class TasksComponent implements OnInit {
   taskCount: number;
   pageSize: number = 20;
   pageNumber: number = 1;
-  Executors: Executor[];
+  Executors: SelectUser[];
   filtersForm: FormGroup;
   displayFiltersMenu: boolean = false;
 
@@ -51,7 +50,7 @@ export class TasksComponent implements OnInit {
     if (!this.isExecutor) {
       this.setExecutors();
     }
-    this._userService.get().subscribe((data) => {
+    this.accountService.getExecutorsForSelect().subscribe((data) => {
       this.Executors = data;
     })
   }

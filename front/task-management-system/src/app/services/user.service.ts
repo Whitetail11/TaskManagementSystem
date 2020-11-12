@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { API_URL } from '../app-injection-token';
-import { Executor } from '../models/Executor';
+import { SelectUser } from '../models/selectUser';
 import { Task } from '../models/task';
 
 @Injectable({
@@ -14,8 +14,5 @@ export class UserService {
     private httpClient: HttpClient,
     @Inject(API_URL) private apiUrl: string
   ) {
-   }
-   get(): Observable<Executor[]> {
-     return this.httpClient.get<Executor[]>(`${this.apiUrl}account`);
    }
 }

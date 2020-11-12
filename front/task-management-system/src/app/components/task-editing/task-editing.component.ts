@@ -6,9 +6,8 @@ import { Task } from '../../models/task';
 import { AccountService } from '../../services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
-import { Executor } from 'src/app/models/Executor';
 import { ToastrService } from 'ngx-toastr';
+import { SelectUser } from 'src/app/models/selectUser';
 
 @Component({
   selector: 'app-task-editing',
@@ -27,7 +26,6 @@ export class TaskEditingComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
     private _taskService: TaskService,
-    private _userService: UserService,
     private toastrService: ToastrService
     ) {
       const currentYear = new Date().getFullYear();
@@ -43,7 +41,7 @@ export class TaskEditingComponent implements OnInit {
     minDate: Date;
     ExecutorEmail: '';
     errorMessage: '';
-    Executors: Executor[];
+    Executors: SelectUser[]
     isThirdStep: Boolean;
     task: Task = {
       id: 0,
@@ -56,7 +54,7 @@ export class TaskEditingComponent implements OnInit {
       statusId: 0
     };
   ngOnInit(): void {
-    this._userService.get().subscribe((data) => {
+    this._accountService.getExecutorsForSelect().subscribe((data) => {
       this.Executors = data;
     })
     this.firstFormGroup = this._formBuilder.group({
