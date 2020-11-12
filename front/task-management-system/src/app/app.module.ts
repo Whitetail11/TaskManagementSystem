@@ -25,7 +25,6 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { environment } from 'src/environments/environment';
-import { ProfileComponent } from './components/profile/profile.component';
 import { UserCreatingComponent } from './components/user-creating/user-creating.component';
 import { TaskCreateComponent } from './components/task-create/task-create.component';
 import { UsersComponent } from './components/users/users.component';
