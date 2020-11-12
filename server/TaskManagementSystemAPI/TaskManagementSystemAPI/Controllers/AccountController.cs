@@ -22,6 +22,19 @@ namespace TaskManagementSystemAPI.Controllers
             _accountService = accountService;
         }
 
+        [Route("{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Get(string id)
+        {
+            if (id != null && id != HttpContext.GetUserId())
+            {
+                return NotFound();
+            }
+
+            var user = await _accountService.Get(HttpContext.GetUserId());
+            return Ok(user);
+        }
+
         [Route("Register")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
@@ -63,16 +76,25 @@ namespace TaskManagementSystemAPI.Controllers
             {
                 return BadRequest(result.Errors);
             }
-            return Ok(new { access_token = result.Token });
+            return Ok();
         }
 
         [Route("SendEmailConfirmationLink")]
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> SendEmailConfirmationLink()
         {
             await _accountService.SendEmailConfirmationLink(HttpContext.GetUserId());
             return Ok();
         }
+
+        [Route("ForgotPassword")]
+        [HttpGet]
+        public async Task<IActionResult> ForgotPassword([FromQuery]ForgotPasswordDTO forgotPasswordDTO)
+        {
+            await _accountService.ForgotPassword(forgotPasswordDTO);
+            return Ok();
+        } 
 
         [Route("CreateUser")]
         [HttpPost]

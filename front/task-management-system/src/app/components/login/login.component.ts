@@ -43,6 +43,6 @@ export class LoginComponent implements OnInit {
     {
       return 'Email is required';
     }
-    return "Email is invalid";
+    return 'Email is invalid';
   }
 }

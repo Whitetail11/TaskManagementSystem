@@ -46,6 +46,7 @@ namespace BusinessLayer.Mapping
                 .ForMember(
                     destinationMember => destinationMember.FullName,
                     memberOptions => memberOptions.MapFrom(user => $"{ user.Name } { user.Surname }"));
+            CreateMap<ApplicationUser, ShowUserDTO>();
             CreateMap<Comment, ShowCommentDTO>()
                 .ForMember(
                     destinationMember => destinationMember.UserName,

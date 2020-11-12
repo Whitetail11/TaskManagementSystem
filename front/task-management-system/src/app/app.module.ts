@@ -35,6 +35,9 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { TaskComponent } from './components/task/task.component';
 import { CommentCreateComponent } from './components/comment-create/comment-create.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UserComponent } from './components/user/user.component';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 import { DialogElement } from './components/task-create/task-create.component';
 
@@ -52,7 +55,6 @@ export function tokenGetter() {
     LoginComponent,
     TasksComponent,
     SignupComponent,
-    ProfileComponent,
     UserCreatingComponent,
     TaskCreateComponent,
     DialogElement,
@@ -61,7 +63,10 @@ export function tokenGetter() {
     PaginationComponent,
     TaskComponent,
     CommentCreateComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    UserComponent,
+    ConfirmEmailComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

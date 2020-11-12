@@ -5,10 +5,12 @@ import { SignupComponent } from './components/signup/signup.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { AuthenticatedUserService as AuthenticatedUser } from './services/authenticated-user.service'
 import { UnauthenticatedUserService as UnauthenticatedUser } from './services/unauthenticated-user.service'
-import { ProfileComponent } from './components/profile/profile.component';
 import { UsersComponent } from './components/users/users.component';
 import { TaskComponent } from './components/task/task.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UserComponent } from './components/user/user.component';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -16,8 +18,10 @@ const appRoutes: Routes = [
   { path: 'signup', component: SignupComponent, canActivate: [UnauthenticatedUser]  },
   { path: 'tasks', component: TasksComponent, canActivate: [AuthenticatedUser] },
   { path: 'tasks/:id', component: TaskComponent, canActivate: [AuthenticatedUser] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedUser] },
+  { path: 'profile/:id', component: UserComponent, canActivate: [AuthenticatedUser] },
   { path: 'users', component: UsersComponent, canActivate: [AuthenticatedUser] },
+  { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '**', component: NotFoundComponent }
 ];
 

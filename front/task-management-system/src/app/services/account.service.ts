@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { Router } from '@angular/router'
 import { Token } from '../models/token'
@@ -11,6 +11,7 @@ import { Register } from '../models/register';
 import { API_URL } from '../app-injection-token';
 import { AppConstants } from '../models/appConstants';
 import { SelectUser } from '../models/selectUser';
+import { ShowUser } from '../models/showUser';
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 
@@ -25,6 +26,10 @@ export class AccountService {
     private jwtHelper: JwtHelperService,
     private router: Router
   ) { }
+
+  get(id: string): Observable<ShowUser> {
+    return this.httpClient.get<ShowUser>(`${this.apiUrl}account/${id}`)
+  }
 
   login(login: Login): Observable<Token> {
     return this.httpClient.post<Token>(`${this.apiUrl}account/login`, login)
@@ -49,7 +54,7 @@ export class AccountService {
     );
   }
 
-  createUser(createUser: CreateUser): Observable<Object> {
+  createUser(createUser: CreateUser): Observable<{}> {
     return this.httpClient.post(`${this.apiUrl}account/CreateUser`, createUser);
   }
 
@@ -92,5 +97,18 @@ export class AccountService {
 
   getExecutorsForSelect(): Observable<SelectUser[]> {
     return this.httpClient.get<SelectUser[]>(`${this.apiUrl}account/getExecutorsForSelect`);
+  }
+
+  sendEmailConfirmationLink(): Observable<{}> {
+    return this.httpClient.get(`${this.apiUrl}account/SendEmailConfirmationLink`);
+  }
+
+  confirmEmail(userId: string, code: string): Observable<string> {
+    return this.httpClient.get<string>(`${this.apiUrl}account/confirmEmail?userId=${userId}&code=${code}`);
+  }
+
+  forgotPassword(forgotPassword): Observable<{}> {
+    var params = new HttpParams({ fromObject: forgotPassword });
+    return this.httpClient.get(`${this.apiUrl}account/forgotPassword`, { params: params });
   }
 }
