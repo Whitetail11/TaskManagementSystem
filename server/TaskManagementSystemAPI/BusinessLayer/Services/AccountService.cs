@@ -202,11 +202,9 @@ namespace BusinessLayer.Services
             return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<SelectUserDTO>>(users);
         }
 
-        public async Task<bool> EmailConfirmed(string id)
+        public async Task<bool> IsEmailConfirmed(string id)
         {
-            var users = await _userManager.GetUsersInRoleAsync("Executor");
-            var res = users.FirstOrDefault(src => src.Id == id);
-            return res.EmailConfirmed;
+            return await _userManager.IsEmailConfirmedAsync(await _userManager.FindByIdAsync(id));
         }
     }
 }

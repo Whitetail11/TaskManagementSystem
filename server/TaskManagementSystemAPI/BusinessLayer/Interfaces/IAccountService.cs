@@ -15,6 +15,6 @@ namespace BusinessLayer.Interfaces
         Task SendEmailConfirmationLink(string userId);
         Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
         Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
-        Task<bool> EmailConfirmed(string id);
+        Task<bool> IsEmailConfirmed(string id);
     }
 }
