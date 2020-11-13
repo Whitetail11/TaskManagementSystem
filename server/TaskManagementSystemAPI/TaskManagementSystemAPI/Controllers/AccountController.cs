@@ -62,23 +62,6 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(new { access_token = result.Token });
         }
 
-        [Route("ConfirmEmail")]
-        [HttpGet]
-        public async Task<IActionResult> ConfirmEmail([FromQuery]string userId, [FromQuery]string code)
-        {
-            if (userId == null || code == null)
-            {
-                return BadRequest(new List<string>() { "Email address confirmation link is invalid." });
-            }
-
-            var result = await _accountService.ConfirmEmail(userId, code);
-            if (!result.Succeeded)
-            {
-                return BadRequest(result.Errors);
-            }
-            return Ok();
-        }
-
         [Route("SendEmailConfirmationLink")]
         [HttpGet]
         [Authorize]
@@ -88,11 +71,35 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
+        [Route("ConfirmEmail")]
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail([FromQuery]string userId, [FromQuery]string code)
+        {
+            var result = await _accountService.ConfirmEmail(userId, code);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok();
+        }
+
         [Route("ForgotPassword")]
         [HttpGet]
         public async Task<IActionResult> ForgotPassword([FromQuery]ForgotPasswordDTO forgotPasswordDTO)
         {
             await _accountService.ForgotPassword(forgotPasswordDTO);
+            return Ok();
+        } 
+
+        [Route("ResetPassword")]
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
+        {
+            var result = await _accountService.ResetPassword(resetPasswordDTO);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
             return Ok();
         } 
 

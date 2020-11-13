@@ -110,25 +110,6 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<AccountResult> ConfirmEmail(string userId, string code)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return new AccountResult(new List<string>() { "Email address confirmation link is invalid." });
-            }
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (result.Succeeded)
-            {
-                //var token = await GenerateJWT(user);
-                return new AccountResult(true);
-            }
-            else
-            {
-                return new AccountResult(new List<string>() { "Email address confirmation link is invalid." });
-            }
-        }
-
         public async Task SendEmailConfirmationLink(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -144,6 +125,26 @@ namespace BusinessLayer.Services
                 $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink}'>link</a>.");
         }
 
+        public async Task<AccountResult> ConfirmEmail(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return new AccountResult(new List<string>() { "Impossible to confirm email address: email address confirmation link was invalid." });
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                //var token = await GenerateJWT(user);
+                return new AccountResult(true);
+            }
+            else
+            {
+                return new AccountResult(new List<string>() { "Impossible to confirm email address: email address confirmation link was invalid." });
+            }
+        }
+
         public async Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO)
         {
             var user = await _userManager.FindByEmailAsync(forgotPasswordDTO.Email);
@@ -157,6 +158,25 @@ namespace BusinessLayer.Services
             var passwordResetLink = new Uri($"http://localhost:4200/reset-password?userId={user.Id}&code={encodedCode}");
             _notificationService.SendEmailAsync(user.Email, "Reset password",
                 $"In order to reset your password, follow the <a href='{passwordResetLink}'>link</a>.");
+        }
+
+        public async Task<AccountResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
+        {
+            var user = await _userManager.FindByIdAsync(resetPasswordDTO.UserId);
+            if (user == null)
+            {
+                return new AccountResult(new List<string>() { "Impossible to reset password. Password reset link was invalid." });
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, resetPasswordDTO.Code, resetPasswordDTO.Password);
+            if (result.Succeeded)
+            {
+                return new AccountResult(true);
+            } 
+            else
+            {
+                return new AccountResult(new List<string> { "Impossible to reset password. Password reset link was invalid." });
+            }
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)

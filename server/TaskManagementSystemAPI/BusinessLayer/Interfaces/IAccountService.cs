@@ -11,9 +11,10 @@ namespace BusinessLayer.Interfaces
         Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, bool registration = false);
         Task<AccountResult> Register(RegisterDTO registerDTO);
         Task<AccountResult> Login(LoginDTO loginDTO);
-        Task<AccountResult> ConfirmEmail(string userId, string code);
         Task SendEmailConfirmationLink(string userId);
+        Task<AccountResult> ConfirmEmail(string userId, string code);
         Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
+        Task<AccountResult> ResetPassword(ResetPasswordDTO resetPasswordDTO);
         Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
         Task<bool> IsEmailConfirmed(string id);
     }
