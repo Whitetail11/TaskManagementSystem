@@ -10,7 +10,6 @@ namespace BusinessLayer.Classes
         public string Token { get; }
         public List<string> Errors { get; }
         public ApplicationUser User { get; }
-        public IEnumerable<GetUserDTO> Users { get; }
 
         public AccountResult(bool succeeded)
         {
@@ -22,12 +21,7 @@ namespace BusinessLayer.Classes
             Succeeded = succeeded;
             User = user;
         }
-        public AccountResult(bool succeeded, IEnumerable<GetUserDTO> users)
-        {
-            Succeeded = succeeded;
-            Users = users;
-        }
-
+     
         public AccountResult(bool succeeded, string token)
         {
             Succeeded = succeeded;

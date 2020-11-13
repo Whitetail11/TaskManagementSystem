@@ -39,14 +39,6 @@ namespace BusinessLayer.Services
             return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
         }
 
-        public async Task<IEnumerable<GetUserDTO>> GetAllUsers()
-        {
-            var users = await _userManager.GetUsersInRoleAsync("Executor");
-            var res = users.Select(src =>
-                new GetUserDTO { Id = src.Id, Name = src.Name, Surname = src.Surname, Email = src.Email })
-                .ToList();
-            return res;
-        }
         public async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, bool registration = false)
         {
             var user = new ApplicationUser()
@@ -209,6 +201,7 @@ namespace BusinessLayer.Services
             var users = await GetUserForRole(role);
             return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<SelectUserDTO>>(users);
         }
+
         public async Task<bool> EmailConfirmed(string id)
         {
             var users = await _userManager.GetUsersInRoleAsync("Executor");
