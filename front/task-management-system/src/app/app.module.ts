@@ -37,6 +37,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UserComponent } from './components/user/user.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 import { DialogElement } from './components/task-create/task-create.component';
 
@@ -65,7 +66,8 @@ export function tokenGetter() {
     NotFoundComponent,
     UserComponent,
     ConfirmEmailComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -11,11 +11,11 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private accountService: AccountService) { }
-
   form: FormGroup;
   errors: string[] = [];
   resetLinkIsSent: boolean = false;
+
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({

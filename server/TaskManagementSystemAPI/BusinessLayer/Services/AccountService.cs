@@ -175,7 +175,12 @@ namespace BusinessLayer.Services
             } 
             else
             {
-                return new AccountResult(new List<string> { "Impossible to reset password. Password reset link was invalid." });
+                var errors = new List<string>();
+                foreach (var error in result.Errors)
+                {
+                    errors.Add(error.Description.Replace("Invalid token.", "Impossible to reset password. Password reset link was invalid."));
+                }
+                return new AccountResult(errors);
             }
         }
 

@@ -12,6 +12,7 @@ import { API_URL } from '../app-injection-token';
 import { AppConstants } from '../models/appConstants';
 import { SelectUser } from '../models/selectUser';
 import { ShowUser } from '../models/showUser';
+import { ResetPassword } from '../models/resetPassword';
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 
@@ -110,5 +111,9 @@ export class AccountService {
   forgotPassword(forgotPassword): Observable<{}> {
     var params = new HttpParams({ fromObject: forgotPassword });
     return this.httpClient.get(`${this.apiUrl}account/forgotPassword`, { params: params });
+  }
+
+  resetPassword(resetPassword: ResetPassword): Observable<{}> {
+    return this.httpClient.post(`${this.apiUrl}account/resetPassword`, resetPassword);
   }
 }

@@ -9,9 +9,9 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class ConfirmEmailComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private accountService: AccountService) { }
-
   result: string = "Confirming...";
+
+  constructor(private route: ActivatedRoute, private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

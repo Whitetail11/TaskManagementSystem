@@ -11,6 +11,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UserComponent } from './components/user/user.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
   { path: 'users', component: UsersComponent, canActivate: [AuthenticatedUser] },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', component: NotFoundComponent }
 ];
 
