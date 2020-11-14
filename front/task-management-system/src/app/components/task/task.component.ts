@@ -78,8 +78,16 @@ export class TaskComponent implements OnInit {
   onCommentCancel() {
     this.replyCommentId = null;
   }
+  updateTasks() {
 
+  }
+  deleteTask() {
+    
+  }
   public get userId() {
     return this.accountService.getUserId();
+  }
+  public get isExecutor(): boolean {
+    return this.accountService.isExecutor();
   }
 }

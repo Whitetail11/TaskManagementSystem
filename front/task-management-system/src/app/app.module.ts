@@ -42,6 +42,8 @@ import { DialogElement } from './components/task-create/task-create.component';
 
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { API_URL } from './app-injection-token';
+import { TaskMenuComponent } from './components/task-menu/task-menu.component';
+import { StatusMenuComponent } from './components/status-menu/status-menu.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -65,7 +67,9 @@ export function tokenGetter() {
     NotFoundComponent,
     UserComponent,
     ConfirmEmailComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    TaskMenuComponent,
+    StatusMenuComponent
   ],
   imports: [
     BrowserModule,

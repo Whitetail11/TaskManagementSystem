@@ -57,30 +57,19 @@ export class TasksComponent implements OnInit {
   onCloseDialogue() {
     console.log('dialog has been closed!');
   }
-  openEditTaskDialogue(taskId: number) : void 
-  {
-    this.taskService.getTaskById(taskId).subscribe((task) => {
-      const executor = this.Executors.find(Item => Item.id == task.executorId)
-      const dialogRef = this.dialog.open(TaskEditingComponent, {
-        data: {task, executor}
-      })
-      dialogRef.afterClosed().subscribe(result => {
-        this.setTasks();
-      });
-    })
+  updateTasks() {
+    this.setTasks();
   }
   
-  deleteTask(id: number)
+  deleteTask()
   {
-    this.taskService.deleteTask(id).subscribe(() => {
-      this.taskService.getTaskCount(this.getFilters()).subscribe((data: number) => {
-        this.taskCount = data;
-        if (this.pageCount < this.pageNumber) {
-          this.pageNumber = 1;
-        }
-        this.setTasks();
-      });
-    })
+    this.taskService.getTaskCount(this.getFilters()).subscribe((data: number) => {
+      this.taskCount = data;
+      if (this.pageCount < this.pageNumber) {
+        this.pageNumber = 1;
+      }
+      this.setTasks();
+    });
   }
 
   setTaskCount() {
