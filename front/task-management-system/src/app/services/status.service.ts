@@ -15,4 +15,7 @@ export class StatusService {
   get(): Observable<Status[]> {
     return this.httpClient.get<Status[]>(`${this.apiUrl}status`);
   }
+  changeStatus(taskId: number, statusId: number) : Observable<any> {
+    return this.httpClient.put(`${this.apiUrl}Task/ChangeStatus?taskId=${taskId}&statusId=${statusId}`, '');
+  }
 }
