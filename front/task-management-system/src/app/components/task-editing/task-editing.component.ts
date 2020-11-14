@@ -71,6 +71,11 @@ export class TaskEditingComponent implements OnInit {
       )
     });
   }
+  thirdstep()
+  {
+    if(this.secondFormGroup.valid)
+      this.isThirdStep = true;
+  }
   editTask()
   {
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
