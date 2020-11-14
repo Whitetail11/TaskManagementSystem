@@ -24,9 +24,7 @@ export class UserCreatingComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       surname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      role: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      passwordConfirm: new FormControl('', [Validators.required])
+      role: new FormControl('', [Validators.required])
     });
   }
 
@@ -52,12 +50,5 @@ export class UserCreatingComponent implements OnInit {
       return 'Email is required';
     }
     return 'Email is invalid';
-  }
-
-  getPasswordConfirmErrorMessage() {
-    if (this.form.get('passwordConfirm').hasError('required')) {
-      return 'Password confirmation is required';
-    }
-    return 'Passwords do not match'
   }
 }

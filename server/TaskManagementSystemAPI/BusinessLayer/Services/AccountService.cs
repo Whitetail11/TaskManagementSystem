@@ -39,7 +39,32 @@ namespace BusinessLayer.Services
             return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
         }
 
-        public async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, bool registration = false)
+        public async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO)
+        {
+            return await CreateUser(createUserDTO, RandomPasswordGenerator.GenerateRandomPassword());
+        }
+
+        public async Task<AccountResult> Register(RegisterDTO registerDTO)
+        {
+            var createUser = new CreateUserDTO()
+            {
+                Name = registerDTO.Name,
+                Surname = registerDTO.Surname,
+                Email = registerDTO.Email,
+                Role = ApplicationConstants.Roles.EXECUTOR
+            };
+
+            var result = await CreateUser(createUser, registerDTO.Password, true);
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+            
+            var token = await GenerateJWT(result.User);
+            return new AccountResult(true, token);
+        }
+
+        private async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO, string password, bool registration = false)
         {
             var user = new ApplicationUser()
             {
@@ -49,12 +74,19 @@ namespace BusinessLayer.Services
                 UserName = createUserDTO.Email
             };
 
-            var result = await _userManager.CreateAsync(user, createUserDTO.Password);
-            
+            var result = await _userManager.CreateAsync(user, password);
+
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, createUserDTO.Role);
+
+                if (!registration)
+                {
+                    SendPasswordToUserEmail(user.Email, password);
+                }
+
                 await SendEmailConfirmationLink(user);
+                
                 if (registration)
                 {
                     return new AccountResult(true, user);
@@ -71,28 +103,6 @@ namespace BusinessLayer.Services
 
                 return new AccountResult(errors);
             }
-        }
-
-        public async Task<AccountResult> Register(RegisterDTO registerDTO)
-        {
-            var createUser = new CreateUserDTO()
-            {
-                Name = registerDTO.Name,
-                Surname = registerDTO.Surname,
-                Email = registerDTO.Email,
-                Password = registerDTO.Password,
-                PasswordConfirm = registerDTO.Password,
-                Role = ApplicationConstants.Roles.EXECUTOR
-            };
-
-            var result = await CreateUser(createUser, true);
-            if (!result.Succeeded)
-            {
-                return result;
-            }
-            
-            var token = await GenerateJWT(result.User);
-            return new AccountResult(true, token);
         }
 
         public async Task<AccountResult> Login(LoginDTO loginDTO)
@@ -123,6 +133,15 @@ namespace BusinessLayer.Services
             var confirmationLink = new Uri($"http://localhost:4200/confirm-email?userId={user.Id}&code={encodedCode}");
             _notificationService.SendEmailAsync(user.Email, "Confirm email address",
                 $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink}'>link</a>.");
+        }
+
+        public void SendPasswordToUserEmail(string email, string password)
+        {
+            var loginPageLink = new Uri($"http://localhost:4200/login");
+            _notificationService.SendEmailAsync(email, "Task Management System Account",
+                $"Account has been created in <a href='{loginPageLink}'>Task Management System</a> for you.<br />" +
+                $"Your login: { email } <br />" +
+                $"Your password: { password }");
         }
 
         public async Task<AccountResult> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO)

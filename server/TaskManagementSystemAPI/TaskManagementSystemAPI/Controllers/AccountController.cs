@@ -40,7 +40,6 @@ namespace TaskManagementSystemAPI.Controllers
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
             var result = await _accountService.Register(registerDTO);
-
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
@@ -54,7 +53,6 @@ namespace TaskManagementSystemAPI.Controllers
         public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
             var result = await _accountService.Login(loginDTO);
-
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
@@ -109,7 +107,6 @@ namespace TaskManagementSystemAPI.Controllers
         public async Task<IActionResult> CreateUser(CreateUserDTO createUserDTO)
         {
             var result = await _accountService.CreateUser(createUserDTO);
-
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
@@ -120,7 +117,7 @@ namespace TaskManagementSystemAPI.Controllers
       
         [Route("GetExecutorsForSelect")]
         [HttpGet]
-        [Authorize(Roles = "administrator,customer")]
+        [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR + "," + ApplicationConstants.Roles.CUSTOMER)]
         public async Task<IActionResult> GetExecutorsForSelect()
         {
             var executors = await _accountService.GetUsersForSelect(ApplicationConstants.Roles.EXECUTOR);
