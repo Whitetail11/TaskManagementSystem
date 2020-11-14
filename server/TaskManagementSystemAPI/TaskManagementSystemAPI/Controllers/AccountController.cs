@@ -110,14 +110,7 @@ namespace TaskManagementSystemAPI.Controllers
             }
             return Ok();
         }
-        [HttpGet]
-        [Authorize]
-        public async Task<IEnumerable<GetUserDTO>> GetAllUsers()
-        {
-            var result = await _accountService.GetAllUsers();
-            return result;
-        }
-
+      
         [Route("GetExecutorsForSelect")]
         [HttpGet]
         [Authorize(Roles = "administrator,customer")]

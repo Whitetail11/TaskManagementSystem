@@ -7,7 +7,6 @@ import { AccountService } from 'src/app/services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskEditingComponent } from 'src/app/components/task-editing/task-editing.component'
-import { UserService } from 'src/app/services/user.service';
 import { StatusService } from 'src/app/services/status.service';
 
 @Component({
@@ -20,8 +19,7 @@ export class TasksComponent implements OnInit {
   constructor(private taskService: TaskService,
      private statusService: StatusService,
      private accountService: AccountService,
-     public dialog: MatDialog,
-     private _userService: UserService
+     public dialog: MatDialog
      ) { }
   
   pageTasks: ShowTaskShortInfo[] = [];

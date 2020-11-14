@@ -6,7 +6,6 @@ import { Task } from '../../models/task';
 import { AccountService } from '../../services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { SelectUser } from 'src/app/models/selectUser';
 
@@ -62,7 +61,6 @@ export class DialogElement implements OnInit {
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
     private _taskService: TaskService,
-    private _userService: UserService,
     private toastrService: ToastrService
   ) {
     const currentYear = new Date().getFullYear();
