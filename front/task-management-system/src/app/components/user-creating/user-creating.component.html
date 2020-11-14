@@ -24,7 +24,7 @@
                     <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrorMessage() }}</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
-                    <mat-label>Selet a role</mat-label>
+                    <mat-label>Select a role</mat-label>
                     <mat-select formControlName="role">
                         <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
                     </mat-select>

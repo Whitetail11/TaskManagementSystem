@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
   }
 
   setUser(id: string) {
-    this.accountService.get(id).subscribe((data) => {
+    this.accountService.getUserById(id).subscribe((data) => {
       this.user = data;
     }, (error) => {
       if (error.status == 404) {

@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ForgotPassword } from 'src/app/models/forgotPassword';
@@ -13,7 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   form: FormGroup;
   errors: string[] = [];
-  resetLinkIsSent: boolean = false;
+  linkIsSent: boolean = false;
 
   constructor(private accountService: AccountService) { }
 
@@ -25,11 +24,10 @@ export class ForgotPasswordComponent implements OnInit {
 
   forgotPassword() {
     this.errors = [];
-
     const forgotPassword: ForgotPassword = this.form.value;
 
     this.accountService.forgotPassword(forgotPassword).subscribe(() => {
-      this.resetLinkIsSent = true;
+      this.linkIsSent = true;
     }, (error) => {
       this.errors = error.error;
     });

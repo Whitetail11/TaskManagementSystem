@@ -33,7 +33,7 @@ namespace BusinessLayer.Services
             _notificationService = notificationService;
         }
 
-        public async Task<ShowUserDTO> Get(string id)
+        public async Task<ShowUserDTO> GetUserById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
@@ -125,15 +125,15 @@ namespace BusinessLayer.Services
                 $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink}'>link</a>.");
         }
 
-        public async Task<AccountResult> ConfirmEmail(string userId, string code)
+        public async Task<AccountResult> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(confirmEmailDTO.UserId);
             if (user == null)
             {
-                return new AccountResult(new List<string>() { "Impossible to confirm email address: email address confirmation link was invalid." });
+                return new AccountResult(new List<string>() { "Error: email address confirmation link was invalid." });
             }
 
-            var result = await _userManager.ConfirmEmailAsync(user, code);
+            var result = await _userManager.ConfirmEmailAsync(user, confirmEmailDTO.Code);
             if (result.Succeeded)
             {
                 //var token = await GenerateJWT(user);
@@ -141,7 +141,7 @@ namespace BusinessLayer.Services
             }
             else
             {
-                return new AccountResult(new List<string>() { "Impossible to confirm email address: email address confirmation link was invalid." });
+                return new AccountResult(new List<string>() { "Error: email address confirmation link was invalid." });
             }
         }
 
@@ -165,7 +165,7 @@ namespace BusinessLayer.Services
             var user = await _userManager.FindByIdAsync(resetPasswordDTO.UserId);
             if (user == null)
             {
-                return new AccountResult(new List<string>() { "Impossible to reset password. Password reset link was invalid." });
+                return new AccountResult(new List<string>() { "Error: password reset link was invalid." });
             }
 
             var result = await _userManager.ResetPasswordAsync(user, resetPasswordDTO.Code, resetPasswordDTO.Password);
@@ -178,7 +178,7 @@ namespace BusinessLayer.Services
                 var errors = new List<string>();
                 foreach (var error in result.Errors)
                 {
-                    errors.Add(error.Description.Replace("Invalid token.", "Impossible to reset password. Password reset link was invalid."));
+                    errors.Add(error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
                 }
                 return new AccountResult(errors);
             }

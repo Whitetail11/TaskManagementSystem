@@ -37,12 +37,13 @@ export class UserCreatingComponent implements OnInit {
     console.log(this.form);
     const createUser: CreateUser = this.form.value;
 
-    this.accountService.createUser(createUser).subscribe(() => 
-    { 
+    this.accountService.createUser(createUser).subscribe(() => { 
       this.dialogCloseBtn.nativeElement.click();
-      this.toastrService.success('User has been successfuly created.', '');
-    }, err => {
-      this.errors = err.error;
+      this.toastrService.success('User has been successfuly created.', '', {
+        timeOut: 5000
+      });
+    }, error => {
+      this.errors = error.error;
     });
   }
   
@@ -58,11 +59,5 @@ export class UserCreatingComponent implements OnInit {
       return 'Password confirmation is required';
     }
     return 'Passwords do not match'
-  }
-
-  showToastr() {
-    this.toastrService.success('User has been successfuly created.', '', {
-      timeOut: 5000,
-    });
   }
 }

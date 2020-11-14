@@ -22,16 +22,16 @@ namespace TaskManagementSystemAPI.Controllers
             _accountService = accountService;
         }
 
-        [Route("{id}")]
+        [Route("GetUserById/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> GetUserById(string id)
         {
             if (id != null && id != HttpContext.GetUserId())
             {
                 return NotFound();
             }
 
-            var user = await _accountService.Get(HttpContext.GetUserId());
+            var user = await _accountService.GetUserById(HttpContext.GetUserId());
             return Ok(user);
         }
 
@@ -72,10 +72,10 @@ namespace TaskManagementSystemAPI.Controllers
         }
 
         [Route("ConfirmEmail")]
-        [HttpGet]
-        public async Task<IActionResult> ConfirmEmail([FromQuery]string userId, [FromQuery]string code)
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO)
         {
-            var result = await _accountService.ConfirmEmail(userId, code);
+            var result = await _accountService.ConfirmEmail(confirmEmailDTO);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);

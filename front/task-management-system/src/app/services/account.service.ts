@@ -13,6 +13,7 @@ import { AppConstants } from '../models/appConstants';
 import { SelectUser } from '../models/selectUser';
 import { ShowUser } from '../models/showUser';
 import { ResetPassword } from '../models/resetPassword';
+import { ConfirmEmail } from '../models/confirmEmail';
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 
@@ -28,8 +29,8 @@ export class AccountService {
     private router: Router
   ) { }
 
-  get(id: string): Observable<ShowUser> {
-    return this.httpClient.get<ShowUser>(`${this.apiUrl}account/${id}`)
+  getUserById(id: string): Observable<ShowUser> {
+    return this.httpClient.get<ShowUser>(`${this.apiUrl}account/getUserById/${id}`)
   }
 
   login(login: Login): Observable<Token> {
@@ -104,8 +105,8 @@ export class AccountService {
     return this.httpClient.get(`${this.apiUrl}account/SendEmailConfirmationLink`);
   }
 
-  confirmEmail(userId: string, code: string): Observable<string> {
-    return this.httpClient.get<string>(`${this.apiUrl}account/confirmEmail?userId=${userId}&code=${code}`);
+  confirmEmail(confirmEmail: ConfirmEmail): Observable<{}> {
+    return this.httpClient.post(`${this.apiUrl}account/confirmEmail`, confirmEmail);
   }
 
   forgotPassword(forgotPassword): Observable<{}> {

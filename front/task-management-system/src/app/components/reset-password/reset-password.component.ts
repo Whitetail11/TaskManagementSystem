@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ResetPassword } from 'src/app/models/resetPassword';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -18,7 +19,8 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, 
     private accountService: AccountService,
-    private router: Router) { }
+    private router: Router,
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -43,6 +45,9 @@ export class ResetPasswordComponent implements OnInit {
     };
 
     this.accountService.resetPassword(resetPassword).subscribe(() => {
+      this.toastrService.success('Your password has been successfully reset.', '', {
+        timeOut: 5000
+      });
       this.router.navigate(['login']);
     }, (error) => {
       this.errors = error.error;
