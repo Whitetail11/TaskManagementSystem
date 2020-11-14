@@ -27,7 +27,9 @@ export class TaskComponent implements OnInit {
       this.setTask(+params['id']);
     });
   }
-
+  statusChange() {
+    console.log('status changed')
+  }
   setTask(id: number) {
     this.taskService.getForShowig(id).subscribe(
       (data: ShowTask) => {
@@ -79,10 +81,10 @@ export class TaskComponent implements OnInit {
     this.replyCommentId = null;
   }
   updateTasks() {
-
+    console.log('task updated')
   }
   deleteTask() {
-    
+    console.log('task deleted')
   }
   public get userId() {
     return this.accountService.getUserId();

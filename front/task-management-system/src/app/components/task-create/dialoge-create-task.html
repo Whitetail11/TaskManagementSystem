@@ -54,7 +54,7 @@
     </mat-step>
   </mat-horizontal-stepper>
 </div>
-<div mat-dialog-actions align="end">
+<div mat-dialog-actions align="end" class="row pb-3 pr-3">
   <button class=" btn-dark" mat-raised-button mat-dialog-close>Cancel</button>
   <button mat-raised-button class="btn-success" (click)="createTask()"[mat-dialog-close]="true" *ngIf="isThirdStep">Create</button>
 </div>

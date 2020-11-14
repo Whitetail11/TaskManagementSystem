@@ -1,5 +1,11 @@
 <title>{{ task.title }}</title>
 <div class="container-fluid">
+    <app-status-menu 
+    [statusId]="task.statusId"
+    [taskId]="task.id"
+    (onStatusChange)="statusChange()"
+    >   
+    </app-status-menu>
     <div class="row justify-content-center">
         <div class="col-10 task-header">
             <h1 class="mat-display-1 mb-1">{{ task.title }}</h1>
