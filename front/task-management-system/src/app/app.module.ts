@@ -44,6 +44,7 @@ import { DialogElement } from './components/task-create/task-create.component';
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { API_URL } from './app-injection-token';
 import { PasswordChangeComponent } from './components/password-change/password-change.component';
+import { UserUpdateComponent } from './components/user-update/user-update.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -69,7 +70,8 @@ export function tokenGetter() {
     ConfirmEmailComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    UserUpdateComponent
   ],
   imports: [
     BrowserModule,

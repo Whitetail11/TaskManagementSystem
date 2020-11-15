@@ -127,6 +127,15 @@ namespace TaskManagementSystemAPI.Controllers
             }
             return Ok();
         }
+
+        [Route("UpdateUser")]
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> UpdateUser(UpdateUserDTO updateUserDTO)
+        {
+            await _accountService.UpdateUser(HttpContext.GetUserId(), updateUserDTO);
+            return Ok();
+        }
       
         [Route("GetExecutorsForSelect")]
         [HttpGet]

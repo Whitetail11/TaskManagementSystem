@@ -71,7 +71,7 @@ namespace BusinessLayer.Services
                 Name = createUserDTO.Name,
                 Surname = createUserDTO.Surname,
                 Email = createUserDTO.Email,
-                UserName = createUserDTO.Email
+                UserName = $"{createUserDTO.Name} {createUserDTO.Surname}"
             };
 
             var result = await _userManager.CreateAsync(user, password);
@@ -107,7 +107,7 @@ namespace BusinessLayer.Services
 
         public async Task<AccountResult> Login(LoginDTO loginDTO)
         {
-            var user = await _userManager.FindByNameAsync(loginDTO.Email);
+            var user = await _userManager.FindByEmailAsync(loginDTO.Email);
 
             if (user != null && await _userManager.CheckPasswordAsync(user, loginDTO.Password))
             {
@@ -215,6 +215,22 @@ namespace BusinessLayer.Services
             else
             {
                 return new AccountResult(result.Errors.Select(error => error.Description).ToList());
+            }
+        }
+
+        public async Task UpdateUser(string userId, UpdateUserDTO updateUserDTO)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var emailChanged = user.Email != updateUserDTO.Email;
+
+            user.Name = updateUserDTO.Name;
+            user.Surname = updateUserDTO.Surname;
+            user.Email = updateUserDTO.Email;
+            await _userManager.UpdateAsync(user);
+            
+            if (user.EmailConfirmed && emailChanged)
+            {
+                await _userManager.SetEmailAsNotConfirmed(user);
             }
         }
 

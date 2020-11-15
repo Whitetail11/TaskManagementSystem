@@ -25,7 +25,11 @@ button.active-btn {
 .btn.btn-success {
     background-color: $green-color;
     color: $white-color;
-    font-weight: bold;
+}
+
+.btn.btn-primary {
+    background-color: $active-color;
+    color: $white-color;
 }
 
 .btn {

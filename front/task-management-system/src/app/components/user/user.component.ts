@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ShowUser } from 'src/app/models/showUser';
 import { AccountService } from 'src/app/services/account.service';
 import { PasswordChangeComponent } from '../password-change/password-change.component';
+import { UserUpdateComponent } from '../user-update/user-update.component';
 
 @Component({
   selector: 'app-user',
@@ -13,17 +14,19 @@ import { PasswordChangeComponent } from '../password-change/password-change.comp
 })
 export class UserComponent implements OnInit {
 
+  user: ShowUser;
+  userId: string;
+
   constructor(private route: ActivatedRoute, 
     private accountService: AccountService,
     private router: Router,
     private toastrService: ToastrService,
     private dialog: MatDialog) { }
 
-  user: ShowUser;
-
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.setUser(params['id']);
+      this.userId = params['id'];
+      this.setUser(this.userId);
     });
   }
 
@@ -45,9 +48,22 @@ export class UserComponent implements OnInit {
     });
   }
 
-  openPasswordChangeModal() {
+  openPasswordChangeDialog() {
     this.dialog.open(PasswordChangeComponent, {
       width: '500px'
+    });
+  }
+
+  openUserEditDialog() {
+    const dialogRef = this.dialog.open(UserUpdateComponent, {
+      data: {
+        user: this.user
+      },
+      width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.setUser(this.userId);
     });
   }
 }
