@@ -15,6 +15,7 @@ namespace BusinessLayer.Interfaces
         Task<AccountResult> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO);
         Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
         Task<AccountResult> ResetPassword(ResetPasswordDTO resetPasswordDTO);
+        Task<AccountResult> ChangePassword(string userId, ChangePasswordDTO changePasswordDTO);
         Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
         Task<bool> IsEmailConfirmed(string id);
     }

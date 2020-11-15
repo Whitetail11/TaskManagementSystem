@@ -19,12 +19,12 @@ namespace BusinessLayer.Services
 {
     public class AccountService: IAccountService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationUserManager _userManager;
         private readonly AuthOptions _authOptions;
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
 
-        public AccountService(UserManager<ApplicationUser> userManager, IOptions<AuthOptions> options,
+        public AccountService(ApplicationUserManager userManager, IOptions<AuthOptions> options,
             IMapper mapper, INotificationService notificationService)
         {
             _userManager = userManager;
@@ -200,6 +200,21 @@ namespace BusinessLayer.Services
                     errors.Add(error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
                 }
                 return new AccountResult(errors);
+            }
+        }
+
+        public async Task<AccountResult> ChangePassword(string userId, ChangePasswordDTO changePasswordDTO)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDTO.CurrentPassword, changePasswordDTO.NewPassword);
+            
+            if (result.Succeeded)
+            {
+                return new AccountResult(true);
+            }
+            else
+            {
+                return new AccountResult(result.Errors.Select(error => error.Description).ToList());
             }
         }
 

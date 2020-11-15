@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ShowUser } from 'src/app/models/showUser';
 import { AccountService } from 'src/app/services/account.service';
+import { PasswordChangeComponent } from '../password-change/password-change.component';
 
 @Component({
   selector: 'app-user',
@@ -14,7 +16,8 @@ export class UserComponent implements OnInit {
   constructor(private route: ActivatedRoute, 
     private accountService: AccountService,
     private router: Router,
-    private toastrService: ToastrService) { }
+    private toastrService: ToastrService,
+    private dialog: MatDialog) { }
 
   user: ShowUser;
 
@@ -39,6 +42,12 @@ export class UserComponent implements OnInit {
       this.toastrService.success('Email confirmation link has been sent.', '', {
         timeOut: 5000
       });
+    });
+  }
+
+  openPasswordChangeModal() {
+    this.dialog.open(PasswordChangeComponent, {
+      width: '500px'
     });
   }
 }

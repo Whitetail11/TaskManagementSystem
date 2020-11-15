@@ -47,6 +47,7 @@ namespace TaskManagementSystemAPI
                 options.Password.RequireNonAlphanumeric = false;
             })
                 .AddEntityFrameworkStores<ApplicationContext>()
+                .AddUserManager<ApplicationUserManager>()
                 .AddDefaultTokenProviders();
 
             var authOptionsConfiguration = Configuration.GetSection("Auth");
