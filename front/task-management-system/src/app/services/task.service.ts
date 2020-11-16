@@ -20,9 +20,6 @@ export class TaskService {
   post(task: Task): Observable<Task> {
     return this.httpClient.post<Task>(`${this.apiUrl}task`, task);
   }
-  changeStatus(taskId: number, statusId: number) : Observable<{}> {
-    return this.httpClient.put(`${this.apiUrl}Task/ChangeStatus?taskId=${taskId}&statusId=${statusId}`, []);
-  }
   deleteTask(id: number) : Observable<{}> {
     return this.httpClient.delete(`${this.apiUrl}Task?id=${id}`);
   }
