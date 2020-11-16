@@ -279,7 +279,12 @@ namespace BusinessLayer.Services
 
         public async Task<bool> IsEmailConfirmed(string email)
         {
-            return await _userManager.IsEmailConfirmedAsync(await _userManager.FindByEmailAsync(email));
+            return (await _userManager.FindByEmailAsync(email)).EmailConfirmed;
+        }
+
+        public string GetFullName(string userId)
+        {
+            return _userManager.GetFullName(userId);
         }
     }
 }

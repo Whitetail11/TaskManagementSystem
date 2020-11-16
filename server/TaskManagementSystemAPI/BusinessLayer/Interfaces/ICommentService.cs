@@ -9,7 +9,7 @@ namespace BusinessLayer.Interfaces
     {
         IEnumerable<ShowCommentDTO> GetForTask(int taskId);
         IEnumerable<ShowCommentDTO> GroupComments(IEnumerable<ShowCommentDTO> comments);
-        void Create(CreateCommentDTO createCommentDTO, string userId);
+        void Create(CreateCommentDTO createCommentDTO, string userId, string role);
         void Delete(int id, int taskId);
         bool ExistAny(int id, string userId);
     }

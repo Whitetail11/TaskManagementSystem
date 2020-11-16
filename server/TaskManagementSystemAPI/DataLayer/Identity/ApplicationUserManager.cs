@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +29,14 @@ namespace DataLayer.Identity
             _dbContext.Users.Attach(user);
             _dbContext.Entry(user).Property(user => user.EmailConfirmed).IsModified = true;
             await _dbContext.SaveChangesAsync();
+        }
+
+        public string GetFullName(string userId)
+        {
+            return _dbContext.Users.AsNoTracking()
+                .Where(user => user.Id == userId)
+                .Select(user => $"{ user.Name } { user.Surname }")
+                .FirstOrDefault();
         }
     }
 }

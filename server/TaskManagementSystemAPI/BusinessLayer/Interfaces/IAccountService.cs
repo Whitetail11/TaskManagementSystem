@@ -19,5 +19,6 @@ namespace BusinessLayer.Interfaces
         Task<AccountResult> ChangePassword(string userId, ChangePasswordDTO changePasswordDTO);
         Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
         Task<bool> IsEmailConfirmed(string email);
+        string GetFullName(string userId);
     }
 }
