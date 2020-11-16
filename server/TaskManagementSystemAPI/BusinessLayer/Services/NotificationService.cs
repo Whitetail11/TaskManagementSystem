@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BusinessLayer.Classes;
 using BusinessLayer.Interfaces;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Options;
 using MimeKit;
 
 namespace BusinessLayer.Services
 {
     public class NotificationService: INotificationService
     {
-        private string SendMail = "apriorittm@gmail.com";
-        private string SendPassword = "Qwerty2020";
+        private readonly SmtpAccount _smtpAccount;
+
+        public NotificationService(IOptions<SmtpAccount> options)
+        {
+            _smtpAccount = options.Value;
+        }
+
         public async void SendEmailAsync(string email, string subject, string message)
         {
-
             var emailMessage = new MimeMessage();
-            // Добавление информации об отправителе
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", SendMail));
-            // добавление инофрмации о получателе
+            emailMessage.From.Add(new MailboxAddress("Task Management System", _smtpAccount.Email));
             emailMessage.To.Add(new MailboxAddress("", email));
-            // тема письма
             emailMessage.Subject = subject;
-            // добавления тела месседжа
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
                 Text = message
@@ -29,13 +31,9 @@ namespace BusinessLayer.Services
 
             using (var client = new SmtpClient())
             {
-                // подключение к сервису почты
                 await client.ConnectAsync("smtp.gmail.com", 25, false);
-                // аутентификация в почте
-                await client.AuthenticateAsync(SendMail, SendPassword);
-                // отправка месседжа
+                await client.AuthenticateAsync(_smtpAccount.Email, _smtpAccount.Password);
                 await client.SendAsync(emailMessage);
-                // отключения от сервиса почты
                 await client.DisconnectAsync(true);
             }
         }

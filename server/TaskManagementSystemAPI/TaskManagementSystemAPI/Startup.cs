@@ -75,6 +75,9 @@ namespace TaskManagementSystemAPI
                     };
                 });
 
+            var smtpAccountConfiguration = Configuration.GetSection("SmtpAccount");
+            services.Configure<SmtpAccount>(smtpAccountConfiguration);
+
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers()
