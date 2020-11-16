@@ -6,18 +6,23 @@ namespace BusinessLayer.Classes
 {
     public static class RandomPasswordGenerator
     {
-        public static string GenerateRandomPassword(int passwordSize = 8)
+        public static string GenerateRandomPassword(int passwordLength = 8)
         {
+            if (passwordLength < 8)
+            {
+                throw new ArgumentException("Password length must be greater than or equal to 8.");
+            }
+
             string[] charSets = new string[] { 
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                 "abcdefghijklmnopqursuvwxyz", 
                 "1234567890" 
             };
 
-            char[] password = new char[passwordSize];
+            char[] password = new char[passwordLength];
             Random random = new Random();
 
-            for (var i = 0; i < passwordSize; i++)
+            for (var i = 0; i < passwordLength; i++)
             {
                 if (i < charSets.Length)
                 {
