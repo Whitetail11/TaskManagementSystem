@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using BusinessLayer.Classes;
 using BusinessLayer.Interfaces;
 using MailKit.Net.Smtp;
@@ -18,7 +19,7 @@ namespace BusinessLayer.Services
             _smtpAccount = options.Value;
         }
 
-        public async void SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("Task Management System", _smtpAccount.Email));

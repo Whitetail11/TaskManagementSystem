@@ -18,6 +18,6 @@ namespace BusinessLayer.Interfaces
         Task<AccountResult> ResetPassword(ResetPasswordDTO resetPasswordDTO);
         Task<AccountResult> ChangePassword(string userId, ChangePasswordDTO changePasswordDTO);
         Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
-        Task<bool> IsEmailConfirmed(string id);
+        Task<bool> IsEmailConfirmed(string email);
     }
 }

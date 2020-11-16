@@ -8,5 +8,6 @@ namespace BusinessLayer.Interfaces
     public interface IStatusService
     {
         IEnumerable<StatusDTO> GetAll();
+        string GetName(int id);
     }
 }

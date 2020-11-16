@@ -10,8 +10,6 @@ namespace BusinessLayer.Services
         IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role);
         void CreateTask(TaskDTO task);
         void Delete(int id);
-        string FindExecutorIdByEmail(string email);
-        string FindExecutorEmailById(string id);
         void Update(TaskDTO task);
         void ChangeStatus(int taskId, int statusId);
         TaskDTO GetTaskById(int id);
@@ -19,5 +17,8 @@ namespace BusinessLayer.Services
         int GetPageCount(int pageSize, TaskFilterDTO taskPageDTO, string userId, string role);
         ShowTaskDTO GetForShowing(int id);
         bool HasUserAccess(int taskId, string userId);
+        string GetExecutorEmail(int taskId);
+        string GetCreatorEmail(int taskId);
+        string GetTitle(int taskId);
     }
 }

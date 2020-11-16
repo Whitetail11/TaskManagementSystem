@@ -63,12 +63,6 @@ namespace TaskManagementSystemAPI.Controllers
         public IActionResult CreateTask(TaskDTO task)
         {
             _tasksService.CreateTask(task);
-            if (_accountService.IsEmailConfirmed(task.ExecutorId).Result)
-            {
-                var executorEmail = _tasksService.FindExecutorEmailById(task.ExecutorId);
-                _notificationService.SendEmailAsync(executorEmail, "New Task", $"{task.Title} - {task.Description} \n {task.Deadline}");
-            }
-
             return Ok();
         }
 
