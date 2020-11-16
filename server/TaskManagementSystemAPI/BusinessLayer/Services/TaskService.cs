@@ -29,7 +29,7 @@ namespace BusinessLayer.Services
             _statusService = statusService;
             _accountService = accountService;
             _mapper = mapper;
-            _clientAppUrl = configuration.GetValue<string>("ClienAppUrl");
+            _clientAppUrl = configuration.GetValue<string>("ClientAppUrl");
         }
 
         public IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)

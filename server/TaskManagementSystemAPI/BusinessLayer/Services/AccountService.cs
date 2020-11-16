@@ -5,6 +5,7 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -23,14 +24,16 @@ namespace BusinessLayer.Services
         private readonly AuthOptions _authOptions;
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
+        private readonly string _clientAppUrl;
 
-        public AccountService(ApplicationUserManager userManager, IOptions<AuthOptions> options,
-            IMapper mapper, INotificationService notificationService)
+        public AccountService(ApplicationUserManager userManager, IOptions<AuthOptions> options, IMapper mapper,
+            INotificationService notificationService, IConfiguration configuration)
         {
             _userManager = userManager;
             _mapper = mapper;
             _authOptions = options.Value;
             _notificationService = notificationService;
+            _clientAppUrl = configuration.GetValue<string>("ClientAppUrl");
         }
 
         public async Task<ShowUserDTO> GetUserById(string id)
@@ -130,14 +133,14 @@ namespace BusinessLayer.Services
         {
             var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedCode = HttpUtility.UrlEncode(confirmationCode);
-            var confirmationLink = new Uri($"http://localhost:4200/confirm-email?userId={user.Id}&code={encodedCode}");
+            var confirmationLink = new Uri($"{_clientAppUrl}confirm-email?userId={user.Id}&code={encodedCode}");
             _notificationService.SendEmailAsync(user.Email, "Confirm email address",
                 $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink}'>link</a>.");
         }
 
         public void SendPasswordToUserEmail(string email, string password)
         {
-            var loginPageLink = new Uri($"http://localhost:4200/login");
+            var loginPageLink = new Uri($"{_clientAppUrl}login");
             _notificationService.SendEmailAsync(email, "Task Management System Account",
                 $"Account has been created in <a href='{loginPageLink}'>Task Management System</a> for you.<br />" +
                 $"Your login: { email } <br />" +
@@ -174,7 +177,7 @@ namespace BusinessLayer.Services
 
             var resetCode = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedCode = HttpUtility.UrlEncode(resetCode);
-            var passwordResetLink = new Uri($"http://localhost:4200/reset-password?userId={user.Id}&code={encodedCode}");
+            var passwordResetLink = new Uri($"{_clientAppUrl}reset-password?userId={user.Id}&code={encodedCode}");
             _notificationService.SendEmailAsync(user.Email, "Reset password",
                 $"In order to reset your password, follow the <a href='{passwordResetLink}'>link</a>.");
         }
