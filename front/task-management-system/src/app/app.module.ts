@@ -73,7 +73,7 @@ export function tokenGetter() {
     ForgotPasswordComponent,
     ResetPasswordComponent,
     PasswordChangeComponent,
-    UserUpdateComponent
+    UserUpdateComponent,
     TaskMenuComponent,
     StatusMenuComponent
   ],
