@@ -74,7 +74,7 @@ namespace BusinessLayer.Services
                 Name = createUserDTO.Name,
                 Surname = createUserDTO.Surname,
                 Email = createUserDTO.Email,
-                UserName = $"{createUserDTO.Name} {createUserDTO.Surname}"
+                UserName = createUserDTO.Email
             };
 
             var result = await _userManager.CreateAsync(user, password);
@@ -98,12 +98,7 @@ namespace BusinessLayer.Services
             }
             else
             {
-                var errors = new List<string>();
-                foreach (var error in result.Errors)
-                {
-                    errors.Add(error.Description.Replace("User name", "Email"));
-                }
-
+                var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
                 return new AccountResult(errors);
             }
         }
@@ -197,11 +192,7 @@ namespace BusinessLayer.Services
             } 
             else
             {
-                var errors = new List<string>();
-                foreach (var error in result.Errors)
-                {
-                    errors.Add(error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
-                }
+                var errors = result.Errors.Select(error => error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
                 return new AccountResult(errors);
             }
         }
@@ -221,7 +212,7 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task UpdateUser(string userId, UpdateUserDTO updateUserDTO)
+        public async Task<AccountResult> UpdateUser(string userId, UpdateUserDTO updateUserDTO)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var emailChanged = user.Email != updateUserDTO.Email;
@@ -229,12 +220,23 @@ namespace BusinessLayer.Services
             user.Name = updateUserDTO.Name;
             user.Surname = updateUserDTO.Surname;
             user.Email = updateUserDTO.Email;
-            await _userManager.UpdateAsync(user);
+            user.UserName = updateUserDTO.Email;
+            var result = await _userManager.UpdateAsync(user);
             
-            if (user.EmailConfirmed && emailChanged)
+            if (result.Succeeded)
             {
-                await _userManager.SetEmailAsNotConfirmed(user);
+                if (user.EmailConfirmed && emailChanged)
+                {
+                    await _userManager.SetEmailAsNotConfirmed(user);
+                }
+                return new AccountResult(true);
             }
+            else
+            {
+                var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
+                return new AccountResult(errors);
+            }
+
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)

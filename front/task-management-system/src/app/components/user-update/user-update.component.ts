@@ -13,6 +13,7 @@ import { AccountService } from 'src/app/services/account.service';
 export class UserUpdateComponent implements OnInit {
 
   form: FormGroup;
+  errors: string[] = [];
 
   constructor(private accountService: AccountService,
     private toastrService: ToastrService,
@@ -33,7 +34,9 @@ export class UserUpdateComponent implements OnInit {
       this.dialog.closeAll();
       this.toastrService.success('Your profile has been successfully updated.', '', {
         timeOut: 5000
-      })
+      });
+    }, error => {
+      this.errors = error.error;
     });
   }
 

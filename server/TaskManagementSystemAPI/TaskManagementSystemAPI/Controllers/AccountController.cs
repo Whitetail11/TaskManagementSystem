@@ -123,7 +123,6 @@ namespace TaskManagementSystemAPI.Controllers
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
-
             }
             return Ok();
         }
@@ -133,7 +132,11 @@ namespace TaskManagementSystemAPI.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateUser(UpdateUserDTO updateUserDTO)
         {
-            await _accountService.UpdateUser(HttpContext.GetUserId(), updateUserDTO);
+            var result = await _accountService.UpdateUser(HttpContext.GetUserId(), updateUserDTO);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
             return Ok();
         }
       

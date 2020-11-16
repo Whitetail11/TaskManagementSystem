@@ -9,7 +9,7 @@ namespace BusinessLayer.Interfaces
     {
         Task<ShowUserDTO> GetUserById(string id);
         Task<AccountResult> CreateUser(CreateUserDTO createUserDTO);
-        Task UpdateUser(string userId, UpdateUserDTO updateUserDTO);
+        Task<AccountResult> UpdateUser(string userId, UpdateUserDTO updateUserDTO);
         Task<AccountResult> Register(RegisterDTO registerDTO);
         Task<AccountResult> Login(LoginDTO loginDTO);
         Task SendEmailConfirmationLink(string userId);
