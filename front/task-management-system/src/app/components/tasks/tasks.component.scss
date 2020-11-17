@@ -19,6 +19,10 @@ select.form-control {
     border-radius: 5px 5px 0 0;
 }
 
+.task-body {
+    word-break: break-all;
+}
+
 .search-input {
     height: 45px;
     width: 300px;
