@@ -5,7 +5,7 @@
             <div class="row">
                 <h1 class="mat-display-1 mb-0 mr-2">Tasks</h1>
                 <div class="task-creating-button" *ngIf="!isExecutor">
-                    <app-task-create (onCloseDialogue)="onTaskCreate()"></app-task-create>
+                    <app-task-create (onCloseDialogue)="updatePage()"></app-task-create>
                 </div>
             </div>
         </div>
@@ -13,64 +13,7 @@
     <div class="filters-content mt-3">
         <div class="row justify-content-center">
             <div class="col-10">
-                <form [formGroup]="filtersForm">
-                    <div class="row">
-                        <div class="dropdown col-8 p-0">
-                            <button class="menu-toggle filters-menu-toggle" 
-                                (click)="toggleFiltersMenu()"
-                                [ngClass]="{ 'active-btn': displayFiltersMenu }">
-                                Filters
-                                <span class="badge badge-active" 
-                                    *ngIf="filterApplied && !displayFiltersMenu">
-                                    {{ appliedFilterCount }}</span>
-                            </button>
-                            <div class="col-5 ml-2 dropdown-menu dropdown-menu-left filters-menu-content"
-                                aria-labelledby="filters-menu"
-                                *ngIf="displayFiltersMenu">
-                                <div class="row justify-content-center pt-3">
-                                    <button type="button" 
-                                        class="close filters-menu-close"
-                                        (click)="toggleFiltersMenu()">
-                                        <span>&times;</span>
-                                    </button>
-                                    <mat-form-field appearance="outline" style="width: 75%;">
-                                        <mat-label>Status</mat-label>
-                                        <mat-select (selectionChange)="onFilterApply()" 
-                                            multiple
-                                            formControlName="statusIds">
-                                          <mat-option *ngFor="let status of statuses" [value]="status.id">
-                                              {{ status.name }}
-                                          </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                    <mat-form-field appearance="outline" style="width: 75%;">
-                                        <mat-label>Due date until</mat-label>
-                                        <input matInput [matDatepicker]="picker"
-                                            (dateInput)="onFilterApply()"
-                                            formControlName="deadline">
-                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
-                                    </mat-form-field>
-                                    <mat-form-field appearance="outline" style="width: 75%;" *ngIf="!isExecutor">
-                                        <mat-label>Executor</mat-label>
-                                        <mat-select (selectionChange)="onFilterApply()" formControlName="executorId">
-                                            <mat-option [value]="null">Any</mat-option>
-                                            <mat-option *ngFor="let executor of executors" [value]="executor.id">
-                                                {{ executor.fullName }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="text" 
-                            class="form-control search-input ml-auto" 
-                            formControlName="title">
-                        <button type="button"
-                            class="btn btn-success search-btn" 
-                            (click)="onFilterApply()">Search</button>
-                    </div>
-                </form>
+                <app-task-filter (filterApply)="onFilterApply($event)"></app-task-filter>
             </div>
         </div>
     </div>
@@ -83,12 +26,12 @@
                         <p class="mb-0 fs-17">{{ task.executorName }}</p>
                     </a>
                     <app-task-menu 
-                     class="context-menu-content"
-                     *ngIf="!isExecutor"
-                     [taskId]="task.id"
-                     (onCloseDialogue)="onTaskUpdate()"
-                     (onDeleteTask)="onTaskDelete()"
-                     ></app-task-menu>
+                        class="context-menu-content"
+                        *ngIf="!isExecutor"
+                        [taskId]="task.id"
+                        (onCloseDialogue)="onTaskUpdate()"
+                        (onDeleteTask)="onTaskDelete()"
+                        ></app-task-menu>
                 </div>
                 <div class="task-body px-3 py-2">
                     <a [routerLink]="[task.id]">
