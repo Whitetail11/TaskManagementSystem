@@ -29,7 +29,6 @@ export class TasksComponent implements OnInit {
   taskCount: number;
   pageSize: number = 20;
   pageNumber: number = 1;
-  Executors: SelectUser[];
   filtersForm: FormGroup;
   displayFiltersMenu: boolean = false;
 
@@ -48,18 +47,18 @@ export class TasksComponent implements OnInit {
     if (!this.isExecutor) {
       this.setExecutors();
     }
-    this.accountService.getExecutorsForSelect().subscribe((data) => {
-      this.Executors = data;
-    })
   }
-  onCloseDialogue() {
-    console.log('dialog has been closed!');
+
+  onTaskCreate() {
+    this.setTaskCount();
+    this.setTasks();
   }
-  updateTasks() {
+
+  onTaskUpdate() {
     this.setTasks();
   }
   
-  deleteTask()
+  onTaskDelete()
   {
     this.taskService.getTaskCount(this.getFilters()).subscribe((data: number) => {
       this.taskCount = data;

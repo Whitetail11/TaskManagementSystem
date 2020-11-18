@@ -5,7 +5,7 @@
             <div class="row">
                 <h1 class="mat-display-1 mb-0 mr-2">Tasks</h1>
                 <div class="task-creating-button" *ngIf="!isExecutor">
-                    <app-task-create (onCloseDialogue)="onCloseDialogue()"></app-task-create>
+                    <app-task-create (onCloseDialogue)="onTaskCreate()"></app-task-create>
                 </div>
             </div>
         </div>
@@ -86,22 +86,9 @@
                      class="context-menu-content"
                      *ngIf="!isExecutor"
                      [taskId]="task.id"
-                     (onCloseDialogue)="updateTasks()"
-                     (onDeleteTask)="deleteTask()"
+                     (onCloseDialogue)="onTaskUpdate()"
+                     (onDeleteTask)="onTaskDelete()"
                      ></app-task-menu>
-                    <!--<div class="context-menu-content" *ngIf="!isExecutor">
-                        <button class="menu-toggle context-menu-toggle" 
-                            id="context-menu-dropdown" 
-                            data-toggle="dropdown" 
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right mt-1"
-                            aria-labelledby="context-menu-dropdown">
-                            <button class="dropdown-item" (click)="openEditTaskDialogue(task.id)">Edit</button>
-                            <button class="dropdown-item" (click)="deleteTask(task.id)">Delete</button>
-                        </div>
-                    </div>-->
                 </div>
                 <div class="task-body px-3 py-2">
                     <a [routerLink]="[task.id]">
