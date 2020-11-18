@@ -34,11 +34,11 @@ namespace TaskManagementSystemAPI
                                   builder =>
                                   {
                                       builder.WithOrigins("http://localhost:4200")
-                                        .AllowAnyOrigin()
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
                                   });
             });
+
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
@@ -78,13 +78,13 @@ namespace TaskManagementSystemAPI
             var smtpAccountConfiguration = Configuration.GetSection("SmtpAccount");
             services.Configure<SmtpAccount>(smtpAccountConfiguration);
 
-            services.AddControllers();
-            services.AddAutoMapper(typeof(Startup));
             services.AddControllers()
-                .ConfigureApiBehaviorOptions(options => 
+                .ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressModelStateInvalidFilter = true;
                 });
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {
@@ -118,11 +118,6 @@ namespace TaskManagementSystemAPI
                       new List<string>()
                     }
                 });
-            });
-
-            services.AddDbContext<ApplicationContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddAppDependencies();
