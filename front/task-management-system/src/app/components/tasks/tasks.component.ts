@@ -13,11 +13,11 @@ export class TasksComponent implements OnInit {
 
   pageTasks: ShowTaskShortInfo[] = [];
   taskPage = { pageSize: 20, pageNumber: 1 };
-  taskCount: number;
+  taskCount: number = 0;
   pageSize: number = 20;
   pageNumber: number = 1;
   displayFiltersMenu: boolean = false;
-  filters: any;
+  filters: any;  
 
   constructor(private taskService: TaskService,
      private accountService: AccountService,
@@ -35,17 +35,6 @@ export class TasksComponent implements OnInit {
 
   onTaskUpdate() {
     this.setTasks();
-  }
-  
-  onTaskDelete()
-  {
-    this.taskService.getTaskCount(this.filters).subscribe((data: number) => {
-      this.taskCount = data;
-      if (this.pageCount < this.pageNumber) {
-        this.pageNumber = 1;
-      }
-      this.setTasks();
-    });
   }
 
   setTaskCount() {
@@ -78,10 +67,6 @@ export class TasksComponent implements OnInit {
     this.taskPage.pageNumber = 1;
     this.setTaskCount();
     this.setTasks();
-  }
-
-  public get pageCount() {
-    return (this.taskCount + this.pageSize - 1) / this.pageSize;
   }
 
   public get isExecutor(): boolean {
