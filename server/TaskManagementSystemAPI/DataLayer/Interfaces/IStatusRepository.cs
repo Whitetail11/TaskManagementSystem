@@ -8,5 +8,6 @@ namespace DataLayer.Interfaces
 {
     public interface IStatusRepository: IRepository<Status>
     {
+        string GetName(int id);
     }
 }

@@ -1,8 +1,24 @@
 <title>{{ task.title }}</title>
 <div class="container-fluid">
+    <app-status-menu 
+    [statusId]="task.statusId"
+    [taskId]="task.id"
+    (onStatusChange)="statusChange()"
+    >   
+    </app-status-menu>
     <div class="row justify-content-center">
         <div class="col-10 task-header">
             <h1 class="mat-display-1 mb-1">{{ task.title }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-0">
+                <app-task-menu 
+                *ngIf="!isExecutor"
+                [taskId]="task.id"
+                (onCloseDialogue)="updateTasks()"
+                (onDeleteTask)="deleteTask()"
+                ></app-task-menu>
+            </div>
         </div>
         <div class="col-10 task-body fs-17">
             <p>{{ task.description }}</p>
@@ -11,7 +27,7 @@
             <p><b>Assignee: </b>{{ task.executorName }}</p>
         </div>
         <div class="col-10 comments-content fs-17">
-            <app-comment-create
+            <app-comment-create 
                 [taskId]="task.id"
                 (commentCreate)="onCommentCreate()"></app-comment-create>
             <div class="row mb-3" *ngFor="let comment of task.comments">

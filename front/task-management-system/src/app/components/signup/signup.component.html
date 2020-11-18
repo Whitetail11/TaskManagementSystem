@@ -8,32 +8,32 @@
             <div class="row justify-content-center">
                 <div class="col-8" style="margin-top: 8vh;">
                     <div class="col-12 text-center">
-                        <p style="font-size: 30px; font-weight:500;">Sign Up</p>
+                        <p class="fs-30 fw-500">Sign Up</p>
                     </div>
                     <form [formGroup]="form" (ngSubmit)="signup()">
                         <mat-form-field appearance="outline">
                             <mat-label>Name</mat-label>
-                            <input matInput type="text" style="width: 100%;" formControlName="name" required> 
+                            <input matInput type="text" formControlName="name" required> 
                             <mat-error *ngIf="form.get('name').invalid">Name is required</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>Surname</mat-label>
-                            <input matInput type="text" type="text" formControlName="surname" required>  
+                            <input matInput type="text" formControlName="surname" required>  
                             <mat-error *ngIf="form.get('password').invalid">Surname is required</mat-error>
                         </mat-form-field> 
                         <mat-form-field appearance="outline">
                             <mat-label>Email</mat-label>
-                            <input matInput type="text" style="width: 100%;" formControlName="email" required> 
+                            <input matInput type="text" formControlName="email" required> 
                             <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrorMessage() }}</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>Password</mat-label>
-                            <input matInput type="text" type="password" formControlName="password" required>  
+                            <input matInput type="password" formControlName="password" required>  
                             <mat-error *ngIf="form.get('password').invalid">Password is required</mat-error>
                         </mat-form-field> 
                         <mat-form-field appearance="outline">
                             <mat-label>Confirm password</mat-label>
-                            <input matInput type="text" 
+                            <input matInput
                                 type="password" 
                                 formControlName="passwordConfirm"
                                 [pattern]="form.get('password').value" 

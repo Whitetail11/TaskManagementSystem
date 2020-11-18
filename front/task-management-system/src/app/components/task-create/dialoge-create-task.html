@@ -13,7 +13,7 @@
           <textarea matInput formControlName="secondCtrl" required></textarea>
         </mat-form-field>
         <div>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-raised-button color="primary" matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
@@ -36,21 +36,25 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click)="isThirdStep=true">Next</button>
+        <div class="row">
+          <div class="col">
+            <button class=" btn-dark " mat-raised-button matStepperPrevious>Back</button>
+          </div>
+          <div class="col-10">
+            <button mat-raised-button color="primary" matStepperNext (click)="thirdstep()">Next</button>
+          </div>
         </div>
       </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <div>
-        <button mat-button matStepperPrevious (click)="isThirdStep=false">Back</button>
+        <button mat-raised-button  class=" btn-dark " matStepperPrevious (click)="isThirdStep=false">Back</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
-<div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="createTask()"[mat-dialog-close]="true" *ngIf="isThirdStep">Create</button>
+<div mat-dialog-actions align="end" class="row pb-3 pr-3">
+  <button class=" btn-dark" mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="btn-success" (click)="createTask()"[mat-dialog-close]="true" *ngIf="isThirdStep">Create</button>
 </div>

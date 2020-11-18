@@ -9,13 +9,16 @@ namespace BusinessLayer.Interfaces
     {
         Task<ShowUserDTO> GetUserById(string id);
         Task<AccountResult> CreateUser(CreateUserDTO createUserDTO);
+        Task<AccountResult> UpdateUser(string userId, UpdateUserDTO updateUserDTO);
         Task<AccountResult> Register(RegisterDTO registerDTO);
         Task<AccountResult> Login(LoginDTO loginDTO);
         Task SendEmailConfirmationLink(string userId);
         Task<AccountResult> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO);
         Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
         Task<AccountResult> ResetPassword(ResetPasswordDTO resetPasswordDTO);
+        Task<AccountResult> ChangePassword(string userId, ChangePasswordDTO changePasswordDTO);
         Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role);
-        Task<bool> IsEmailConfirmed(string id);
+        Task<bool> IsEmailConfirmed(string email);
+        string GetFullName(string userId);
     }
 }

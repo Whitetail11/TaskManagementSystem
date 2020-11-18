@@ -4,7 +4,7 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Entities;
 using DataLayer.Repositories;
-using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace BusinessLayer.Services
@@ -13,13 +13,23 @@ namespace BusinessLayer.Services
     {
         private readonly ITaskRepository _taskRepository;
         private readonly ICommentService _commentService;
+        private readonly INotificationService _notificationService;
+        private readonly IStatusService _statusService;
+        private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
+        private readonly string _clientAppUrl;
 
-        public TaskService(ITaskRepository taskRepository, ICommentService commentService, IMapper mapper)
+        public TaskService(ITaskRepository taskRepository, ICommentService commentService, IMapper mapper,
+            INotificationService notificationService, IConfiguration configuration, IStatusService statusService,
+            IAccountService accountService)
         {
             _taskRepository = taskRepository;
             _commentService = commentService;
+            _notificationService = notificationService;
+            _statusService = statusService;
+            _accountService = accountService;
             _mapper = mapper;
+            _clientAppUrl = configuration.GetValue<string>("ClientAppUrl");
         }
 
         public IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
@@ -54,10 +64,12 @@ namespace BusinessLayer.Services
             taskdto.StatusId = 1;
             Task task = _mapper.Map<TaskDTO, Task>(taskdto);
             _taskRepository.Create(task);
+            SendEmailAfterCreating(task);
         }
         public void ChangeStatus(int taskId, int statusId)
         {
             _taskRepository.ChangeStatus(taskId, statusId);
+            SendEmailAfterStatusChanging(taskId, statusId);
         }
 
         public void Delete(int id)
@@ -65,22 +77,12 @@ namespace BusinessLayer.Services
             _taskRepository.Delete(id);
         }
 
-        public string FindExecutorIdByEmail(string email)
-        {
-            var res = _taskRepository.FindExetutorIdByEmail(email);
-            return res;
-        }
-        public string FindExecutorEmailById(string id)
-        {
-            var res = _taskRepository.FindExecutorEmailById(id);
-            return res;
-        }
-
         public void Update(TaskDTO task)
         {
             task.StatusId = 1;
             var res = _mapper.Map<TaskDTO, Task>(task);
             _taskRepository.Update(res);
+            SendEmailAfterUpdating(res);
         }
 
         public int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role)
@@ -105,6 +107,56 @@ namespace BusinessLayer.Services
         public bool HasUserAccess(int taskId, string userId)
         {
             return _taskRepository.HasUserAccess(taskId, userId);
+        }
+
+        public string GetExecutorEmail(int taskId)
+        {
+            return _taskRepository.GetExecutorEmail(taskId);
+        }
+
+        public string GetCreatorEmail(int taskId)
+        {
+            return _taskRepository.GetCreatorEmail(taskId);
+        }
+
+        public string GetTitle(int taskId)
+        {
+            return _taskRepository.GetTitle(taskId);
+        }
+
+        private async System.Threading.Tasks.Task SendEmailAfterCreating(DataLayer.Entities.Task task)
+        {
+            var executorEmail = GetExecutorEmail(task.Id);
+            if (await _accountService.IsEmailConfirmed(executorEmail))
+            {
+                var message = $"Task <b>{ task.Title }</b> has been assigned to you. " +
+                $"To view the task follow the <a href='{ _clientAppUrl }tasks/{ task.Id }'>link</a>.";
+                await _notificationService.SendEmailAsync(executorEmail, task.Title, message);
+            }
+        }
+
+        private async System.Threading.Tasks.Task SendEmailAfterUpdating(DataLayer.Entities.Task task)
+        {
+            var executorEmail = GetExecutorEmail(task.Id);
+            if (await _accountService.IsEmailConfirmed(executorEmail))
+            {
+                var message = $"Task <b>{ task.Title }</b> has been updated. " +
+                $"To view the task follow the <a href='{ _clientAppUrl }tasks/{ task.Id }'>link</a>.";
+                await _notificationService.SendEmailAsync(executorEmail, task.Title, message);
+            }
+        }
+
+        private async System.Threading.Tasks.Task SendEmailAfterStatusChanging(int taskId, int statusId)
+        {
+            var creatorEmail = GetCreatorEmail(taskId);
+            if (await _accountService.IsEmailConfirmed(creatorEmail))
+            {
+                var taskTitle = GetTitle(taskId);
+                var statusName = _statusService.GetName(statusId);
+                var message = $"Status of task <b>{ taskTitle }</b> has been changed to <b>{statusName}</b>. " +
+                    $"To view the task follow the <a href='{ _clientAppUrl }tasks/{ taskId }'>link</a>.";
+                await _notificationService.SendEmailAsync(creatorEmail, taskTitle, message);
+            }
         }
     }
 }

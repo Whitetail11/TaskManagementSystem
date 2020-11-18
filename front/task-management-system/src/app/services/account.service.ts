@@ -14,6 +14,8 @@ import { SelectUser } from '../models/selectUser';
 import { ShowUser } from '../models/showUser';
 import { ResetPassword } from '../models/resetPassword';
 import { ConfirmEmail } from '../models/confirmEmail';
+import { ChangePassword } from '../models/changePassword';
+import { UpdateUser } from '../models/updateUser';
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 
@@ -58,6 +60,10 @@ export class AccountService {
 
   createUser(createUser: CreateUser): Observable<{}> {
     return this.httpClient.post(`${this.apiUrl}account/CreateUser`, createUser);
+  }
+
+  updateUser(updateUser: UpdateUser): Observable<{}> {
+    return this.httpClient.put(`${this.apiUrl}account/UpdateUser`, updateUser);
   }
 
   isAuthenticated(): boolean {
@@ -116,5 +122,9 @@ export class AccountService {
 
   resetPassword(resetPassword: ResetPassword): Observable<{}> {
     return this.httpClient.post(`${this.apiUrl}account/resetPassword`, resetPassword);
+  }
+
+  changePassword(changePassword: ChangePassword): Observable<{}> {
+    return this.httpClient.post(`${this.apiUrl}account/changePassword`, changePassword);
   }
 }

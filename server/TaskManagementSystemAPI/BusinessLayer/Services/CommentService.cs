@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
+using DataLayer.Classes;
 using DataLayer.Entities;
 using DataLayer.Interfaces;
+using DataLayer.Repositories;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,21 +15,31 @@ namespace BusinessLayer.Services
 {
     public class CommentService: ICommentService
     {
-        private readonly IMapper _mapper;
         private readonly ICommentRepository _commentRepository;
+        private readonly ITaskRepository _taskRepository;
+        private readonly IAccountService _accountService;
+        private readonly INotificationService _notificationService;
+        private readonly IMapper _mapper;
+        private readonly string _clientAppUrl;
 
-        public CommentService(ICommentRepository commentRepository, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository, ITaskRepository taskRepository, IAccountService accountService,
+            INotificationService notificationService, IMapper mapper, IConfiguration configuration)
         {
             _commentRepository = commentRepository;
+            _taskRepository = taskRepository;
+            _accountService = accountService;
+            _notificationService = notificationService;
             _mapper = mapper;
+            _clientAppUrl = configuration.GetValue<string>("ClientAppUrl");
         }
 
-        public void Create(CreateCommentDTO createCommentDTO, string userId)
+        public void Create(CreateCommentDTO createCommentDTO, string userId, string role)
         {
             var comment = _mapper.Map<CreateCommentDTO, Comment>(createCommentDTO);
             comment.Date = DateTime.Now;
             comment.UserId = userId;
             _commentRepository.Create(comment);
+            SendAfterCommentCreating(createCommentDTO.TaskId, userId, role);
         }
 
         public IEnumerable<ShowCommentDTO> GetForTask(int taskId)
@@ -111,5 +124,27 @@ namespace BusinessLayer.Services
 
             return allChildIds;
         }
+
+        private async System.Threading.Tasks.Task SendAfterCommentCreating(int taskId, string userId, string role)
+        {
+            var email = string.Empty;
+            if (role == ApplicationConstants.Roles.EXECUTOR)
+            {
+                email = _taskRepository.GetCreatorEmail(taskId);
+            }
+            else
+            {
+                email = _taskRepository.GetExecutorEmail(taskId);
+            }
+
+            if (await _accountService.IsEmailConfirmed(email))
+            {
+                var userFullName = _accountService.GetFullName(userId);
+                var taskTitle = _taskRepository.GetTitle(taskId);
+                var message = $"<b>{ userFullName }</b> has added comment to task <b>{ taskTitle }</b>. " +
+                    $"To view the task and comments follow the <a href='{ _clientAppUrl }tasks/{ taskId }'>link</a>.";
+                await _notificationService.SendEmailAsync(email, taskTitle, message);
+            }
+        } 
     }
 }

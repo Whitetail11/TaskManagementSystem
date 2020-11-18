@@ -85,6 +85,11 @@ export class DialogElement implements OnInit {
       this.Executors = data;
     })
   }
+  thirdstep()
+  {
+    if(this.secondFormGroup.valid)
+      this.isThirdStep = true;
+  }
   createTask() {
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
       this.task.title = this.firstFormGroup.value.firstCtrl;

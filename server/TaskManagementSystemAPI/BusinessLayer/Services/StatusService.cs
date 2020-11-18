@@ -25,5 +25,10 @@ namespace BusinessLayer.Services
             var statuses = _statusReopository.GetAll();
             return _mapper.Map<IEnumerable<Status>, IEnumerable<StatusDTO>>(statuses);
         }
+
+        public string GetName(int id)
+        {
+            return _statusReopository.GetName(id);
+        }
     }
 }

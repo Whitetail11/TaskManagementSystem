@@ -8,7 +8,7 @@ namespace BusinessLayer.Classes
     {
         public bool Succeeded { get; }
         public string Token { get; }
-        public List<string> Errors { get; }
+        public IEnumerable<string> Errors { get; }
         public ApplicationUser User { get; }
 
         public AccountResult(bool succeeded)
@@ -28,7 +28,7 @@ namespace BusinessLayer.Classes
             Token = token;
         }
 
-        public AccountResult(List<string> errors)
+        public AccountResult(IEnumerable<string> errors)
         {
             Errors = errors;
         }

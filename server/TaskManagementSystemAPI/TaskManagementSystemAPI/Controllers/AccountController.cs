@@ -101,6 +101,19 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         } 
 
+        [Route("ChangePassword")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
+        {
+            var result = await _accountService.ChangePassword(HttpContext.GetUserId(), changePasswordDTO);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok();
+        }
+
         [Route("CreateUser")]
         [HttpPost]
         [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
@@ -110,7 +123,19 @@ namespace TaskManagementSystemAPI.Controllers
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
+            }
+            return Ok();
+        }
 
+        [Route("UpdateUser")]
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> UpdateUser(UpdateUserDTO updateUserDTO)
+        {
+            var result = await _accountService.UpdateUser(HttpContext.GetUserId(), updateUserDTO);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
             }
             return Ok();
         }

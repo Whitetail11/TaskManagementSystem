@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AppConstants } from 'src/app/models/appConstants';
 import { CreateUser } from 'src/app/models/createUser';
@@ -12,12 +13,13 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class UserCreatingComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private toastrService: ToastrService) { }
+  constructor(private accountService: AccountService,
+    private toastrService: ToastrService,
+    private dialog: MatDialog) { }
 
   errors: string[] = [];
   roles = [AppConstants.EXECUTOR_ROLE_NAME, AppConstants.CUSTOMER_ROLE_NAME, AppConstants.ADMIN_ROLE_NAME];
   form: FormGroup;
-  @ViewChild("dialogCloseBtn") dialogCloseBtn: ElementRef;
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -35,8 +37,8 @@ export class UserCreatingComponent implements OnInit {
     console.log(this.form);
     const createUser: CreateUser = this.form.value;
 
-    this.accountService.createUser(createUser).subscribe(() => { 
-      this.dialogCloseBtn.nativeElement.click();
+    this.accountService.createUser(createUser).subscribe(() => {
+      this.dialog.closeAll();
       this.toastrService.success('User has been successfuly created.', '', {
         timeOut: 5000
       });
