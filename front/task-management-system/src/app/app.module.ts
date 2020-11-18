@@ -39,7 +39,6 @@ import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { PasswordChangeComponent } from './components/password-change/password-change.component';
-import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { TaskMenuComponent } from './components/task-menu/task-menu.component';
 import { StatusMenuComponent } from './components/status-menu/status-menu.component';
 
@@ -74,7 +73,6 @@ export function tokenGetter() {
     ForgotPasswordComponent,
     ResetPasswordComponent,
     PasswordChangeComponent,
-    UserUpdateComponent,
     TaskMenuComponent,
     StatusMenuComponent,
     TaskFilterComponent
