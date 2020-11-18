@@ -1,5 +1,9 @@
 @import '/src/variables.scss';
 
+mat-form-field {
+    width: 75% !important;
+}
+
 .search-input {
     height: 45px;
     width: 300px;

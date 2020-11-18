@@ -32,7 +32,7 @@ export class TaskFilterComponent implements OnInit {
     this.setStatuses();
 
     if (!this.isExecutor) {
-      this.setExecutors;
+      this.setExecutors();
     }
   }
 

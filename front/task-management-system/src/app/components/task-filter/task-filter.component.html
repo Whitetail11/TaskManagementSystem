@@ -1,7 +1,8 @@
 <form [formGroup]="filtersForm">
     <div class="row">
         <div class="dropdown col-8 p-0">
-            <button class="menu-toggle filters-menu-toggle" 
+            <button type="button"
+                class="menu-toggle filters-menu-toggle" 
                 (click)="toggleFiltersMenu()"
                 [ngClass]="{ 'active-btn': displayFiltersMenu }">
                 Filters
@@ -18,7 +19,7 @@
                         (click)="toggleFiltersMenu()">
                         <span>&times;</span>
                     </button>
-                    <mat-form-field appearance="outline" style="width: 75%;">
+                    <mat-form-field appearance="outline">
                         <mat-label>Status</mat-label>
                         <mat-select (selectionChange)="onFilterApply()" 
                             multiple
@@ -28,7 +29,7 @@
                           </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field appearance="outline" style="width: 75%;">
+                    <mat-form-field appearance="outline">
                         <mat-label>Due date until</mat-label>
                         <input matInput [matDatepicker]="picker"
                             (dateInput)="onFilterApply()"
@@ -36,8 +37,8 @@
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
-                    <mat-form-field appearance="outline" style="width: 75%;" *ngIf="!isExecutor">
-                        <mat-label>Executor</mat-label>
+                    <mat-form-field appearance="outline" *ngIf="!isExecutor">
+                        <mat-label>Assignee</mat-label>
                         <mat-select (selectionChange)="onFilterApply()" formControlName="executorId">
                             <mat-option [value]="null">Any</mat-option>
                             <mat-option *ngFor="let executor of executors" [value]="executor.id">
@@ -51,7 +52,7 @@
         <input type="text" 
             class="form-control search-input ml-auto" 
             formControlName="title">
-        <button type="button"
+        <button type="submit"
             class="btn btn-success search-btn" 
             (click)="onFilterApply()">Search</button>
     </div>

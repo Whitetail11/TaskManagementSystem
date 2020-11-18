@@ -20,12 +20,42 @@
         </div>
         <div class="task-content">
             <div class="row justify-content-center">
-                <div class="task col-10 mt-3 p-0" *ngFor="let task of pageTasks">
-                    <div class="task-header px-3 py-2">
-                        <a [routerLink]="[task.id]">
-                            <p class="mb-1 fs-18">{{ task.title }}</p>
+                <div class="col-10 mt-3 mb-1">
+                    <div class="row fs-18 fw-500">
+                        <div class="col-6">
+                            Title and description
+                        </div>     
+                        <div class="col-2">
+                            Status
+                        </div> 
+                        <div class="col-2">
+                            Due date
+                        </div>     
+                        <div class="col-2">
+                            Assignee
+                        </div> 
+                    </div>
+                </div>
+                <div class="task col-10 mb-2 py-2" *ngFor="let task of pageTasks">
+                    <div class="row">
+                        <div class="col-6 task-main-info">
+                            <a [routerLink]="[task.id]">
+                                <p class="mb-1 fs-18 fw-500">{{ task.title }}</p>
+                                <p class="mb-0 fs-17">{{ task.description }}</p>
+                            </a>
+                        </div>   
+                        <div class="col-2 my-auto">
+                            <app-status-menu 
+                                [statusId]="task.statusId"
+                                [taskId]="task.id"
+                                ></app-status-menu>
+                        </div>
+                        <div class="col-2 my-auto">
+                            <p class="mb-0 fs-17">{{ task.deadline }}</p>
+                        </div>    
+                        <div class="col-2 my-auto">
                             <p class="mb-0 fs-17">{{ task.executorName }}</p>
-                        </a>
+                        </div>       
                         <app-task-menu 
                             class="context-menu-content"
                             *ngIf="!isExecutor"
@@ -33,12 +63,6 @@
                             (onCloseDialogue)="onTaskUpdate()"
                             (onDeleteTask)="updatePage()"
                             ></app-task-menu>
-                    </div>
-                    <div class="task-body px-3 py-2">
-                        <a [routerLink]="[task.id]">
-                            <p class="fs-17">{{ task.description }}</p>
-                            <p class="fs-17"><b>Due date: </b>{{ task.deadline }}</p>
-                        </a>
                     </div>
                 </div>
             </div>
