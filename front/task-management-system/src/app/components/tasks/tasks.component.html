@@ -72,8 +72,8 @@
         </div>
         <app-pagination class="pt-3" 
             [collectionSize]="taskCount"
-            [pageSize]="taskPage.size"
-            [pageNumber]="taskPage.number"
+            [pageSize]="page.size"
+            [pageNumber]="page.number"
             (pageSizeChange)="onPageSizeChange($event)"
             (pageChange)="onPageChange($event)"
             ></app-pagination>
