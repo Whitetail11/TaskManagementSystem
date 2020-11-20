@@ -55,4 +55,8 @@ export class UsersComponent implements OnInit {
       this.setUsers();
     });
   }
+
+  public get isAdministrator(): boolean {
+    return this.accountService.isAdministrator();
+  }
 }

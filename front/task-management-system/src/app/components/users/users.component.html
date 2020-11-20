@@ -4,15 +4,13 @@
         <div class="col-10">
             <div class="row">
                 <h1 class="mat-display-1 mb-0 mr-2">Users</h1>
-                <div>
-                    <button mat-mini-fab color="primary" mat-button (click)="createUser()">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </div>
+                <button *ngIf="isAdministrator" mat-mini-fab color="primary" mat-button (click)="createUser()">
+                    <mat-icon>add</mat-icon>
+                </button>
             </div>
         </div>
     </div>
-    <div>
+    <div *ngIf="userCount != 0; else usersNotExist">
         <div class="users-content">
             <div class="row justify-content-center">
                 <div class="col-10 mt-3 mb-1">
@@ -45,4 +43,9 @@
             (pageChange)="onPageChange($event)"
             ></app-pagination>
     </div>
+    <ng-template #usersNotExist>
+        <div class="col-12 text-center mt-5 fs-25">
+            There are no users in the system.
+        </div>
+    </ng-template>
 </div>
