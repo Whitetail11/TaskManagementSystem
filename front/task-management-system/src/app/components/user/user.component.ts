@@ -49,7 +49,7 @@ export class UserComponent implements OnInit {
       });
     }, error => {
       if (error.status == 404) {
-        this.router.navigate(['not-found']);
+        this.router.navigate(['not-found'], { skipLocationChange: true });
       }
     });
   }
