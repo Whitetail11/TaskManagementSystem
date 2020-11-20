@@ -30,7 +30,11 @@ namespace BusinessLayer.Mapping
                     memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
                 .ForMember(
                     destinationMember => destinationMember.Deadline,
-                    memberOptions => memberOptions.MapFrom(task => task.Deadline.ToShortDateString()));
+                    memberOptions => memberOptions.MapFrom(task => task.Deadline.ToShortDateString()))
+                .ForMember(
+                    destinationMember => destinationMember.MissedDeadline,
+                    memberOptions => memberOptions.MapFrom(task => task.Deadline < DateTime.Now && task.StatusId != ApplicationConstants.DONE_STATUS_ID));
+
             CreateMap<Task, ShowTaskDTO>()
                 .ForMember(
                     destinationMember => destinationMember.ExecutorName,
@@ -56,7 +60,6 @@ namespace BusinessLayer.Mapping
                     memberOptions => memberOptions.MapFrom(comment => comment.Date.ToShortDateString()));
             CreateMap<TaskPageDTO, TaskPage>();
             CreateMap<TaskFilterDTO, TaskFilter>();
-
         }
     }
 }

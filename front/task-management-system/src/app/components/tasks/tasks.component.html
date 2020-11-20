@@ -22,38 +22,41 @@
             <div class="row justify-content-center">
                 <div class="col-10 mt-3 mb-1">
                     <div class="row fs-18 fw-500">
-                        <div class="col-6">
+                        <div class="task-main-info pl-3">
                             Title and description
                         </div>     
-                        <div class="col-2">
+                        <div class="task-status">
                             Status
                         </div> 
-                        <div class="col-2">
+                        <div class="task-due-date">
                             Due date
                         </div>     
-                        <div class="col-2">
+                        <div class="task-assignee">
                             Assignee
-                        </div> 
+                        </div>
                     </div>
                 </div>
-                <div class="task col-10 mb-2 py-2" *ngFor="let task of pageTasks">
+                <div class="list-item col-10 mb-2 py-2" *ngFor="let task of pageTasks">
                     <div class="row">
-                        <div class="col-6 task-main-info">
+                        <div class="task-main-info px-3">
                             <a [routerLink]="[task.id]">
                                 <p class="mb-1 fs-18 fw-500">{{ task.title }}</p>
                                 <p class="mb-0 fs-17">{{ task.description }}</p>
                             </a>
                         </div>   
-                        <div class="col-2 my-auto">
+                        <div class="task-status my-auto">
                             <app-status-menu 
                                 [statusId]="task.statusId"
                                 [taskId]="task.id"
+                                (onStatusChange)="updatePage()"
                                 ></app-status-menu>
                         </div>
-                        <div class="col-2 my-auto">
+                        <div class="task-due-date my-auto" 
+                            [ngClass]="{ 'missed-deadline': task.missedDeadline }"
+                            [title]="task.missedDeadline ? 'Missed due date' : ''">
                             <p class="mb-0 fs-17">{{ task.deadline }}</p>
                         </div>    
-                        <div class="col-2 my-auto">
+                        <div class="task-assignee my-auto pr-5">
                             <p class="mb-0 fs-17">{{ task.executorName }}</p>
                         </div>       
                         <app-task-menu 
@@ -79,7 +82,7 @@
         <div class="col-12 text-center mt-5 fs-25">
             <span *ngIf="isExecutor; else textForCreator">There are no tasks assigned to you.</span>
             <ng-template #textForCreator>
-                <span>There are no tasks created by you.</span>
+                <span>There are no tasks created by yourself.</span>
             </ng-template>
         </div>
     </ng-template>

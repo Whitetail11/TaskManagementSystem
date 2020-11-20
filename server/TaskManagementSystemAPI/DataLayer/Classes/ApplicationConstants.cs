@@ -8,6 +8,7 @@ namespace DataLayer.Classes
     {
         public const int DEFAULT_TASK_PAGE_SIZE = 10;
         public const int TASK_SHORT_INFO_CHARACTER_COUNT = 200;
+        public const int DONE_STATUS_ID = 4;
 
         public class Roles
         {

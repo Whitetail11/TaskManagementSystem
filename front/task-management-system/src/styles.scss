@@ -115,6 +115,12 @@ button.active-btn {
     background-image: url(./assets/images/context_menu_black.svg);
 }
 
+.list-item {
+    background-color: $white-color;
+    border: 1px solid $black-color;
+    border-radius: 7px;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
