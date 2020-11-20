@@ -42,6 +42,18 @@ namespace BusinessLayer.Services
             return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
         }
 
+        public async Task<IEnumerable<ShowListUserDTO>> GetAllUsers(PageDTO pageDTO)
+        {
+            var page = _mapper.Map<PageDTO, Page>(pageDTO);
+            var users = await _userManager.GetAllAsync(page);
+            return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ShowListUserDTO>>(users);
+        }
+
+        public async Task<int> GetUserCount()
+        {
+            return await _userManager.GetCountAsync();
+        }
+
         public async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO)
         {
             return await CreateUser(createUserDTO, RandomPasswordGenerator.GenerateRandomPassword());
@@ -212,9 +224,9 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<AccountResult> UpdateUser(string userId, UpdateUserDTO updateUserDTO)
+        public async Task<AccountResult> UpdateUser(string id, UpdateUserDTO updateUserDTO)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(id);
             var emailChanged = user.Email != updateUserDTO.Email;
 
             user.Name = updateUserDTO.Name;
@@ -227,7 +239,7 @@ namespace BusinessLayer.Services
             {
                 if (user.EmailConfirmed && emailChanged)
                 {
-                    await _userManager.SetEmailAsNotConfirmed(user);
+                    await _userManager.SetEmailAsNotConfirmedAsync(user);
                 }
                 return new AccountResult(true);
             }
@@ -271,14 +283,14 @@ namespace BusinessLayer.Services
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        private async Task<IEnumerable<ApplicationUser>> GetUserForRole(string role)
+        private async Task<IEnumerable<ApplicationUser>> GetUsersForRole(string role)
         {
             return await _userManager.GetUsersInRoleAsync(role);
         }
 
         public async Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role)
         {
-            var users = await GetUserForRole(role);
+            var users = await GetUsersForRole(role);
             return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<SelectUserDTO>>(users);
         }
 
@@ -290,6 +302,11 @@ namespace BusinessLayer.Services
         public string GetFullName(string userId)
         {
             return _userManager.GetFullName(userId);
+        }
+
+        public async Task<bool> ExistAnyUserWithId(string id)
+        {
+            return await _userManager.ExistAnyAsync(id);
         }
     }
 }

@@ -21,6 +21,7 @@ const appRoutes: Routes = [
   { path: 'tasks/:id', component: TaskComponent, canActivate: [AuthenticatedUser] },
   { path: 'profile/:id', component: UserComponent, canActivate: [AuthenticatedUser] },
   { path: 'users', component: UsersComponent, canActivate: [AuthenticatedUser] },
+  { path: 'users/:id', component: UserComponent, canActivate: [AuthenticatedUser] },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },

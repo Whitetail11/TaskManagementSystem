@@ -79,7 +79,7 @@ namespace DataLayer.Repositories
             return tasks;
         }
 
-        public IEnumerable<Task> GetForPage(TaskPage taskPage, TaskFilter taskFilter)
+        public IEnumerable<Task> GetForPage(Page page, TaskFilter taskFilter)
         {
             return GetFilteredTasks(taskFilter).OrderByDescending(task => task.Date)
                 .Include(task => task.Executor)
@@ -92,8 +92,8 @@ namespace DataLayer.Repositories
                     StatusId = task.StatusId,
                     Executor = task.Executor,
                 })
-                .Skip((taskPage.PageNumber - 1) * taskPage.PageSize)
-                .Take(taskPage.PageSize).ToList();
+                .Skip((page.Number - 1) * page.Size)
+                .Take(page.Size).ToList();
         }
 
         public void Create(Task value)

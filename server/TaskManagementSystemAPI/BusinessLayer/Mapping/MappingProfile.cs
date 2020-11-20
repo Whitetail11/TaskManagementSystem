@@ -50,6 +50,12 @@ namespace BusinessLayer.Mapping
                 .ForMember(
                     destinationMember => destinationMember.FullName,
                     memberOptions => memberOptions.MapFrom(user => $"{ user.Name } { user.Surname }"));
+
+            CreateMap<ApplicationUser, ShowListUserDTO>()
+                .ForMember(
+                    destinationMember => destinationMember.FullName,
+                    memberOptions => memberOptions.MapFrom(user => $"{ user.Name } { user.Surname }"));
+
             CreateMap<ApplicationUser, ShowUserDTO>();
             CreateMap<Comment, ShowCommentDTO>()
                 .ForMember(
@@ -58,7 +64,7 @@ namespace BusinessLayer.Mapping
                 .ForMember(
                     destinationMember => destinationMember.Date,
                     memberOptions => memberOptions.MapFrom(comment => comment.Date.ToShortDateString()));
-            CreateMap<TaskPageDTO, TaskPage>();
+            CreateMap<PageDTO, Page>();
             CreateMap<TaskFilterDTO, TaskFilter>();
         }
     }
