@@ -33,7 +33,7 @@ namespace TaskManagementSystemAPI
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200")
+                                      builder.WithOrigins("http://localhost:4200", "https://taskmanagementsystem20.web.app")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
                                   });

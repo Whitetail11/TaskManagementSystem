@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: "https://localhost:44393/api/",
-  tokenAllowedDomains: ["localhost:44393"]
+  apiUrl: "https://dotnetdeveloper1-001-site1.etempurl.com/api/",
+  tokenAllowedDomains: ["dotnetdeveloper1-001-site1.etempurl.com"]
 };

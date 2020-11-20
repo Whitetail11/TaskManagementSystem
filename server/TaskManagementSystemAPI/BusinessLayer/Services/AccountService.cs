@@ -236,7 +236,6 @@ namespace BusinessLayer.Services
                 var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
                 return new AccountResult(errors);
             }
-
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)
