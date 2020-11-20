@@ -16,6 +16,7 @@ import { ResetPassword } from '../models/resetPassword';
 import { ConfirmEmail } from '../models/confirmEmail';
 import { ChangePassword } from '../models/changePassword';
 import { UpdateUser } from '../models/updateUser';
+import { ShowListUser } from '../models/showListUser';
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 
@@ -33,6 +34,15 @@ export class AccountService {
 
   getUserById(id: string): Observable<ShowUser> {
     return this.httpClient.get<ShowUser>(`${this.apiUrl}account/getUserById/${id}`)
+  }
+
+  getAllUsers(page): Observable<ShowListUser[]> {
+    var params = new HttpParams({ fromObject: page });
+    return this.httpClient.get<ShowListUser[]>(`${this.apiUrl}account/getAllUsers`, { params: params });
+  }
+
+  getUserCount(): Observable<number> {
+    return this.httpClient.get<number>(`${this.apiUrl}account/getUserCount`);
   }
 
   login(login: Login): Observable<Token> {
@@ -62,8 +72,8 @@ export class AccountService {
     return this.httpClient.post(`${this.apiUrl}account/CreateUser`, createUser);
   }
 
-  updateUser(updateUser: UpdateUser): Observable<{}> {
-    return this.httpClient.put(`${this.apiUrl}account/UpdateUser`, updateUser);
+  updateUser(id, updateUser: UpdateUser): Observable<{}> {
+    return this.httpClient.put(`${this.apiUrl}account/UpdateUser/${id}`, updateUser);
   }
 
   isAuthenticated(): boolean {

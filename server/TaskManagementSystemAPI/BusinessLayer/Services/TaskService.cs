@@ -32,14 +32,14 @@ namespace BusinessLayer.Services
             _clientAppUrl = configuration.GetValue<string>("ClientAppUrl");
         }
 
-        public IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
+        public IEnumerable<ShowTaskShorInfoDTO> GetForPage(PageDTO pageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
         {
-            var taskPage = _mapper.Map<TaskPageDTO, TaskPage>(taskPageDTO);
+            var page = _mapper.Map<PageDTO, Page>(pageDTO);
             var taskFilter = _mapper.Map<TaskFilterDTO, TaskFilter>(taskFilterDTO);
             taskFilter.UserId = userId;
             taskFilter.Role = role;
             
-            var tasks = _taskRepository.GetForPage(taskPage, taskFilter);
+            var tasks = _taskRepository.GetForPage(page, taskFilter);
             return _mapper.Map<IEnumerable<ShowTaskShorInfoDTO>>(tasks);
         }
 
@@ -97,7 +97,7 @@ namespace BusinessLayer.Services
         {
             if (pageSize < 1)
             {
-                pageSize = ApplicationConstants.DEFAULT_TASK_PAGE_SIZE;
+                pageSize = ApplicationConstants.DEFAULT_PAGE_SIZE;
             }
             var taskCount = GetTaskCount(taskPageDTO, userId, role);
 

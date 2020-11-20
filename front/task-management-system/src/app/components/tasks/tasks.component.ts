@@ -12,10 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class TasksComponent implements OnInit {
 
   pageTasks: ShowTaskShortInfo[] = [];
-  taskPage = { pageSize: 20, pageNumber: 1 };
+  page = { size: 20, number: 1 };
   taskCount: number = 0;
-  pageSize: number = 20;
-  pageNumber: number = 1;
   displayFiltersMenu: boolean = false;
   filters: any;  
 
@@ -45,26 +43,26 @@ export class TasksComponent implements OnInit {
   }
 
   setTasks() {
-    this.taskService.getForPage(this.taskPage, this.filters)
+    this.taskService.getForPage(this.page, this.filters)
       .subscribe((data: ShowTaskShortInfo[]) => {
         this.pageTasks = data;
     });
   }
 
   onPageChange(pageNumber) {
-    this.taskPage.pageNumber = pageNumber;
+    this.page.number = pageNumber;
     this.setTasks()
   }
 
   onPageSizeChange(pageSize) {
-    this.taskPage.pageNumber = 1;
-    this.taskPage.pageSize = pageSize;
+    this.page.number = 1;
+    this.page.size = pageSize;
     this.setTasks();
   }
 
   onFilterApply(filters) {
     this.filters = filters;
-    this.taskPage.pageNumber = 1;
+    this.page.number = 1;
     this.setTaskCount();
     this.setTasks();
   }

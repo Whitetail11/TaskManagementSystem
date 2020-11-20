@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +20,7 @@ export class UserCreatingComponent implements OnInit {
   errors: string[] = [];
   roles = [AppConstants.EXECUTOR_ROLE_NAME, AppConstants.CUSTOMER_ROLE_NAME, AppConstants.ADMIN_ROLE_NAME];
   form: FormGroup;
+  @Output() userCreate = new EventEmitter<{}>();
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -42,6 +43,7 @@ export class UserCreatingComponent implements OnInit {
       this.toastrService.success('User has been successfuly created.', '', {
         timeOut: 5000
       });
+      this.userCreate.emit();
     }, error => {
       this.errors = error.error;
     });

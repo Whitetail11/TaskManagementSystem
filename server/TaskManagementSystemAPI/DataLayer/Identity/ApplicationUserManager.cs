@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DataLayer.Classes;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -23,7 +24,25 @@ namespace DataLayer.Identity
             _dbContext = dbContext;
         }
 
-        public async Task SetEmailAsNotConfirmed(ApplicationUser user)
+        public async Task<IEnumerable<ApplicationUser>> GetAllAsync(Page page)
+        {
+            return await _dbContext.Users.AsNoTracking()
+                .Skip((page.Number - 1) * page.Size)
+                .Take(page.Size)
+                .ToListAsync();
+        } 
+
+        public async Task<int> GetCountAsync()
+        {
+            return await _dbContext.Users.AsNoTracking().CountAsync();
+        }
+
+        public async Task<bool> ExistAnyAsync(string id)
+        {
+            return await _dbContext.Users.AsNoTracking().AnyAsync(user => user.Id == id);
+        }
+
+        public async Task SetEmailAsNotConfirmedAsync(ApplicationUser user)
         {
             user.EmailConfirmed = false;
             _dbContext.Users.Attach(user);

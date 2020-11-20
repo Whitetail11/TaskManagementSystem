@@ -3,7 +3,6 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
 using TaskManagementSystemAPI.Extensions;
@@ -26,13 +25,32 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserById(string id)
         {
-            if (id != null && id != HttpContext.GetUserId())
+            if (id == null || !(await _accountService.ExistAnyUserWithId(id))
+                || (id != HttpContext.GetUserId() && HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR))
             {
                 return NotFound();
             }
 
-            var user = await _accountService.GetUserById(HttpContext.GetUserId());
+            var user = await _accountService.GetUserById(id);
             return Ok(user);
+        }
+
+        [Route("GetAllUsers")]
+        [HttpGet]
+        [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
+        public async Task<IActionResult> GetAllUsers([FromQuery]PageDTO pageDTO)
+        {
+            var users = await _accountService.GetAllUsers(pageDTO);
+            return Ok(users);
+        }
+
+        [Route("GetUserCount")]
+        [HttpGet]
+        [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
+        public async Task<IActionResult> GetUserCount()
+        {
+            var count = await _accountService.GetUserCount();
+            return Ok(count);
         }
 
         [Route("Register")]
@@ -127,12 +145,18 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
-        [Route("UpdateUser")]
+        [Route("UpdateUser/{id}")]
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(UpdateUserDTO updateUserDTO)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody]UpdateUserDTO updateUserDTO)
         {
-            var result = await _accountService.UpdateUser(HttpContext.GetUserId(), updateUserDTO);
+            if (id == null || !(await _accountService.ExistAnyUserWithId(id))
+                || (id != HttpContext.GetUserId() && HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR))
+            {
+                return NotFound();
+            }
+
+            var result = await _accountService.UpdateUser(id, updateUserDTO);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);

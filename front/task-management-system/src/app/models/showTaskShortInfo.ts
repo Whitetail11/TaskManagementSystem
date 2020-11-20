@@ -5,4 +5,5 @@ export interface ShowTaskShortInfo {
     description: string;
     executorName: string;
     statusId: number;
+    missedDeadline: boolean;
 }

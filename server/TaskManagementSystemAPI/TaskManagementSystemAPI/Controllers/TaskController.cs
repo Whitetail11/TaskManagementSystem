@@ -28,9 +28,9 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("GetForPage")]
         [HttpGet]
-        public IActionResult GetForPage([FromQuery]TaskPageDTO taskPageDTO, [FromQuery]TaskFilterDTO taskFilterDTO)
+        public IActionResult GetForPage([FromQuery]PageDTO pageDTO, [FromQuery]TaskFilterDTO taskFilterDTO)
         {
-            var tasks = _tasksService.GetForPage(taskPageDTO, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
+            var tasks = _tasksService.GetForPage(pageDTO, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok(tasks);
         }
 

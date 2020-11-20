@@ -7,7 +7,7 @@ namespace BusinessLayer.Services
 {
     public interface ITaskService
     {
-        IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role);
+        IEnumerable<ShowTaskShorInfoDTO> GetForPage(PageDTO pageDTO, TaskFilterDTO taskFilterDTO, string userId, string role);
         void CreateTask(TaskDTO task);
         void Delete(int id);
         void Update(TaskDTO task);

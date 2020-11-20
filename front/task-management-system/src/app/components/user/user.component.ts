@@ -16,7 +16,7 @@ import { PasswordChangeComponent } from '../password-change/password-change.comp
 export class UserComponent implements OnInit {
 
   emailConfirmed: boolean = false;
-  userId: string;
+  id: string;
   errors: string[] = [];
   form: FormGroup;
 
@@ -34,8 +34,8 @@ export class UserComponent implements OnInit {
     });
 
     this.route.params.subscribe(params => {
-      this.userId = params['id'];
-      this.setUser(this.userId);
+      this.id = params['id'];
+      this.setUser(this.id);
     });
   }
 
@@ -49,7 +49,7 @@ export class UserComponent implements OnInit {
       });
     }, error => {
       if (error.status == 404) {
-        this.router.navigate(['not-found']);
+        this.router.navigate(['not-found'], { skipLocationChange: true });
       }
     });
   }
@@ -64,7 +64,7 @@ export class UserComponent implements OnInit {
 
   updateProfile() {
     const updateUser: UpdateUser = this.form.value;
-    this.accountService.updateUser(updateUser).subscribe(() => {
+    this.accountService.updateUser(this.id, updateUser).subscribe(() => {
       this.dialog.closeAll();
       this.toastrService.success('Your profile has been successfully updated.', '', {
         timeOut: 5000
