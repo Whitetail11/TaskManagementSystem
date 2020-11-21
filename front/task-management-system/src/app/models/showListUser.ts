@@ -1,4 +1,5 @@
 export interface ShowListUser {
-    fullName: string;
+    name: string;
+    surname: string;
     email: string;
 } 

@@ -86,7 +86,8 @@ namespace BusinessLayer.Services
                 Name = createUserDTO.Name,
                 Surname = createUserDTO.Surname,
                 Email = createUserDTO.Email,
-                UserName = createUserDTO.Email
+                UserName = createUserDTO.Email,
+                Date = DateTime.Now
             };
 
             var result = await _userManager.CreateAsync(user, password);

@@ -27,6 +27,7 @@ namespace DataLayer.Identity
         public async Task<IEnumerable<ApplicationUser>> GetForPage(Page page)
         {
             return await _dbContext.Users.AsNoTracking()
+                .OrderByDescending(user => user.Date)
                 .Skip((page.Number - 1) * page.Size)
                 .Take(page.Size)
                 .ToListAsync();
