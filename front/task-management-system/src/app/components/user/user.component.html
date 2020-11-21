@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-8">
-            <ngb-alert class="col-12 mb-3" type="warning" [dismissible]="false" *ngIf="!emailConfirmed">
+            <ngb-alert class="col-12 mb-3" type="warning" [dismissible]="false" *ngIf="!emailConfirmed && isCurrentUser">
                 Your email address has not been confirmed.
                 <span class="send-confirm-link" (click)="sendEmailConfirmationLink()">Click here to resend confirmation link</span>.
             </ngb-alert>
