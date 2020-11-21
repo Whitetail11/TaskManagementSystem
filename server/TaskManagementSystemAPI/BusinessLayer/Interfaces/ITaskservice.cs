@@ -16,6 +16,7 @@ namespace BusinessLayer.Services
         int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role);
         int GetPageCount(int pageSize, TaskFilterDTO taskPageDTO, string userId, string role);
         ShowTaskDTO GetForShowing(int id);
+        TaskCSVDTO GetForCSVExporting(int id);
         bool HasUserAccess(int taskId, string userId);
         string GetExecutorEmail(int taskId);
         string GetCreatorEmail(int taskId);

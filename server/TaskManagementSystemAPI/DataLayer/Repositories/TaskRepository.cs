@@ -24,6 +24,16 @@ namespace DataLayer.Repositories
                 .FirstOrDefault();
         }
 
+        public Task GetForExporting(int id)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Where(task => task.Id == id)
+                .Include(task => task.Executor)
+                .Include(task => task.Creator)
+                .Include(task => task.Status)
+                .FirstOrDefault();
+        }
+    
         private IQueryable<Task> GetForAdmin()
         {
             return _dbContext.Tasks.AsNoTracking();

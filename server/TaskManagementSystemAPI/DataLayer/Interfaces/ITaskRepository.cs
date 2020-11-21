@@ -9,6 +9,7 @@ namespace DataLayer.Repositories
     public interface ITaskRepository : IRepository<Task>
     {
         IEnumerable<Task> GetForPage(Page page, TaskFilter taskFilter);
+        Task GetForExporting(int id);
         int Create(Task value);
         void Delete(int id);
         int Update(Task task);

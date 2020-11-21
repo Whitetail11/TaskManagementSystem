@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagementSystemAPI.Extensions;
 
 namespace TaskManagementSystemAPI.Controllers
 {
@@ -19,50 +20,52 @@ namespace TaskManagementSystemAPI.Controllers
     public class FileController : ControllerBase
     {
         private readonly ITaskService _tasksService;
-        private readonly IFileService fileService;
-        private readonly IWebHostEnvironment _appEnviroment;
+        private readonly IFileService _fileService;
 
-        public FileController(ITaskService _tasksService, IFileService fileService, IWebHostEnvironment env)
+        public FileController(ITaskService tasksService, IFileService fileService)
         {
-            this._tasksService = _tasksService;
-            this.fileService = fileService;
-            this._appEnviroment = env;
+            _tasksService = tasksService;
+            _fileService = fileService;
         }
-        [Route("downloadCSV")]
+
+        [Route("ExportTaskToCSV/{taskId}")]
         [HttpGet]
-        public FileResult DownloadCSV(int id)
+        public IActionResult ExportTaskToCSV(int taskId)
         {
-            string path = Path.Combine(_appEnviroment.ContentRootPath, String.Format("FilesWithCSV\\newcsv{0}.csv", id));
-            var task = _tasksService.GetTaskById(id);
-            var executorEmail = "";
-            var FileNames = fileService.GetFileNames(id);
-            var result = fileService.CreateCsv(id, executorEmail, FileNames, path);
-            return File(result, "application/csv", $"Task{id}.csv");
+            if (!_tasksService.HasUserAccess(taskId, HttpContext.GetUserId()))
+            {
+                return NotFound();
+            }
+            return File(_fileService.ExportTaskToCSV(taskId), "application/csv");
         }
+
         [Route("downloadFile")]
         [HttpGet]
         public FileResult DownloadFile(int id)
         {
-            var file = fileService.GetFile(id);
+            var file = _fileService.GetFile(id);
             return File(file.Data, file.ContentType, file.Name);
         }
+
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            fileService.Delete(id);
+            _fileService.Delete(id);
             return Ok();
         }
+
         [HttpPost]
         public IActionResult UploadFile(IFormFile Data, int TaskId)
         {
-            fileService.UploadFile(Data, TaskId);
+            _fileService.UploadFile(Data, TaskId);
             return Ok();
         }
+
         [Route("getFilesByTaskId")]
         [HttpGet]
         public IActionResult getFilesByTaskId(int taskId)
         {
-                var res = fileService.GetFilesByTaskId(taskId).ToArray();
+                var res = _fileService.GetFilesByTaskId(taskId).ToArray();
                 if(res.Length > 0)
                 {
                     var outputStream = new MemoryStream();

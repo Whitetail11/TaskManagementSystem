@@ -80,6 +80,10 @@ export class TaskComponent implements OnInit {
     });
   }
 
+  exportToCSV() {
+    this.fileService.exportTaskToCSV(this.task.id);
+  }
+
   replyToComment(commentId) {
     this.replyCommentId = commentId;
   }

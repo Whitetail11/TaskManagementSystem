@@ -9,8 +9,12 @@
                     [taskId]="task.id"
                     (onStatusChange)="statusChange()"
                     ></app-status-menu>
-                <app-task-menu 
-                    class="ml-auto"
+                <button class="ml-auto export-to-csv-btn"
+                    mat-menu-item (click)="exportToCSV()">
+                    <mat-icon>download</mat-icon>
+                    <span>Export to CSV</span>
+                </button>
+                <app-task-menu
                     *ngIf="!isExecutor"
                     [taskId]="task.id"
                     (onCloseDialogue)="updateTasks()"
