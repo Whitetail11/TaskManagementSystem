@@ -9,6 +9,7 @@ import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { SelectUser } from 'src/app/models/selectUser';
+import { FileService } from 'src/app/services/file.service';
 
 
 @Component({
@@ -62,6 +63,7 @@ export class DialogElement implements OnInit {
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
     private _taskService: TaskService,
+    private fileService: FileService,
     private toastrService: ToastrService
   ) {
     const currentYear = new Date().getFullYear();
@@ -136,7 +138,7 @@ export class DialogElement implements OnInit {
               const formData = new FormData()
               fileEntry.file((file: File) => {
                 formData.append('Data', file, droppedFile.relativePath)
-                this._taskService.postFile(formData, data).subscribe(() => {
+                this.fileService.postFile(formData, data).subscribe(() => {
                 })
               });
             } else {
