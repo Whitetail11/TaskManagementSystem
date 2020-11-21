@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 
 import { AppComponent } from './app.component';
@@ -39,7 +40,6 @@ import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { PasswordChangeComponent } from './components/password-change/password-change.component';
-import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { TaskMenuComponent } from './components/task-menu/task-menu.component';
 import { StatusMenuComponent } from './components/status-menu/status-menu.component';
 
@@ -47,6 +47,8 @@ import { DialogElement } from './components/task-create/task-create.component';
 
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { API_URL } from './app-injection-token';
+import { TaskFilterComponent } from './components/task-filter/task-filter.component';
+import { UserDeleteComponent } from './components/user-delete/user-delete.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -73,9 +75,10 @@ export function tokenGetter() {
     ForgotPasswordComponent,
     ResetPasswordComponent,
     PasswordChangeComponent,
-    UserUpdateComponent,
     TaskMenuComponent,
-    StatusMenuComponent
+    StatusMenuComponent,
+    TaskFilterComponent,
+    UserDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -101,6 +104,7 @@ export function tokenGetter() {
     MatIconModule,
     MatSelectModule,
     MatMenuModule,
+    NgxFileDropModule,
     ToastrModule.forRoot()
   ],
   providers: [{

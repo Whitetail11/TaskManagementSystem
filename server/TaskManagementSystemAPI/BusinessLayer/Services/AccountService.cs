@@ -5,6 +5,7 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -23,20 +24,34 @@ namespace BusinessLayer.Services
         private readonly AuthOptions _authOptions;
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
+        private readonly string _clientAppUrl;
 
-        public AccountService(ApplicationUserManager userManager, IOptions<AuthOptions> options,
-            IMapper mapper, INotificationService notificationService)
+        public AccountService(ApplicationUserManager userManager, IOptions<AuthOptions> options, IMapper mapper,
+            INotificationService notificationService, IConfiguration configuration)
         {
             _userManager = userManager;
             _mapper = mapper;
             _authOptions = options.Value;
             _notificationService = notificationService;
+            _clientAppUrl = configuration.GetValue<string>("ClientAppUrl");
         }
 
         public async Task<ShowUserDTO> GetUserById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
+        }
+
+        public async Task<IEnumerable<ShowListUserDTO>> GetForPage(PageDTO pageDTO)
+        {
+            var page = _mapper.Map<PageDTO, Page>(pageDTO);
+            var users = await _userManager.GetForPage(page);
+            return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ShowListUserDTO>>(users);
+        }
+
+        public async Task<int> GetUserCount()
+        {
+            return await _userManager.GetCountAsync();
         }
 
         public async Task<AccountResult> CreateUser(CreateUserDTO createUserDTO)
@@ -71,7 +86,8 @@ namespace BusinessLayer.Services
                 Name = createUserDTO.Name,
                 Surname = createUserDTO.Surname,
                 Email = createUserDTO.Email,
-                UserName = $"{createUserDTO.Name} {createUserDTO.Surname}"
+                UserName = createUserDTO.Email,
+                Date = DateTime.Now
             };
 
             var result = await _userManager.CreateAsync(user, password);
@@ -95,12 +111,7 @@ namespace BusinessLayer.Services
             }
             else
             {
-                var errors = new List<string>();
-                foreach (var error in result.Errors)
-                {
-                    errors.Add(error.Description.Replace("User name", "Email"));
-                }
-
+                var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
                 return new AccountResult(errors);
             }
         }
@@ -130,14 +141,14 @@ namespace BusinessLayer.Services
         {
             var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedCode = HttpUtility.UrlEncode(confirmationCode);
-            var confirmationLink = new Uri($"http://localhost:4200/confirm-email?userId={user.Id}&code={encodedCode}");
+            var confirmationLink = new Uri($"{_clientAppUrl}confirm-email?userId={user.Id}&code={encodedCode}");
             _notificationService.SendEmailAsync(user.Email, "Confirm email address",
                 $"In order to complete the confirmation of the email address, follow the <a href='{confirmationLink}'>link</a>.");
         }
 
         public void SendPasswordToUserEmail(string email, string password)
         {
-            var loginPageLink = new Uri($"http://localhost:4200/login");
+            var loginPageLink = new Uri($"{_clientAppUrl}login");
             _notificationService.SendEmailAsync(email, "Task Management System Account",
                 $"Account has been created in <a href='{loginPageLink}'>Task Management System</a> for you.<br />" +
                 $"Your login: { email } <br />" +
@@ -174,7 +185,7 @@ namespace BusinessLayer.Services
 
             var resetCode = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedCode = HttpUtility.UrlEncode(resetCode);
-            var passwordResetLink = new Uri($"http://localhost:4200/reset-password?userId={user.Id}&code={encodedCode}");
+            var passwordResetLink = new Uri($"{_clientAppUrl}reset-password?userId={user.Id}&code={encodedCode}");
             _notificationService.SendEmailAsync(user.Email, "Reset password",
                 $"In order to reset your password, follow the <a href='{passwordResetLink}'>link</a>.");
         }
@@ -194,11 +205,7 @@ namespace BusinessLayer.Services
             } 
             else
             {
-                var errors = new List<string>();
-                foreach (var error in result.Errors)
-                {
-                    errors.Add(error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
-                }
+                var errors = result.Errors.Select(error => error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
                 return new AccountResult(errors);
             }
         }
@@ -218,20 +225,31 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task UpdateUser(string userId, UpdateUserDTO updateUserDTO)
+        public async Task<AccountResult> UpdateUser(string id, UpdateUserDTO updateUserDTO)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(id);
             var emailChanged = user.Email != updateUserDTO.Email;
 
             user.Name = updateUserDTO.Name;
             user.Surname = updateUserDTO.Surname;
             user.Email = updateUserDTO.Email;
-            await _userManager.UpdateAsync(user);
+            user.UserName = updateUserDTO.Email;
+            var result = await _userManager.UpdateAsync(user);
             
-            if (user.EmailConfirmed && emailChanged)
+            if (result.Succeeded)
             {
-                await _userManager.SetEmailAsNotConfirmed(user);
+                if (user.EmailConfirmed && emailChanged)
+                {
+                    await _userManager.SetEmailAsNotConfirmedAsync(user);
+                }
+                return new AccountResult(true);
             }
+            else
+            {
+                var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
+                return new AccountResult(errors);
+            }
+
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)
@@ -266,14 +284,14 @@ namespace BusinessLayer.Services
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        private async Task<IEnumerable<ApplicationUser>> GetUserForRole(string role)
+        private async Task<IEnumerable<ApplicationUser>> GetUsersForRole(string role)
         {
             return await _userManager.GetUsersInRoleAsync(role);
         }
 
         public async Task<IEnumerable<SelectUserDTO>> GetUsersForSelect(string role)
         {
-            var users = await GetUserForRole(role);
+            var users = await GetUsersForRole(role);
             return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<SelectUserDTO>>(users);
         }
 
@@ -285,6 +303,16 @@ namespace BusinessLayer.Services
         public string GetFullName(string userId)
         {
             return _userManager.GetFullName(userId);
+        }
+
+        public async Task<bool> ExistAnyUserWithId(string id)
+        {
+            return await _userManager.ExistAnyAsync(id);
+        }
+
+        public async Task DeleteUser(string id)
+        {
+            await _userManager.DeleteAsync(id);
         }
     }
 }

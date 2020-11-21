@@ -1,0 +1,16 @@
+<h2 mat-dialog-title class="mb-2">Delete account?</h2>
+<mat-dialog-content class="mat-typography"></mat-dialog-content>
+<mat-dialog-actions align="end">
+    <div class="col-12 mb-1">
+        <div class="row justify-content-center">
+            <button type="button" 
+                style="width: 150px;"
+                class="btn btn-dark mr-2" 
+                mat-dialog-close>Cancel</button>
+            <button type="submit" 
+                class="btn btn-success"
+                style="width: 150px;"
+                (click)="deleteUser()">Delete</button>
+        </div>
+    </div>
+</mat-dialog-actions>

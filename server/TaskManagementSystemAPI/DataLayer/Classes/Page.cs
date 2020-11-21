@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DataLayer.Classes
 {
-    public class TaskPage
+    public class Page
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public int Number { get; set; }
+        public int Size { get; set; }
     }
 }

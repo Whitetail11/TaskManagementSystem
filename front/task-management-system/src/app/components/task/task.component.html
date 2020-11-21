@@ -25,6 +25,15 @@
             <p><b>Due date: </b>{{ task.deadline }}</p>
             <p><b>Creator: </b>{{ task.creatorName }}</p>
             <p><b>Assignee: </b>{{ task.executorName }}</p>
+            <div class="files">
+                <p><b>Files: </b></p>
+                <ul *ngFor="let fileName of task.files">
+                    <li>
+                        {{fileName.name}}
+                    </li>
+                </ul>
+            </div>
+            <button mat-raised-button color="primary" (click)="downLoadFile()">Download Files</button>
         </div>
         <div class="col-10 comments-content fs-17">
             <app-comment-create 

@@ -3,7 +3,6 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaskManagementSystemAPI.Classes;
 using TaskManagementSystemAPI.Extensions;
@@ -22,17 +21,35 @@ namespace TaskManagementSystemAPI.Controllers
             _accountService = accountService;
         }
 
-        [Route("GetUserById/{id}")]
+        [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> GetUserById(string id)
         {
-            if (id != null && id != HttpContext.GetUserId())
+            if (id == null || !(await _accountService.ExistAnyUserWithId(id))
+                || (id != HttpContext.GetUserId() && HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR))
             {
                 return NotFound();
             }
 
-            var user = await _accountService.GetUserById(HttpContext.GetUserId());
+            var user = await _accountService.GetUserById(id);
             return Ok(user);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
+        public async Task<IActionResult> GetForPage([FromQuery]PageDTO pageDTO)
+        {
+            var users = await _accountService.GetForPage(pageDTO);
+            return Ok(users);
+        }
+
+        [Route("GetUserCount")]
+        [HttpGet]
+        [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
+        public async Task<IActionResult> GetUserCount()
+        {
+            var count = await _accountService.GetUserCount();
+            return Ok(count);
         }
 
         [Route("Register")]
@@ -43,7 +60,6 @@ namespace TaskManagementSystemAPI.Controllers
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
-
             }
             return Ok(new { access_token = result.Token });
         }
@@ -70,7 +86,7 @@ namespace TaskManagementSystemAPI.Controllers
         }
 
         [Route("ConfirmEmail")]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO)
         {
             var result = await _accountService.ConfirmEmail(confirmEmailDTO);
@@ -90,7 +106,7 @@ namespace TaskManagementSystemAPI.Controllers
         } 
 
         [Route("ResetPassword")]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
         {
             var result = await _accountService.ResetPassword(resetPasswordDTO);
@@ -102,7 +118,7 @@ namespace TaskManagementSystemAPI.Controllers
         } 
 
         [Route("ChangePassword")]
-        [HttpPost]
+        [HttpPut]
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
@@ -114,7 +130,6 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
-        [Route("CreateUser")]
         [HttpPost]
         [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
         public async Task<IActionResult> CreateUser(CreateUserDTO createUserDTO)
@@ -123,17 +138,26 @@ namespace TaskManagementSystemAPI.Controllers
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
-
             }
             return Ok();
         }
 
-        [Route("UpdateUser")]
+        [Route("{id}")]
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(UpdateUserDTO updateUserDTO)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody]UpdateUserDTO updateUserDTO)
         {
-            await _accountService.UpdateUser(HttpContext.GetUserId(), updateUserDTO);
+            if (id == null || !(await _accountService.ExistAnyUserWithId(id))
+                || (id != HttpContext.GetUserId() && HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR))
+            {
+                return NotFound();
+            }
+
+            var result = await _accountService.UpdateUser(id, updateUserDTO);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
             return Ok();
         }
       
@@ -144,6 +168,20 @@ namespace TaskManagementSystemAPI.Controllers
         {
             var executors = await _accountService.GetUsersForSelect(ApplicationConstants.Roles.EXECUTOR);
             return Ok(executors);
-        } 
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var id = HttpContext.GetUserId();
+            if (!await _accountService.ExistAnyUserWithId(id))
+            {
+                return NotFound();
+            }
+
+            await _accountService.DeleteUser(id);
+            return Ok();
+        }
     }
 }

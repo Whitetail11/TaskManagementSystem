@@ -4,6 +4,8 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Entities;
 using DataLayer.Repositories;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
@@ -29,17 +31,17 @@ namespace BusinessLayer.Services
             _statusService = statusService;
             _accountService = accountService;
             _mapper = mapper;
-            _clientAppUrl = configuration.GetValue<string>("ClienAppUrl");
+            _clientAppUrl = configuration.GetValue<string>("ClientAppUrl");
         }
 
-        public IEnumerable<ShowTaskShorInfoDTO> GetForPage(TaskPageDTO taskPageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
+        public IEnumerable<ShowTaskShorInfoDTO> GetForPage(PageDTO pageDTO, TaskFilterDTO taskFilterDTO, string userId, string role)
         {
-            var taskPage = _mapper.Map<TaskPageDTO, TaskPage>(taskPageDTO);
+            var page = _mapper.Map<PageDTO, Page>(pageDTO);
             var taskFilter = _mapper.Map<TaskFilterDTO, TaskFilter>(taskFilterDTO);
             taskFilter.UserId = userId;
             taskFilter.Role = role;
             
-            var tasks = _taskRepository.GetForPage(taskPage, taskFilter);
+            var tasks = _taskRepository.GetForPage(page, taskFilter);
             return _mapper.Map<IEnumerable<ShowTaskShorInfoDTO>>(tasks);
         }
 
@@ -59,12 +61,14 @@ namespace BusinessLayer.Services
             return _mapper.Map<TaskDTO>(task);
         }
 
-        public void CreateTask(TaskDTO taskdto)
+        public int CreateTask(TaskDTO taskdto)
         {
             taskdto.StatusId = 1;
+            taskdto.Date = DateTime.Now;
+            taskdto.Deadline = taskdto.Deadline.AddHours(2);
             Task task = _mapper.Map<TaskDTO, Task>(taskdto);
-            _taskRepository.Create(task);
             SendEmailAfterCreating(task);
+            return _taskRepository.Create(task);
         }
         public void ChangeStatus(int taskId, int statusId)
         {
@@ -77,12 +81,12 @@ namespace BusinessLayer.Services
             _taskRepository.Delete(id);
         }
 
-        public void Update(TaskDTO task)
+
+        public int Update(TaskDTO task)
         {
-            task.StatusId = 1;
             var res = _mapper.Map<TaskDTO, Task>(task);
-            _taskRepository.Update(res);
             SendEmailAfterUpdating(res);
+            return _taskRepository.Update(res);
         }
 
         public int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role)
@@ -97,7 +101,7 @@ namespace BusinessLayer.Services
         {
             if (pageSize < 1)
             {
-                pageSize = ApplicationConstants.DEFAULT_TASK_PAGE_SIZE;
+                pageSize = ApplicationConstants.DEFAULT_PAGE_SIZE;
             }
             var taskCount = GetTaskCount(taskPageDTO, userId, role);
 

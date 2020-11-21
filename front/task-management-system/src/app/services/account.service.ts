@@ -16,6 +16,7 @@ import { ResetPassword } from '../models/resetPassword';
 import { ConfirmEmail } from '../models/confirmEmail';
 import { ChangePassword } from '../models/changePassword';
 import { UpdateUser } from '../models/updateUser';
+import { ShowListUser } from '../models/showListUser';
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 
@@ -32,7 +33,16 @@ export class AccountService {
   ) { }
 
   getUserById(id: string): Observable<ShowUser> {
-    return this.httpClient.get<ShowUser>(`${this.apiUrl}account/getUserById/${id}`)
+    return this.httpClient.get<ShowUser>(`${this.apiUrl}account/${id}`)
+  }
+
+  getForPage(page): Observable<ShowListUser[]> {
+    var params = new HttpParams({ fromObject: page });
+    return this.httpClient.get<ShowListUser[]>(`${this.apiUrl}account`, { params: params });
+  }
+
+  getUserCount(): Observable<number> {
+    return this.httpClient.get<number>(`${this.apiUrl}account/getUserCount`);
   }
 
   login(login: Login): Observable<Token> {
@@ -59,11 +69,11 @@ export class AccountService {
   }
 
   createUser(createUser: CreateUser): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/CreateUser`, createUser);
+    return this.httpClient.post(`${this.apiUrl}account`, createUser);
   }
 
-  updateUser(updateUser: UpdateUser): Observable<{}> {
-    return this.httpClient.put(`${this.apiUrl}account/UpdateUser`, updateUser);
+  updateUser(id, updateUser: UpdateUser): Observable<{}> {
+    return this.httpClient.put(`${this.apiUrl}account/${id}`, updateUser);
   }
 
   isAuthenticated(): boolean {
@@ -112,7 +122,7 @@ export class AccountService {
   }
 
   confirmEmail(confirmEmail: ConfirmEmail): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/confirmEmail`, confirmEmail);
+    return this.httpClient.put(`${this.apiUrl}account/confirmEmail`, confirmEmail);
   }
 
   forgotPassword(forgotPassword): Observable<{}> {
@@ -121,10 +131,14 @@ export class AccountService {
   }
 
   resetPassword(resetPassword: ResetPassword): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/resetPassword`, resetPassword);
+    return this.httpClient.put(`${this.apiUrl}account/resetPassword`, resetPassword);
   }
 
   changePassword(changePassword: ChangePassword): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/changePassword`, changePassword);
+    return this.httpClient.put(`${this.apiUrl}account/changePassword`, changePassword);
+  }
+
+  deleteUser(): Observable<{}> {
+    return this.httpClient.delete(`${this.apiUrl}account`)
   }
 }

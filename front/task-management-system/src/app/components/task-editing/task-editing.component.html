@@ -10,7 +10,7 @@
         </mat-form-field>
         <mat-form-field class="description" appearance="outline">
           <mat-label>Description</mat-label>
-          <textarea matInput formControlName="secondCtrl" required ></textarea>
+          <textarea matInput formControlName="secondCtrl" required></textarea>
         </mat-form-field>
         <div>
           <button mat-raised-button color="primary" matStepperNext>Next</button>
@@ -22,7 +22,8 @@
         <div class="deadLine-and-executor">
           <mat-form-field class="second-input" appearance="outline">
             <mat-label>Due Date</mat-label>
-            <input matInput   [min]="minDate" [matDatepicker]="picker" formControlName="thirdCtrl" placeholder="MM-DD-YYYY" required>
+            <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="thirdCtrl"
+              placeholder="MM-DD-YYYY" required>
             <mat-datepicker-toggle matSuffix [for]="picker">
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -47,14 +48,61 @@
       </form>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
+      <ng-template matStepLabel>Attachments</ng-template>
       <div>
-        <button mat-raised-button  class=" btn-dark " matStepperPrevious (click)="isThirdStep=false">Back</button>
+        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+        (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" multiple="true">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+              <button mat-stroked-button color="primary" (click)="openFileSelector()">Browse Files</button>
+              <span> or drop files here</span>
+            </ng-template>
+        </ngx-file-drop>
+        <div class="row">
+          <div class="col">
+            <p></p>
+            <h2 *ngIf="files.length">Attached files:</h2>
+            <h3 *ngIf="files.length === 0">This task has no attachments!</h3>
+            <div class="upload-table">
+              <table class="table">
+                <tbody class="upload-name-style">
+                  <tr *ngFor="let file of files; let i=index">
+                    <td><strong>{{ file.name }}</strong><button (click)="deleteFileFromForm(file.id)" mat-icon-button>
+                            <mat-icon>clear</mat-icon>
+                          </button></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          </div>
+          <div class="col">
+            <p></p>
+            <h2 *ngIf="Newfiles.length">New files:</h2>
+            <div class="upload-table">
+              <table class="table">
+                  <thead>
+                      <tr>
+                      </tr>
+                  </thead>
+                  <tbody class="upload-name-style">
+                      <tr *ngFor="let item of Newfiles; let i=index">
+                          <td><strong>{{ item.relativePath }}</strong><button (click)="deleteNewFile(item.relativePath)" mat-icon-button>
+                            <mat-icon>clear</mat-icon>
+                          </button></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          </div>
+        </div>
+        <div>
       </div>
+        <button mat-raised-button  class=" btn-dark " matStepperPrevious (click)=" isThirdStep=false">Back</button>
+          </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
 <div mat-dialog-actions align="end" class="row pb-3 pr-3">
-  <button class="btn-dark" mat-raised-button mat-dialog-close >Cancel</button>
-  <button mat-raised-button class="btn-success" (click)="editTask()"[mat-dialog-close]="true" *ngIf="isThirdStep">Save</button>
+  <button class="btn-dark" mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="btn-success" (click)="editTask()" [mat-dialog-close]="true"
+    *ngIf="isThirdStep">Save</button>
 </div>
