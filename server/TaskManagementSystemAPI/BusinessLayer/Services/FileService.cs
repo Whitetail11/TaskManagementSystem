@@ -4,6 +4,7 @@ using BusinessLayer.Interfaces;
 using CsvHelper;
 using DataLayer.Interfaces;
 using DataLayer.Repositories;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -74,6 +75,34 @@ namespace BusinessLayer.Services
         public FileDownloadDTO GetFile(int id)
         {
             return _mapper.Map<FileDownloadDTO>(_fileRepository.GetFile(id));
+        }
+        public IEnumerable<DataLayer.Entities.File> GetFilesByTaskId(int taskId)
+        {
+            return _fileRepository.GetFilesByTaskId(taskId);
+        }
+        public void Delete(int id)
+        {
+            _fileRepository.Delete(id);
+        }
+        public void UploadFile(IFormFile file, int TaskId)
+        {
+            DataLayer.Entities.File result = new DataLayer.Entities.File {
+                AttachedDate = DateTime.Now,
+                Name = file.FileName,
+                TaskId = TaskId,
+                Id = 0,
+                ContentType = file.ContentType
+            };
+            if(file != null)
+            {
+                byte[] data = null;
+                using (var binaryReader = new BinaryReader(file.OpenReadStream()))
+                {
+                    data = binaryReader.ReadBytes((int)file.Length);
+                }
+                result.Data = data;
+            }
+            _fileRepository.Create(result);
         }
     }
 }

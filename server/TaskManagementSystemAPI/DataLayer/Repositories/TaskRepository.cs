@@ -96,10 +96,11 @@ namespace DataLayer.Repositories
                 .Take(taskPage.PageSize).ToList();
         }
 
-        public void Create(Task value)
+        public int Create(Task value)
         {
-            _dbContext.Tasks.Add(value);
+            var res = _dbContext.Tasks.Add(value).Entity;
             _dbContext.SaveChanges();
+            return res.Id;
         }
 
         public string FindExetutorIdByEmail(string email)
@@ -122,11 +123,12 @@ namespace DataLayer.Repositories
             res.StatusId = statusId;
             this.Update(res);
         }
-        public void Update(Task task)
+        public int Update(Task task)
         {
             
-                _dbContext.Update(task);
+                var res = _dbContext.Tasks.Update(task).Entity;
                 _dbContext.SaveChanges();
+            return res.Id;
             
         }
 
@@ -144,7 +146,8 @@ namespace DataLayer.Repositories
 
         public Task GetTaskById(int id)
         {
-            return _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
+            var res = GetIncludedRelatedData(id);
+            return res;
         }
         
         public bool HasUserAccess(int taskId, string userId)

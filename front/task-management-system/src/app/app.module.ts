@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 
 import { AppComponent } from './app.component';
@@ -95,6 +96,7 @@ export function tokenGetter() {
     MatIconModule,
     MatSelectModule,
     MatMenuModule,
+    NgxFileDropModule,
     ToastrModule.forRoot()
   ],
   providers: [{

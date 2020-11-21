@@ -62,14 +62,14 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpPost]
         public IActionResult CreateTask(TaskDTO task)
         {
-            _tasksService.CreateTask(task);
+            var res = _tasksService.CreateTask(task);
             if (_accountService.IsEmailConfirmed(task.ExecutorId).Result)
             {
                 var executorEmail = _tasksService.FindExecutorEmailById(task.ExecutorId);
                 _notificationService.SendEmailAsync(executorEmail, "New Task", $"{task.Title} - {task.Description} \n {task.Deadline}");
             }
 
-            return Ok();
+            return Ok(res);
         }
 
         [HttpDelete]
@@ -88,8 +88,8 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpPut]
         public IActionResult Update(TaskDTO task)
         {           
-            _tasksService.Update(task);
-            return Ok();
+            var res = _tasksService.Update(task);
+            return Ok(res);
         }
 
         [Route("GetTaskCount")]

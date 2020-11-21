@@ -16,11 +16,11 @@ namespace BusinessLayer.Mapping
         {
             CreateMap<Task, TaskDTO>()
                 .ForMember(dest => dest.Files, opt => opt.MapFrom(src => src.Files.Select(
-                    el => new FileDTO { Task = null, Id = el.Id, Data = el.Data, Name = el.Name, AttachedDate = el.AttachedDate }
+                    el => new FileDTO { Id = el.Id, Name = el.Name, AttachedDate = el.AttachedDate }
                     )));
             CreateMap<TaskDTO, Task>()
                 .ForMember(dest => dest.Files, opt => opt.MapFrom(src => src.Files.Select(
-                    el => new File { Task = null, Id = el.Id, Data = el.Data, Name = el.Name, AttachedDate = el.AttachedDate }
+                    el => new File { Task = null, Id = el.Id, Name = el.Name, AttachedDate = el.AttachedDate }
                     )));
 
             CreateMap<CreateCommentDTO, Comment>();
@@ -32,6 +32,9 @@ namespace BusinessLayer.Mapping
                     destinationMember => destinationMember.Deadline,
                     memberOptions => memberOptions.MapFrom(task => task.Deadline.ToShortDateString()));
             CreateMap<Task, ShowTaskDTO>()
+                .ForMember(dest => dest.Files, opt => opt.MapFrom(src => src.Files.Select(
+                    el => new FileDTO { Id = el.Id, Name = el.Name, AttachedDate = el.AttachedDate }
+                    )))
                 .ForMember(
                     destinationMember => destinationMember.ExecutorName,
                     memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
