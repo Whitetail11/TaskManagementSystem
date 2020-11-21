@@ -47,6 +47,7 @@ import { DialogElement } from './components/task-create/task-create.component';
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { API_URL } from './app-injection-token';
 import { TaskFilterComponent } from './components/task-filter/task-filter.component';
+import { UserDeleteComponent } from './components/user-delete/user-delete.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -75,7 +76,8 @@ export function tokenGetter() {
     PasswordChangeComponent,
     TaskMenuComponent,
     StatusMenuComponent,
-    TaskFilterComponent
+    TaskFilterComponent,
+    UserDeleteComponent
   ],
   imports: [
     BrowserModule,

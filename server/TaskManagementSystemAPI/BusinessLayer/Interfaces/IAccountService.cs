@@ -23,5 +23,6 @@ namespace BusinessLayer.Interfaces
         Task<bool> IsEmailConfirmed(string email);
         string GetFullName(string userId);
         Task<bool> ExistAnyUserWithId(string id);
+        Task DeleteUser(string id);
     }
 }

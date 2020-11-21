@@ -7,6 +7,7 @@ import { ShowUser } from 'src/app/models/showUser';
 import { UpdateUser } from 'src/app/models/updateUser';
 import { AccountService } from 'src/app/services/account.service';
 import { PasswordChangeComponent } from '../password-change/password-change.component';
+import { UserDeleteComponent } from '../user-delete/user-delete.component';
 
 @Component({
   selector: 'app-user',
@@ -79,6 +80,12 @@ export class UserComponent implements OnInit {
   openPasswordChangeDialog() {
     this.dialog.open(PasswordChangeComponent, {
       width: '500px'
+    });
+  }
+
+  openUserDeleteDialog() {
+    this.dialog.open(UserDeleteComponent, {
+      width: '380px'
     });
   }
   

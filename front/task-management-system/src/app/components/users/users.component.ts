@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
   }
 
   setUsers() {
-    this.accountService.getAllUsers(this.page).subscribe((data: ShowListUser[]) => {
+    this.accountService.getForPage(this.page).subscribe((data: ShowListUser[]) => {
       this.pageUsers = data;
     });
   }

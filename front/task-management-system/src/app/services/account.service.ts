@@ -36,7 +36,7 @@ export class AccountService {
     return this.httpClient.get<ShowUser>(`${this.apiUrl}account/${id}`)
   }
 
-  getAllUsers(page): Observable<ShowListUser[]> {
+  getForPage(page): Observable<ShowListUser[]> {
     var params = new HttpParams({ fromObject: page });
     return this.httpClient.get<ShowListUser[]>(`${this.apiUrl}account`, { params: params });
   }
@@ -136,5 +136,9 @@ export class AccountService {
 
   changePassword(changePassword: ChangePassword): Observable<{}> {
     return this.httpClient.put(`${this.apiUrl}account/changePassword`, changePassword);
+  }
+
+  deleteUser(): Observable<{}> {
+    return this.httpClient.delete(`${this.apiUrl}account`)
   }
 }

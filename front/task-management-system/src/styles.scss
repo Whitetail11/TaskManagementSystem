@@ -32,6 +32,11 @@ button.active-btn {
     color: $white-color;
 }
 
+.btn.btn-danger {
+    background-color: $dark-red-color;
+    color: $white-color;
+}
+
 .btn {
     height: 45px !important;
 }

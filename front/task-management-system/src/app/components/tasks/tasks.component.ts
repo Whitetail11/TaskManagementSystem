@@ -14,6 +14,7 @@ export class TasksComponent implements OnInit {
   pageTasks: ShowTaskShortInfo[] = [];
   page = { size: 20, number: 1 };
   taskCount: number = 0;
+  totalTaskCount: number = 0;
   displayFiltersMenu: boolean = false;
   filters: any;  
 
@@ -24,6 +25,7 @@ export class TasksComponent implements OnInit {
 
   ngOnInit(): void {
     this.updatePage();
+    this.setTotalTaskCount();
   }
 
   updatePage() {
@@ -33,6 +35,13 @@ export class TasksComponent implements OnInit {
 
   onTaskUpdate() {
     this.setTasks();
+  }
+
+  setTotalTaskCount() {
+    this.taskService.getTaskCount({})
+      .subscribe((data: number) => {
+        this.totalTaskCount = data;
+    });
   }
 
   setTaskCount() {

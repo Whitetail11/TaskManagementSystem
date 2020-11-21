@@ -168,6 +168,20 @@ namespace TaskManagementSystemAPI.Controllers
         {
             var executors = await _accountService.GetUsersForSelect(ApplicationConstants.Roles.EXECUTOR);
             return Ok(executors);
-        } 
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var id = HttpContext.GetUserId();
+            if (!await _accountService.ExistAnyUserWithId(id))
+            {
+                return NotFound();
+            }
+
+            await _accountService.DeleteUser(id);
+            return Ok();
+        }
     }
 }

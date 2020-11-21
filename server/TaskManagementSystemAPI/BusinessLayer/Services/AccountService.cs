@@ -309,5 +309,10 @@ namespace BusinessLayer.Services
         {
             return await _userManager.ExistAnyAsync(id);
         }
+
+        public async Task DeleteUser(string id)
+        {
+            await _userManager.DeleteAsync(id);
+        }
     }
 }
