@@ -84,7 +84,6 @@ namespace BusinessLayer.Services
 
         public int Update(TaskDTO task)
         {
-            task.StatusId = 1;
             var res = _mapper.Map<TaskDTO, Task>(task);
             SendEmailAfterUpdating(res);
             return _taskRepository.Update(res);
