@@ -21,7 +21,7 @@ namespace TaskManagementSystemAPI.Controllers
             _accountService = accountService;
         }
 
-        [Route("GetUserById/{id}")]
+        [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> GetUserById(string id)
         {
@@ -35,12 +35,11 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(user);
         }
 
-        [Route("GetAllUsers")]
         [HttpGet]
         [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
-        public async Task<IActionResult> GetAllUsers([FromQuery]PageDTO pageDTO)
+        public async Task<IActionResult> GetForPage([FromQuery]PageDTO pageDTO)
         {
-            var users = await _accountService.GetAllUsers(pageDTO);
+            var users = await _accountService.GetForPage(pageDTO);
             return Ok(users);
         }
 
@@ -61,7 +60,6 @@ namespace TaskManagementSystemAPI.Controllers
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
-
             }
             return Ok(new { access_token = result.Token });
         }
@@ -88,7 +86,7 @@ namespace TaskManagementSystemAPI.Controllers
         }
 
         [Route("ConfirmEmail")]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO)
         {
             var result = await _accountService.ConfirmEmail(confirmEmailDTO);
@@ -108,7 +106,7 @@ namespace TaskManagementSystemAPI.Controllers
         } 
 
         [Route("ResetPassword")]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
         {
             var result = await _accountService.ResetPassword(resetPasswordDTO);
@@ -120,7 +118,7 @@ namespace TaskManagementSystemAPI.Controllers
         } 
 
         [Route("ChangePassword")]
-        [HttpPost]
+        [HttpPut]
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
@@ -132,7 +130,6 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
-        [Route("CreateUser")]
         [HttpPost]
         [Authorize(Roles = ApplicationConstants.Roles.ADMINISTRATOR)]
         public async Task<IActionResult> CreateUser(CreateUserDTO createUserDTO)
@@ -145,7 +142,7 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
-        [Route("UpdateUser/{id}")]
+        [Route("{id}")]
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> UpdateUser(string id, [FromBody]UpdateUserDTO updateUserDTO)

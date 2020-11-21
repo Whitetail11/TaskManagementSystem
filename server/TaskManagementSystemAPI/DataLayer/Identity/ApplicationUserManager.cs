@@ -24,7 +24,7 @@ namespace DataLayer.Identity
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetAllAsync(Page page)
+        public async Task<IEnumerable<ApplicationUser>> GetForPage(Page page)
         {
             return await _dbContext.Users.AsNoTracking()
                 .Skip((page.Number - 1) * page.Size)

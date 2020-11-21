@@ -42,10 +42,10 @@ namespace BusinessLayer.Services
             return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
         }
 
-        public async Task<IEnumerable<ShowListUserDTO>> GetAllUsers(PageDTO pageDTO)
+        public async Task<IEnumerable<ShowListUserDTO>> GetForPage(PageDTO pageDTO)
         {
             var page = _mapper.Map<PageDTO, Page>(pageDTO);
-            var users = await _userManager.GetAllAsync(page);
+            var users = await _userManager.GetForPage(page);
             return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ShowListUserDTO>>(users);
         }
 

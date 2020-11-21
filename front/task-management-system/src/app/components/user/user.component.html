@@ -30,7 +30,8 @@
                 <div class="row px-3">
                     <button type="button" 
                         class="btn btn-primary"
-                        (click)="openPasswordChangeDialog()">Change password</button>
+                        (click)="openPasswordChangeDialog()"
+                        *ngIf="isCurrentUser">Change password</button>
                     <button type="submit" 
                         class="btn btn-success ml-auto">Update profile</button>
                 </div>
