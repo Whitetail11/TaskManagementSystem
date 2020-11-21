@@ -85,7 +85,7 @@ export class UserComponent implements OnInit {
 
   openUserDeleteDialog() {
     this.dialog.open(UserDeleteComponent, {
-      width: '380px'
+      width: '400px'
     });
   }
   

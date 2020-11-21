@@ -138,7 +138,7 @@ export class AccountService {
     return this.httpClient.put(`${this.apiUrl}account/changePassword`, changePassword);
   }
 
-  deleteUser(): Observable<{}> {
-    return this.httpClient.delete(`${this.apiUrl}account`)
+  deleteUser(password: string): Observable<{}> {
+    return this.httpClient.post(`${this.apiUrl}account/delete`, { password: password });
   }
 }

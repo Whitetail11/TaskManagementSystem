@@ -170,9 +170,10 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok(executors);
         }
 
-        [HttpDelete]
+        [Route("Delete")]
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> DeleteUser()
+        public async Task<IActionResult> DeleteUser([FromBody]DeleteUserDTO deleteUserDTO)
         {
             var id = HttpContext.GetUserId();
             if (!await _accountService.ExistAnyUserWithId(id))
@@ -180,7 +181,10 @@ namespace TaskManagementSystemAPI.Controllers
                 return NotFound();
             }
 
-            await _accountService.DeleteUser(id);
+            var result = await _accountService.DeleteUser(id, deleteUserDTO);
+            if (!result.Succeeded) {
+                return BadRequest(result.Errors);
+            }
             return Ok();
         }
     }

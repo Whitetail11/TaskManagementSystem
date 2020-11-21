@@ -61,7 +61,9 @@ namespace DataLayer.Identity
         }
 
         public async Task DeleteAsync(string id)
-        { 
+        {
+            _dbContext.Tasks.AsNoTracking().Where(task => task.CreatorId == id).Delete();
+            _dbContext.Tasks.AsNoTracking().Where(task => task.ExecutorId == id).Delete();
             _dbContext.Users.AsNoTracking().Where(user => user.Id == id).Delete();
             await _dbContext.SaveChangesAsync();
         }
