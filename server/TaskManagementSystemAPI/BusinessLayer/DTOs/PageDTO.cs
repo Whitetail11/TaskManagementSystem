@@ -2,45 +2,45 @@
 
 namespace BusinessLayer.DTOs
 {
-    public class TaskPageDTO
+    public class PageDTO
     {
-        private int _pageNumber;
-        private int _pageSize;
+        private int _number;
+        private int _size;
 
-        public int PageNumber
+        public int Number
         {
             get
             {
-                return _pageNumber;
+                return _number;
             }
             set
             {
                 if (value < 1)
                 {
-                    _pageNumber = 1;
+                    _number = 1;
                 }
                 else
                 {
-                    _pageNumber = value;
+                    _number = value;
                 }
             }
         }
 
-        public int PageSize
+        public int Size
         {
             get
             {
-                return _pageSize;
+                return _size;
             }
             set
             {
                 if (value < 1)
                 {
-                    _pageSize = ApplicationConstants.DEFAULT_TASK_PAGE_SIZE;
+                    _size = ApplicationConstants.DEFAULT_PAGE_SIZE;
                 }
                 else
                 {
-                    _pageSize = value;
+                    _size = value;
                 }
             }
         }

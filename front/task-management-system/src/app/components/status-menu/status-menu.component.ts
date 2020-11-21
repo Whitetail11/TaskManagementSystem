@@ -24,6 +24,7 @@ export class StatusMenuComponent implements OnInit {
       this.setCurrStatus();
     })
   }
+
   setCurrStatus() {
     this.Statuses.forEach(status => {
       if(status.id === this.statusId) {
@@ -31,7 +32,10 @@ export class StatusMenuComponent implements OnInit {
       }
     });
   }
+
   changeStatus(statusId: number) {
+    this.statusId = statusId;
+    this.setCurrStatus();
     this.statusService.changeStatus(this.taskId, statusId).subscribe(() => {
       this.onStatusChange.emit();
     })

@@ -1,5 +1,9 @@
 @import '/src/variables.scss';
 
+.task-body {
+    word-break: break-all;
+}
+
 .blue-color {
     color: $active-color;
 }

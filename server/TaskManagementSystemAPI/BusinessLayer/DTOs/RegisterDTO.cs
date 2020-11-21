@@ -17,7 +17,7 @@ namespace BusinessLayer.DTOs
         [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Password confirmation is required.")]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string PasswordConfirm { get; set; }
     }
 }

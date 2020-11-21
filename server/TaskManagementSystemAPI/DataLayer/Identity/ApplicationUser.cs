@@ -13,6 +13,7 @@ namespace DataLayer.Identity
         public string Name { get; set; }
         [Column(TypeName = "nvarchar(150)")]
         public string Surname { get; set; }
+        public DateTime? Date { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<Task> ExecutorTasks { get; set; }

@@ -1,74 +1,32 @@
 @import '/src/variables.scss';
+@import '/src/module-styles-overriding.scss';
+
+a {
+    color: unset;
+    text-decoration: none;
+}
 
 select.form-control {
     box-shadow: none !important;
 }
 
-.task {
-    background-color: $white-color;
-    border: 1px solid $black-color;
-    border-radius: 5px 5px 15px 15px;
-    min-height: 100px;
+.task-main-info {
+    word-break: break-all;
+    width: calc(100% - 450px);
 }
 
-.task-header {
-    position: relative;
-    background-color: $active-color;
-    color: $white-color;
-    border-radius: 5px 5px 0 0;
+.task-status {
+    width: 130px;
 }
 
-.search-input {
-    height: 45px;
-    width: 300px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+.task-due-date {
+    width: 120px;
 }
 
-.search-input:focus {
-    border: 2px solid $active-color;
+.task-assignee {
+    width: 200px;
 }
 
-.search-btn {
-    font-size: 18px;
-    font-weight: normal;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.filters-menu-toggle {
-    width: 110px;
-    height: 45px;
-    font-size: 18px;
-    color: $white-color;
-    border-radius: 5px;
-    background-color: $black-color;
-    background-image: url(../../../assets/images/filter_white.svg);
-    background-repeat: no-repeat;
-    background-position-y: center;
-    background-position-x: 10px;
-    background-size: 25px;
-    padding-left: 25px;
-    position: relative;
-}
-
-.filters-menu-toggle:hover {
-    background-color: $active-color;
-}
-
-.filters-menu-content {
-    background-color: $body-color;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    display: block;
-}
-
-.filters-menu-close {
-    position: absolute; 
-    top: 10px;
-    right: 10px;
-}
-
-a {
-    color: unset;
-    text-decoration: none;
+.missed-deadline {
+    color: $dark-red-color;
 }

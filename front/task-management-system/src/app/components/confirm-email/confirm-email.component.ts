@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ConfirmEmail } from 'src/app/models/confirmEmail';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -9,19 +10,22 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class ConfirmEmailComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private accountService: AccountService) { }
+  result: string;
+  succeeded: boolean = false;
 
-  result: string = "Confirming...";
+  constructor(private route: ActivatedRoute, private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.confirmEmail(params['userId'], encodeURIComponent(params['code']));
+      this.confirmEmail(params['userId'], params['code']);
     });
   }
 
   confirmEmail(userId: string, code: string) {
-    this.accountService.confirmEmail(userId, code).subscribe(() => {
+    const confirmEmail: ConfirmEmail = { userId: userId, code: code };
+    this.accountService.confirmEmail(confirmEmail).subscribe(() => {
       this.result = 'Your email address has been successfuly confirmed.';
+      this.succeeded = true;
     }, (error) => {
       this.result = error.error[0];
     });

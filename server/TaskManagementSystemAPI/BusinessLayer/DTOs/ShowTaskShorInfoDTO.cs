@@ -30,5 +30,6 @@ namespace BusinessLayer.DTOs
         }
         public string ExecutorName { get; set; }
         public int StatusId { get; set; }
+        public bool MissedDeadline { get; set; }
     }
 }

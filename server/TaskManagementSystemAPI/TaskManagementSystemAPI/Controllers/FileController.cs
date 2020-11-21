@@ -34,7 +34,7 @@ namespace TaskManagementSystemAPI.Controllers
         {
             string path = Path.Combine(_appEnviroment.ContentRootPath, String.Format("FilesWithCSV\\newcsv{0}.csv", id));
             var task = _tasksService.GetTaskById(id);
-            var executorEmail = _tasksService.FindExecutorEmailById(task.ExecutorId);
+            var executorEmail = "";
             var FileNames = fileService.GetFileNames(id);
             var result = fileService.CreateCsv(id, executorEmail, FileNames, path);
             return File(result, "application/csv", $"Task{id}.csv");

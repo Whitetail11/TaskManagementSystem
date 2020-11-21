@@ -79,7 +79,7 @@ namespace DataLayer.Repositories
             return tasks;
         }
 
-        public IEnumerable<Task> GetForPage(TaskPage taskPage, TaskFilter taskFilter)
+        public IEnumerable<Task> GetForPage(Page page, TaskFilter taskFilter)
         {
             return GetFilteredTasks(taskFilter).OrderByDescending(task => task.Date)
                 .Include(task => task.Executor)
@@ -92,8 +92,8 @@ namespace DataLayer.Repositories
                     StatusId = task.StatusId,
                     Executor = task.Executor,
                 })
-                .Skip((taskPage.PageNumber - 1) * taskPage.PageSize)
-                .Take(taskPage.PageSize).ToList();
+                .Skip((page.Number - 1) * page.Size)
+                .Take(page.Size).ToList();
         }
 
         public int Create(Task value)
@@ -103,20 +103,6 @@ namespace DataLayer.Repositories
             return res.Id;
         }
 
-        public string FindExetutorIdByEmail(string email)
-        {
-            var res = _dbContext.Users.FirstOrDefault(m => m.Email == email);
-            if (res == null)
-                return null;
-            return res.Id;
-        }
-        public string FindExecutorEmailById(string id)
-        {
-            var res = _dbContext.Users.FirstOrDefault(m => m.Id == id);
-            if (res == null)
-                return null;
-            return res.Email;
-        }
         public void ChangeStatus(int taskId, int statusId)
         {
             var res = _dbContext.Tasks.AsNoTracking().FirstOrDefault(t => t.Id == taskId);
@@ -154,6 +140,30 @@ namespace DataLayer.Repositories
         {
             return _dbContext.Tasks.AsNoTracking()
                 .Any(task => task.Id == taskId && (task.ExecutorId == userId || task.CreatorId == userId));
+        }
+
+        public string GetExecutorEmail(int taskId)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Where(task => task.Id == taskId)
+                .Select(task => task.Executor.Email)
+                .FirstOrDefault();
+        }
+
+        public string GetCreatorEmail(int taskId)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Where(task => task.Id == taskId)
+                .Select(task => task.Creator.Email)
+                .FirstOrDefault();
+        }
+
+        public string GetTitle(int taskId)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Where(task => task.Id == taskId)
+                .Select(task => task.Title)
+                .FirstOrDefault();
         }
     }
 }

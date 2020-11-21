@@ -38,13 +38,17 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UserComponent } from './components/user/user.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { PasswordChangeComponent } from './components/password-change/password-change.component';
+import { TaskMenuComponent } from './components/task-menu/task-menu.component';
+import { StatusMenuComponent } from './components/status-menu/status-menu.component';
 
 import { DialogElement } from './components/task-create/task-create.component';
 
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { API_URL } from './app-injection-token';
-import { TaskMenuComponent } from './components/task-menu/task-menu.component';
-import { StatusMenuComponent } from './components/status-menu/status-menu.component';
+import { TaskFilterComponent } from './components/task-filter/task-filter.component';
+import { UserDeleteComponent } from './components/user-delete/user-delete.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -69,8 +73,12 @@ export function tokenGetter() {
     UserComponent,
     ConfirmEmailComponent,
     ForgotPasswordComponent,
+    ResetPasswordComponent,
+    PasswordChangeComponent,
     TaskMenuComponent,
-    StatusMenuComponent
+    StatusMenuComponent,
+    TaskFilterComponent,
+    UserDeleteComponent
   ],
   imports: [
     BrowserModule,

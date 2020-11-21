@@ -28,9 +28,9 @@ namespace TaskManagementSystemAPI.Controllers
 
         [Route("GetForPage")]
         [HttpGet]
-        public IActionResult GetForPage([FromQuery]TaskPageDTO taskPageDTO, [FromQuery]TaskFilterDTO taskFilterDTO)
+        public IActionResult GetForPage([FromQuery]PageDTO pageDTO, [FromQuery]TaskFilterDTO taskFilterDTO)
         {
-            var tasks = _tasksService.GetForPage(taskPageDTO, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
+            var tasks = _tasksService.GetForPage(pageDTO, taskFilterDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok(tasks);
         }
 
@@ -63,12 +63,6 @@ namespace TaskManagementSystemAPI.Controllers
         public IActionResult CreateTask(TaskDTO task)
         {
             var res = _tasksService.CreateTask(task);
-            if (_accountService.IsEmailConfirmed(task.ExecutorId).Result)
-            {
-                var executorEmail = _tasksService.FindExecutorEmailById(task.ExecutorId);
-                _notificationService.SendEmailAsync(executorEmail, "New Task", $"{task.Title} - {task.Description} \n {task.Deadline}");
-            }
-
             return Ok(res);
         }
 

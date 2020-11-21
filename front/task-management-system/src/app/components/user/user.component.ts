@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ShowUser } from 'src/app/models/showUser';
+import { UpdateUser } from 'src/app/models/updateUser';
 import { AccountService } from 'src/app/services/account.service';
+import { PasswordChangeComponent } from '../password-change/password-change.component';
+import { UserDeleteComponent } from '../user-delete/user-delete.component';
 
 @Component({
   selector: 'app-user',
@@ -11,25 +16,43 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class UserComponent implements OnInit {
 
+  emailConfirmed: boolean = false;
+  id: string;
+  errors: string[] = [];
+  form: FormGroup;
+  isCurrentUser: boolean;
+
   constructor(private route: ActivatedRoute, 
     private accountService: AccountService,
     private router: Router,
-    private toastrService: ToastrService) { }
-
-  user: ShowUser;
+    private toastrService: ToastrService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      name: new FormControl('', Validators.required),
+      surname: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email])
+    });
+
     this.route.params.subscribe(params => {
-      this.setUser(params['id']);
+      this.id = params['id'];
+      this.setUser(this.id);
     });
   }
 
   setUser(id: string) {
-    this.accountService.get(id).subscribe((data) => {
-      this.user = data;
-    }, (error) => {
+    this.isCurrentUser = this.accountService.getUserId() == id;
+    this.accountService.getUserById(id).subscribe((data: ShowUser) => {
+      this.emailConfirmed = data.emailConfirmed;
+      this.form = new FormGroup({
+        name: new FormControl(data.name, Validators.required),
+        surname: new FormControl(data.surname, Validators.required),
+        email: new FormControl(data.email, [Validators.required, Validators.email])
+      });
+    }, error => {
       if (error.status == 404) {
-        this.router.navigate(['not-found']);
+        this.router.navigate(['not-found'], { skipLocationChange: true });
       }
     });
   }
@@ -40,5 +63,37 @@ export class UserComponent implements OnInit {
         timeOut: 5000
       });
     });
+  }
+
+  updateProfile() {
+    const updateUser: UpdateUser = this.form.value;
+    this.accountService.updateUser(this.id, updateUser).subscribe(() => {
+      this.dialog.closeAll();
+      this.toastrService.success('Your profile has been successfully updated.', '', {
+        timeOut: 5000
+      });
+    }, error => {
+      this.errors = error.error;
+    });
+  }
+  
+  openPasswordChangeDialog() {
+    this.dialog.open(PasswordChangeComponent, {
+      width: '500px'
+    });
+  }
+
+  openUserDeleteDialog() {
+    this.dialog.open(UserDeleteComponent, {
+      width: '380px'
+    });
+  }
+  
+  getEmailErrorMessage() {
+    if (this.form.get('email').hasError('required'))
+    {
+      return 'Email is required';
+    }
+    return 'Email is invalid';
   }
 }

@@ -32,10 +32,9 @@ namespace TaskManagementSystemAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreateCommentDTO createCommentDTO)
+        public IActionResult Create(CreateCommentDTO createCommentDTO)
         {
-            var userId = User.Claims.FirstOrDefault(claim => claim.Type == "userid").Value;
-            _commentService.Create(createCommentDTO, userId);
+            _commentService.Create(createCommentDTO, HttpContext.GetUserId(), HttpContext.GetUserRole());
             return Ok();
         }
 
