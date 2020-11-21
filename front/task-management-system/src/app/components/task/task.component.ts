@@ -21,11 +21,34 @@ export class TaskComponent implements OnInit {
   task: ShowTask;
   replyCommentId: number;
   showRepliesOfComments: number[] = [];
-
+  files: any
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.setTask(+params['id']);
+      this.taskService.downloadFiles(+params['id']).subscribe((data) => {
+        this.files = data.body;
+        console.log(this.files);
+      }, error => {
+        console.log(error)
+        this.files = null;
+      })
     });
+  }
+  downLoadFile() {
+    if(this.files !== null)
+    {
+      let blob = new Blob([this.files], { type: "application/zip"});
+      let url = window.URL.createObjectURL(blob);
+      let pwa = window.open(url);
+      if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+          alert( 'Please disable your Pop-up blocker and try again.');
+      }
+    }
+    else {
+      this.toastrService.error('This task has no files.', '', {
+        timeOut: 5000
+      });
+    }
   }
   statusChange() {
     console.log('status changed')
@@ -34,6 +57,7 @@ export class TaskComponent implements OnInit {
     this.taskService.getForShowig(id).subscribe(
       (data: ShowTask) => {
         this.task = data;
+        console.log(this.task);
       }, (error) => {
         if (error.status == 404) {
           this.router.navigate(['not-found']);
