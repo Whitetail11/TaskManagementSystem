@@ -31,17 +31,20 @@ namespace BusinessLayer.Services
         public byte[] ExportTaskToCSV(int taskId)
         {
             var taskCSV = _taskService.GetForCSVExporting(taskId);
-            taskCSV.Files = string.Join(";", _fileRepository.GetFileNames(taskId));
+            taskCSV.Files = string.Join(";\n", _fileRepository.GetFileNames(taskId));
 
             byte[] data;
-            using (var memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())   
             {
                 using (var writer = new StreamWriter(memoryStream))
-                using (var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
-                    csvWriter.WriteHeader<TaskCSVDTO>();
-                    csvWriter.NextRecord();
-                    csvWriter.WriteRecord(taskCSV);
+                    writer.WriteLine("sep=,");
+                    using (var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                    {
+                        csvWriter.WriteHeader<TaskCSVDTO>();
+                        csvWriter.NextRecord();
+                        csvWriter.WriteRecord(taskCSV);
+                    }
                 }
                 data = memoryStream.ToArray();
             }
