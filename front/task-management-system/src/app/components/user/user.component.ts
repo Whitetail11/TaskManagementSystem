@@ -20,7 +20,6 @@ export class UserComponent implements OnInit {
   id: string;
   errors: string[] = [];
   form: FormGroup;
-  isCurrentUser: boolean;
 
   constructor(private route: ActivatedRoute, 
     private accountService: AccountService,
@@ -42,7 +41,6 @@ export class UserComponent implements OnInit {
   }
 
   setUser(id: string) {
-    this.isCurrentUser = this.accountService.getUserId() == id;
     this.accountService.getUserById(id).subscribe((data: ShowUser) => {
       this.emailConfirmed = data.emailConfirmed;
       this.form = new FormGroup({
@@ -67,7 +65,7 @@ export class UserComponent implements OnInit {
 
   updateProfile() {
     const updateUser: UpdateUser = this.form.value;
-    this.accountService.updateUser(this.id, updateUser).subscribe(() => {
+    this.accountService.updateUser(updateUser).subscribe(() => {
       this.dialog.closeAll();
       this.toastrService.success('Your profile has been successfully updated.', '', {
         timeOut: 5000

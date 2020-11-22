@@ -25,8 +25,7 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserById(string id)
         {
-            if (id == null || !(await _accountService.ExistAnyUserWithId(id))
-                || (id != HttpContext.GetUserId() && HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR))
+            if (id == null || !(await _accountService.ExistAnyUserWithId(id)) || id != HttpContext.GetUserId())
             {
                 return NotFound();
             }
@@ -142,18 +141,11 @@ namespace TaskManagementSystemAPI.Controllers
             return Ok();
         }
 
-        [Route("{id}")]
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody]UpdateUserDTO updateUserDTO)
+        public async Task<IActionResult> UpdateUser([FromBody]UpdateUserDTO updateUserDTO)
         {
-            if (id == null || !(await _accountService.ExistAnyUserWithId(id))
-                || (id != HttpContext.GetUserId() && HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR))
-            {
-                return NotFound();
-            }
-
-            var result = await _accountService.UpdateUser(id, updateUserDTO);
+            var result = await _accountService.UpdateUser(HttpContext.GetUserId(), updateUserDTO);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);

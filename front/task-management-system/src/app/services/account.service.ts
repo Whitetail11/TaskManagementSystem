@@ -72,8 +72,8 @@ export class AccountService {
     return this.httpClient.post(`${this.apiUrl}account`, createUser);
   }
 
-  updateUser(id, updateUser: UpdateUser): Observable<{}> {
-    return this.httpClient.put(`${this.apiUrl}account/${id}`, updateUser);
+  updateUser(updateUser: UpdateUser): Observable<{}> {
+    return this.httpClient.put(`${this.apiUrl}account`, updateUser);
   }
 
   isAuthenticated(): boolean {
