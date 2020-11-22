@@ -69,8 +69,13 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
          {
-            _tasksService.Delete(id);
-            return Ok();
+            if (!_tasksService.HasUserAccess(id, HttpContext.GetUserId()))
+                return NotFound();
+            else
+            {
+                _tasksService.Delete(id);
+                return Ok();
+            }
         }
         [Route("ChangeStatus")]
         [HttpPut]
