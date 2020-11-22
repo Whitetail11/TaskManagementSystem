@@ -4,14 +4,16 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20201121091019_ApplicationUserDateField")]
+    partial class ApplicationUserDateField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,29 +302,6 @@ namespace DataLayer.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            ConcurrencyStamp = "8b89a2b6-488d-4429-bfd4-136770e0376d",
-                            Name = "administrator",
-                            NormalizedName = "administrator"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            ConcurrencyStamp = "9dc83fb0-a79a-4ee7-8ddf-9462432a80e5",
-                            Name = "customer",
-                            NormalizedName = "customer"
-                        },
-                        new
-                        {
-                            Id = "3",
-                            ConcurrencyStamp = "907acdb4-3c2d-4ab9-9c1d-6463ff685884",
-                            Name = "executor",
-                            NormalizedName = "executor"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,30 +1,41 @@
 <title>{{ task.title }}</title>
 <div class="container-fluid">
-    <app-status-menu 
-    [statusId]="task.statusId"
-    [taskId]="task.id"
-    (onStatusChange)="statusChange()"
-    >   
-    </app-status-menu>
     <div class="row justify-content-center">
         <div class="col-10 task-header">
-            <h1 class="mat-display-1 mb-1">{{ task.title }}</h1>
-        </div>
-        <div class="row">
-            <div class="col-0">
-                <app-task-menu 
-                *ngIf="!isExecutor"
-                [taskId]="task.id"
-                (onCloseDialogue)="updateTasks()"
-                (onDeleteTask)="deleteTask()"
-                ></app-task-menu>
+            <div class="row px-3">
+                <h1 class="mat-display-1 mb-1 mr-3">{{ task.title }}</h1>
+                <app-status-menu 
+                    [statusId]="task.statusId"
+                    [taskId]="task.id"
+                    (onStatusChange)="statusChange()"
+                    ></app-status-menu>
+                <button class="ml-auto export-to-csv-btn"
+                    mat-menu-item (click)="exportToCSV()">
+                    <mat-icon>download</mat-icon>
+                    <span>Export to CSV</span>
+                </button>
+                <app-task-menu
+                    *ngIf="!isExecutor"
+                    [taskId]="task.id"
+                    (onCloseDialogue)="updateTask()"
+                    (onDeleteTask)="deleteTask()"
+                    ></app-task-menu>
             </div>
         </div>
-        <div class="col-10 task-body fs-17">
-            <p>{{ task.description }}</p>
+        <div class="col-10 task-body fs-17 mt-2">
             <p><b>Due date: </b>{{ task.deadline }}</p>
             <p><b>Creator: </b>{{ task.creatorName }}</p>
             <p><b>Assignee: </b>{{ task.executorName }}</p>
+            <p>{{ task.description }}</p>
+            <div class="files" *ngIf="task.files.length">
+                <p><b>Files: </b></p>
+                <ul *ngFor="let fileName of task.files">
+                    <li>
+                        {{fileName.name}}
+                    </li>
+                </ul>
+            </div>
+            <button mat-raised-button color="primary" (click)="downLoadFile()" *ngIf="task.files.length">Download Files</button>
         </div>
         <div class="col-10 comments-content fs-17">
             <app-comment-create 
@@ -51,7 +62,7 @@
                         Show {{ comment.replies.length }} replies
                     </p>
                     <p class="blue-color cursor-pointer fw-500" 
-                        *ngIf="showRepliesOfComments.includes(comment.id)"
+                        *ngIf="comment.replies && showRepliesOfComments.includes(comment.id)"
                         (click)="hideReplies(comment.id)">
                         Hide {{ comment.replies.length }} replies
                     </p>

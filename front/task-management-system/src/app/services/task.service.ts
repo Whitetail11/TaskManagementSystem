@@ -17,21 +17,23 @@ export class TaskService {
     @Inject(API_URL) private apiUrl: string
   ) { }
 
-  post(task: Task): Observable<Task> {
-    return this.httpClient.post<Task>(`${this.apiUrl}task`, task);
+  post(task: Task): Observable<number> {
+    return this.httpClient.post<number>(`${this.apiUrl}task`, task);
   }
-  deleteTask(id: number) : Observable<{}> {
+
+  deleteTask(id: number): Observable<{}> {
     return this.httpClient.delete(`${this.apiUrl}Task?id=${id}`);
   }
-  editTask(task: Task) : Observable<Task> {
-    return this.httpClient.put<Task>(`${this.apiUrl}Task`, task);
-  }
   
+  editTask(task: Task): Observable<number> {
+    return this.httpClient.put<number>(`${this.apiUrl}Task`, task);
+  }
+
   getForPage(taskPage, taskFilter): Observable<ShowTaskShortInfo[]> {
     var params = new HttpParams({ fromObject: { ...taskPage, ...taskFilter } });
     return this.httpClient.get<ShowTaskShortInfo[]>(`${this.apiUrl}task/getForPage`, { params: params });
   }
-  
+
   getForShowig(id: number): Observable<ShowTask> {
     return this.httpClient.get<ShowTask>(`${this.apiUrl}task/getForShowing/${id}`);
   }

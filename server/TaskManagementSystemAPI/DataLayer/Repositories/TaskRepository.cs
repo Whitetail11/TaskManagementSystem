@@ -24,6 +24,16 @@ namespace DataLayer.Repositories
                 .FirstOrDefault();
         }
 
+        public Task GetForExporting(int id)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Where(task => task.Id == id)
+                .Include(task => task.Executor)
+                .Include(task => task.Creator)
+                .Include(task => task.Status)
+                .FirstOrDefault();
+        }
+    
         private IQueryable<Task> GetForAdmin()
         {
             return _dbContext.Tasks.AsNoTracking();
@@ -96,10 +106,11 @@ namespace DataLayer.Repositories
                 .Take(page.Size).ToList();
         }
 
-        public void Create(Task value)
+        public int Create(Task value)
         {
-            _dbContext.Tasks.Add(value);
+            var res = _dbContext.Tasks.Add(value).Entity;
             _dbContext.SaveChanges();
+            return res.Id;
         }
 
         public void ChangeStatus(int taskId, int statusId)
@@ -108,12 +119,11 @@ namespace DataLayer.Repositories
             res.StatusId = statusId;
             this.Update(res);
         }
-
-        public void Update(Task task)
+        public int Update(Task task)
         {
-            
-                _dbContext.Update(task);
-                _dbContext.SaveChanges();
+            var res = _dbContext.Tasks.Update(task).Entity;
+            _dbContext.SaveChanges();
+            return res.Id;
             
         }
 
@@ -131,7 +141,8 @@ namespace DataLayer.Repositories
 
         public Task GetTaskById(int id)
         {
-            return _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
+            var res = GetIncludedRelatedData(id);
+            return res;
         }
         
         public bool HasUserAccess(int taskId, string userId)

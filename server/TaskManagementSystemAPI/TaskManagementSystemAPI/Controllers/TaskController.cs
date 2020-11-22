@@ -62,15 +62,20 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpPost]
         public IActionResult CreateTask(TaskDTO task)
         {
-            _tasksService.CreateTask(task);
-            return Ok();
+            var res = _tasksService.CreateTask(task);
+            return Ok(res);
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
          {
-            _tasksService.Delete(id);
-            return Ok();
+            if (!_tasksService.HasUserAccess(id, HttpContext.GetUserId()))
+                return NotFound();
+            else
+            {
+                _tasksService.Delete(id);
+                return Ok();
+            }
         }
         [Route("ChangeStatus")]
         [HttpPut]
@@ -82,8 +87,8 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpPut]
         public IActionResult Update(TaskDTO task)
         {           
-            _tasksService.Update(task);
-            return Ok();
+            var res = _tasksService.Update(task);
+            return Ok(res);
         }
 
         [Route("GetTaskCount")]

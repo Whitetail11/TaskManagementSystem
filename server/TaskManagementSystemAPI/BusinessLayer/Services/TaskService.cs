@@ -4,6 +4,8 @@ using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Entities;
 using DataLayer.Repositories;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
@@ -53,18 +55,26 @@ namespace BusinessLayer.Services
             return task;
         }
 
+        public TaskCSVDTO GetForCSVExporting(int id)
+        {
+            var task = _taskRepository.GetForExporting(id);
+            return _mapper.Map<Task, TaskCSVDTO>(task);
+        }
+
         public TaskDTO GetTaskById(int id)
         {
             var task = _taskRepository.GetTaskById(id);
             return _mapper.Map<TaskDTO>(task);
         }
 
-        public void CreateTask(TaskDTO taskdto)
+        public int CreateTask(TaskDTO taskdto)
         {
             taskdto.StatusId = 1;
+            taskdto.Date = DateTime.Now;
+            taskdto.Deadline = taskdto.Deadline.AddHours(2);
             Task task = _mapper.Map<TaskDTO, Task>(taskdto);
-            _taskRepository.Create(task);
             SendEmailAfterCreating(task);
+            return _taskRepository.Create(task);
         }
         public void ChangeStatus(int taskId, int statusId)
         {
@@ -77,12 +87,12 @@ namespace BusinessLayer.Services
             _taskRepository.Delete(id);
         }
 
-        public void Update(TaskDTO task)
+
+        public int Update(TaskDTO task)
         {
-            task.StatusId = 1;
             var res = _mapper.Map<TaskDTO, Task>(task);
-            _taskRepository.Update(res);
             SendEmailAfterUpdating(res);
+            return _taskRepository.Update(res);
         }
 
         public int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role)

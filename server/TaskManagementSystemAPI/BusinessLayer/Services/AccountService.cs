@@ -42,10 +42,10 @@ namespace BusinessLayer.Services
             return _mapper.Map<ApplicationUser, ShowUserDTO>(user);
         }
 
-        public async Task<IEnumerable<ShowListUserDTO>> GetAllUsers(PageDTO pageDTO)
+        public async Task<IEnumerable<ShowListUserDTO>> GetForPage(PageDTO pageDTO)
         {
             var page = _mapper.Map<PageDTO, Page>(pageDTO);
-            var users = await _userManager.GetAllAsync(page);
+            var users = await _userManager.GetForPage(page);
             return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ShowListUserDTO>>(users);
         }
 
@@ -86,7 +86,8 @@ namespace BusinessLayer.Services
                 Name = createUserDTO.Name,
                 Surname = createUserDTO.Surname,
                 Email = createUserDTO.Email,
-                UserName = createUserDTO.Email
+                UserName = createUserDTO.Email,
+                Date = DateTime.Now
             };
 
             var result = await _userManager.CreateAsync(user, password);
@@ -306,6 +307,17 @@ namespace BusinessLayer.Services
         public async Task<bool> ExistAnyUserWithId(string id)
         {
             return await _userManager.ExistAnyAsync(id);
+        }
+
+        public async Task<AccountResult> DeleteUser(string id, DeleteUserDTO deleteUserDTO)
+        {
+            if (!(await _userManager.CheckPasswordAsync(await _userManager.FindByIdAsync(id), deleteUserDTO.Password)))
+            {
+                return new AccountResult(new List<string>() { "Invalid password." });
+            }
+
+            await _userManager.DeleteAsync(id);
+            return new AccountResult(true);
         }
     }
 }

@@ -33,12 +33,12 @@ export class AccountService {
   ) { }
 
   getUserById(id: string): Observable<ShowUser> {
-    return this.httpClient.get<ShowUser>(`${this.apiUrl}account/getUserById/${id}`)
+    return this.httpClient.get<ShowUser>(`${this.apiUrl}account/${id}`)
   }
 
-  getAllUsers(page): Observable<ShowListUser[]> {
+  getForPage(page): Observable<ShowListUser[]> {
     var params = new HttpParams({ fromObject: page });
-    return this.httpClient.get<ShowListUser[]>(`${this.apiUrl}account/getAllUsers`, { params: params });
+    return this.httpClient.get<ShowListUser[]>(`${this.apiUrl}account`, { params: params });
   }
 
   getUserCount(): Observable<number> {
@@ -69,11 +69,11 @@ export class AccountService {
   }
 
   createUser(createUser: CreateUser): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/CreateUser`, createUser);
+    return this.httpClient.post(`${this.apiUrl}account`, createUser);
   }
 
-  updateUser(id, updateUser: UpdateUser): Observable<{}> {
-    return this.httpClient.put(`${this.apiUrl}account/UpdateUser/${id}`, updateUser);
+  updateUser(updateUser: UpdateUser): Observable<{}> {
+    return this.httpClient.put(`${this.apiUrl}account`, updateUser);
   }
 
   isAuthenticated(): boolean {
@@ -122,7 +122,7 @@ export class AccountService {
   }
 
   confirmEmail(confirmEmail: ConfirmEmail): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/confirmEmail`, confirmEmail);
+    return this.httpClient.put(`${this.apiUrl}account/confirmEmail`, confirmEmail);
   }
 
   forgotPassword(forgotPassword): Observable<{}> {
@@ -131,10 +131,14 @@ export class AccountService {
   }
 
   resetPassword(resetPassword: ResetPassword): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/resetPassword`, resetPassword);
+    return this.httpClient.put(`${this.apiUrl}account/resetPassword`, resetPassword);
   }
 
   changePassword(changePassword: ChangePassword): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}account/changePassword`, changePassword);
+    return this.httpClient.put(`${this.apiUrl}account/changePassword`, changePassword);
+  }
+
+  deleteUser(password: string): Observable<{}> {
+    return this.httpClient.post(`${this.apiUrl}account/delete`, { password: password });
   }
 }

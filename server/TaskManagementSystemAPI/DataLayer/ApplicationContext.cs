@@ -9,7 +9,6 @@ namespace DataLayer
 {
     public class ApplicationContext: IdentityDbContext<ApplicationUser>
     {
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<File> Files { get; set; }
@@ -20,8 +19,6 @@ namespace DataLayer
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.EnsureCreated();
-            
-            DbInitializer.Initialize(this);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

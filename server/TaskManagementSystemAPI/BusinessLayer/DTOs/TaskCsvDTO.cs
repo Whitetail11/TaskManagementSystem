@@ -4,12 +4,14 @@ using System.Text;
 
 namespace BusinessLayer.DTOs
 {
-    public class TaskCsvDTO
+    public class TaskCSVDTO
     {
-        public DateTime Deadline { get; set; }
-        public string ExecutorEmail { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public ICollection<string> FileNames { get; set; }
+        public string Deadline { get; set; }
+        public string Executor { get; set; }
+        public string Creator { get; set; }
+        public string Status { get; set; }
+        public string Files { get; set; }
     }
 }

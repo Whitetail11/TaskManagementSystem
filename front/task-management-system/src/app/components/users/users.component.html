@@ -15,20 +15,26 @@
             <div class="row justify-content-center">
                 <div class="col-10 mt-3 mb-1">
                     <div class="row fs-18 fw-500">
-                        <div class="col-6">
-                            Full name
-                        </div>     
-                        <div class="col-6">
+                        <div class="col-2">
+                            Name
+                        </div>
+                        <div class="col-2">
+                            Surname
+                        </div>          
+                        <div class="col-2">
                             Email
                         </div> 
                     </div>
                 </div>
                 <div class="list-item col-10 mb-2 py-2 fs-17" *ngFor="let user of pageUsers">
-                    <a class="row" [routerLink]="[user.id]">
-                        <div class="col-6">
-                            <p class="mb-0">{{ user.fullName }}</p>
+                    <a class="row">
+                        <div class="col-2">
+                            <p class="mb-0">{{ user.name }}</p>
                         </div>   
-                        <div class="col-6">
+                        <div class="col-2">
+                            <p class="mb-0">{{ user.surname }}</p>
+                        </div>  
+                        <div class="col-2">
                             <p class="mb-0">{{ user.email }}</p>
                         </div>   
                     </a>

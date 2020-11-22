@@ -7,7 +7,9 @@ import { AccountService } from '../../services/account.service';
 import { TaskService } from 'src/app/services/task.service';
 import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { SelectUser } from 'src/app/models/selectUser';
+import { FileService } from 'src/app/services/file.service';
 
 
 @Component({
@@ -17,11 +19,11 @@ import { SelectUser } from 'src/app/models/selectUser';
 })
 export class TaskCreateComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
   @Output() onCloseDialogue = new EventEmitter<any>();
+  constructor(public dialog: MatDialog) { }
   openDialog() {
     const dialogRef = this.dialog.open(DialogElement);
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.componentInstance.taskCreate.subscribe(() => {
       this.onCloseDialogue.emit()
     })
   }
@@ -40,6 +42,7 @@ export class TaskCreateComponent implements OnInit {
 })
 export class DialogElement implements OnInit {
   isLinear = true;
+  @Output() taskCreate = new EventEmitter<any>();
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   selectedExecutor: string;
@@ -61,6 +64,7 @@ export class DialogElement implements OnInit {
     private _formBuilder: FormBuilder,
     private _accountService: AccountService,
     private _taskService: TaskService,
+    private fileService: FileService,
     private toastrService: ToastrService
   ) {
     const currentYear = new Date().getFullYear();
@@ -85,10 +89,36 @@ export class DialogElement implements OnInit {
       this.Executors = data;
     })
   }
+  deleteFile(name: string) {
+    this.files = this.files.filter((item) => item.relativePath !== name);
+  }
   thirdstep()
   {
     if(this.secondFormGroup.valid)
       this.isThirdStep = true;
+  }
+  public files: NgxFileDropEntry[] = [];
+
+  public dropped(files: NgxFileDropEntry[]) {
+    let res = true
+    this.files.forEach(currentFile => {
+      files.forEach(inputFile => {
+        if(currentFile.relativePath === inputFile.relativePath) { res = false;}
+      });
+    });
+    if(res)
+    {
+      this.files = this.files.concat(files);
+    }
+    console.log(this.files)
+  }
+
+  public fileOver(event) {
+    console.log(event);
+  }
+
+  public fileLeave(event) {
+    console.log(event);
   }
   createTask() {
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
@@ -99,9 +129,31 @@ export class DialogElement implements OnInit {
       this.task.creatorId = this._accountService.getUserId();
       this.task.executorId = this.secondFormGroup.value.fourthCtrl;
       console.log(this.task);
-      this._taskService.post(this.task).subscribe(() => {    
-        this.errorMessage = '';
-        this.toastrService.success('Task has been successfuly created.', '');
+      this._taskService.post(this.task).subscribe((data) => {    
+        if(this.files.length)
+        {
+          for (const droppedFile of this.files) {
+            console.log(droppedFile)
+            if (droppedFile.fileEntry.isFile) {
+              const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+              const formData = new FormData()
+              fileEntry.file((file: File) => {
+                formData.append('Data', file, droppedFile.relativePath)
+                this.fileService.postFile(formData, data).subscribe(() => {
+                })
+              });
+            } else {
+              // It was a directory (empty directories are added, otherwise only files)
+              const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+              console.log(droppedFile.relativePath, fileEntry);
+            }
+          }
+          this.taskCreate.emit();
+          this.toastrService.success('Task has been successfuly created.', '');
+        } else {
+          this.taskCreate.emit();
+          this.toastrService.success('Task has been successfuly created.', '');
+        }
       }, error => {
         this.errorMessage = error.error.message;
       })

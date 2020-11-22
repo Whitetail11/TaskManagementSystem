@@ -34,7 +34,7 @@ export class TaskMenuComponent implements OnInit {
       const dialogRef = this.dialog.open(TaskEditingComponent, {
         data: {task, executor}
       })
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.componentInstance.ontaskEdited.subscribe(() => {
         this.onCloseDialogue.emit()
       });
     })

@@ -9,4 +9,5 @@ export interface ShowTask {
     creatorName: string;
     executorName: string;
     comments: ShowComment[];
+    files: [];
 }

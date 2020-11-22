@@ -8,29 +8,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
 
 namespace DataLayer.Identity
 {
-    public class ApplicationUserManager: UserManager<ApplicationUser>
+    public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         private readonly ApplicationContext _dbContext;
 
         public ApplicationUserManager(ApplicationContext dbContext, IUserStore<ApplicationUser> store, IOptions<IdentityOptions> optionsAccessor,
-            IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators, 
-            IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer, 
-            IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger) 
+            IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators,
+            IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer,
+            IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger)
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetAllAsync(Page page)
+        public async Task<IEnumerable<ApplicationUser>> GetForPage(Page page)
         {
             return await _dbContext.Users.AsNoTracking()
+                .OrderByDescending(user => user.Date)
                 .Skip((page.Number - 1) * page.Size)
                 .Take(page.Size)
                 .ToListAsync();
-        } 
+        }
 
         public async Task<int> GetCountAsync()
         {
@@ -56,6 +58,14 @@ namespace DataLayer.Identity
                 .Where(user => user.Id == userId)
                 .Select(user => $"{ user.Name } { user.Surname }")
                 .FirstOrDefault();
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            _dbContext.Tasks.AsNoTracking().Where(task => task.CreatorId == id).Delete();
+            _dbContext.Tasks.AsNoTracking().Where(task => task.ExecutorId == id).Delete();
+            _dbContext.Users.AsNoTracking().Where(user => user.Id == id).Delete();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

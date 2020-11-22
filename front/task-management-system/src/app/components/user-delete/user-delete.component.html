@@ -1,0 +1,33 @@
+<h2 mat-dialog-title class="mb-2">Delete account</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row justify-content-center">
+        <div class="col-11">
+            <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
+                <ul class="mb-0">
+                    <li *ngFor="let error of errors">{{error}}</li>
+                </ul>
+            </ngb-alert>
+            <form id="user-deleting-form" [formGroup]="form" (ngSubmit)="deleteUser()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password" required> 
+                    <mat-error *ngIf="form.get('password').invalid">Name is required</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <div class="col-12 mb-1">
+        <div class="row justify-content-center">
+            <button type="button" 
+                style="width: 150px;"
+                class="btn btn-dark mr-2" 
+                mat-dialog-close>Cancel</button>
+            <button type="submit"
+                form="user-deleting-form"
+                class="btn btn-success"
+                style="width: 150px;">Delete</button>
+        </div>
+    </div>
+</mat-dialog-actions>

@@ -8,7 +8,7 @@ namespace BusinessLayer.Interfaces
     public interface IAccountService
     {
         Task<ShowUserDTO> GetUserById(string id);
-        Task<IEnumerable<ShowListUserDTO>> GetAllUsers(PageDTO pageDTO);
+        Task<IEnumerable<ShowListUserDTO>> GetForPage(PageDTO pageDTO);
         Task<int> GetUserCount();
         Task<AccountResult> CreateUser(CreateUserDTO createUserDTO);
         Task<AccountResult> UpdateUser(string id, UpdateUserDTO updateUserDTO);
@@ -23,5 +23,6 @@ namespace BusinessLayer.Interfaces
         Task<bool> IsEmailConfirmed(string email);
         string GetFullName(string userId);
         Task<bool> ExistAnyUserWithId(string id);
+        Task<AccountResult> DeleteUser(string id, DeleteUserDTO deleteUserDTO);
     }
 }

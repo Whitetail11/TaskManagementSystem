@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 
 import { AppComponent } from './app.component';
@@ -47,6 +48,7 @@ import { DialogElement } from './components/task-create/task-create.component';
 import { ACCESS_TOKEN_KEY } from './services/account.service';
 import { API_URL } from './app-injection-token';
 import { TaskFilterComponent } from './components/task-filter/task-filter.component';
+import { UserDeleteComponent } from './components/user-delete/user-delete.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -75,7 +77,8 @@ export function tokenGetter() {
     PasswordChangeComponent,
     TaskMenuComponent,
     StatusMenuComponent,
-    TaskFilterComponent
+    TaskFilterComponent,
+    UserDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -101,6 +104,7 @@ export function tokenGetter() {
     MatIconModule,
     MatSelectModule,
     MatMenuModule,
+    NgxFileDropModule,
     ToastrModule.forRoot()
   ],
   providers: [{
