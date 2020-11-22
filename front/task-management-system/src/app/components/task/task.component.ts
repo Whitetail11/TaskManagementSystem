@@ -117,8 +117,9 @@ export class TaskComponent implements OnInit {
   onCommentCancel() {
     this.replyCommentId = null;
   }
-  updateTasks() {
-    console.log('task updated')
+  updateTask() {
+    this.setTask(+this.task.id);
+    console.log('task deleted')
   }
   deleteTask() {
     console.log('task deleted')

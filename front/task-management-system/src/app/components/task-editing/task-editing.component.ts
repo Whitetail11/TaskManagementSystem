@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -21,7 +21,7 @@ import { FileService } from 'src/app/services/file.service';
 })
 
 export class TaskEditingComponent implements OnInit {
-
+  @Output() ontaskEdited = new EventEmitter<any>();
   constructor(
     public dialogRef: MatDialogRef<TaskEditingComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -151,8 +151,10 @@ export class TaskEditingComponent implements OnInit {
               const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
             }
           }
+          this.ontaskEdited.emit();
           this.toastrService.success('Task has been successfuly updated.', '');
         } else {
+          this.ontaskEdited.emit();
           this.toastrService.success('Task has been successfuly updated.', '');
         }
       }, error => {

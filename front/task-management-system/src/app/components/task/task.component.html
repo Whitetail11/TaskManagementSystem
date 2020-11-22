@@ -17,7 +17,7 @@
                 <app-task-menu
                     *ngIf="!isExecutor"
                     [taskId]="task.id"
-                    (onCloseDialogue)="updateTasks()"
+                    (onCloseDialogue)="updateTask()"
                     (onDeleteTask)="deleteTask()"
                     ></app-task-menu>
             </div>
@@ -27,7 +27,7 @@
             <p><b>Creator: </b>{{ task.creatorName }}</p>
             <p><b>Assignee: </b>{{ task.executorName }}</p>
             <p>{{ task.description }}</p>
-            <div class="files">
+            <div class="files" *ngIf="task.files.length">
                 <p><b>Files: </b></p>
                 <ul *ngFor="let fileName of task.files">
                     <li>
@@ -35,7 +35,7 @@
                     </li>
                 </ul>
             </div>
-            <button mat-raised-button color="primary" (click)="downLoadFile()">Download Files</button>
+            <button mat-raised-button color="primary" (click)="downLoadFile()" *ngIf="task.files.length">Download Files</button>
         </div>
         <div class="col-10 comments-content fs-17">
             <app-comment-create 

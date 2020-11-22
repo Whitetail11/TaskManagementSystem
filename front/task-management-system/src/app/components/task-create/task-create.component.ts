@@ -19,11 +19,11 @@ import { FileService } from 'src/app/services/file.service';
 })
 export class TaskCreateComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
   @Output() onCloseDialogue = new EventEmitter<any>();
+  constructor(public dialog: MatDialog) { }
   openDialog() {
     const dialogRef = this.dialog.open(DialogElement);
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.componentInstance.taskCreate.subscribe(() => {
       this.onCloseDialogue.emit()
     })
   }
@@ -42,6 +42,7 @@ export class TaskCreateComponent implements OnInit {
 })
 export class DialogElement implements OnInit {
   isLinear = true;
+  @Output() taskCreate = new EventEmitter<any>();
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   selectedExecutor: string;
@@ -147,8 +148,10 @@ export class DialogElement implements OnInit {
               console.log(droppedFile.relativePath, fileEntry);
             }
           }
+          this.taskCreate.emit();
           this.toastrService.success('Task has been successfuly created.', '');
         } else {
+          this.taskCreate.emit();
           this.toastrService.success('Task has been successfuly created.', '');
         }
       }, error => {
