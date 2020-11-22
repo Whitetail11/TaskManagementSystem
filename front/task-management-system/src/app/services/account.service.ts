@@ -72,8 +72,8 @@ export class AccountService {
     return this.httpClient.post(`${this.apiUrl}account`, createUser);
   }
 
-  updateUser(id, updateUser: UpdateUser): Observable<{}> {
-    return this.httpClient.put(`${this.apiUrl}account/${id}`, updateUser);
+  updateUser(updateUser: UpdateUser): Observable<{}> {
+    return this.httpClient.put(`${this.apiUrl}account`, updateUser);
   }
 
   isAuthenticated(): boolean {
@@ -138,7 +138,7 @@ export class AccountService {
     return this.httpClient.put(`${this.apiUrl}account/changePassword`, changePassword);
   }
 
-  deleteUser(): Observable<{}> {
-    return this.httpClient.delete(`${this.apiUrl}account`)
+  deleteUser(password: string): Observable<{}> {
+    return this.httpClient.post(`${this.apiUrl}account/delete`, { password: password });
   }
 }

@@ -55,6 +55,12 @@ namespace BusinessLayer.Services
             return task;
         }
 
+        public TaskCSVDTO GetForCSVExporting(int id)
+        {
+            var task = _taskRepository.GetForExporting(id);
+            return _mapper.Map<Task, TaskCSVDTO>(task);
+        }
+
         public TaskDTO GetTaskById(int id)
         {
             var task = _taskRepository.GetTaskById(id);

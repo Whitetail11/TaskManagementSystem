@@ -35,6 +35,20 @@ namespace BusinessLayer.Mapping
                     destinationMember => destinationMember.MissedDeadline,
                     memberOptions => memberOptions.MapFrom(task => task.Deadline < DateTime.Now && task.StatusId != ApplicationConstants.DONE_STATUS_ID));
 
+            CreateMap<Task, TaskCSVDTO>()
+               .ForMember(
+                   destinationMember => destinationMember.Executor,
+                   memberOptions => memberOptions.MapFrom(task => $"{ task.Executor.Name } { task.Executor.Surname }"))
+               .ForMember(
+                   destinationMember => destinationMember.Creator,
+                   memberOptions => memberOptions.MapFrom(task => $"{ task.Creator.Name } { task.Creator.Surname }"))
+               .ForMember(
+                   destinationMember => destinationMember.Deadline,
+                   memberOptions => memberOptions.MapFrom(task => task.Deadline.ToShortDateString()))
+               .ForMember(
+                    destinationMember => destinationMember.Status,
+                    memberOptions => memberOptions.MapFrom(task => task.Status.Name));
+
             CreateMap<Task, ShowTaskDTO>()
                 .ForMember(dest => dest.Files, opt => opt.MapFrom(src => src.Files.Select(
                     el => new FileDTO { Id = el.Id, Name = el.Name, AttachedDate = el.AttachedDate }

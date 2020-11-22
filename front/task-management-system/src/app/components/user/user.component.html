@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-8">
-            <ngb-alert class="col-12 mb-3" type="warning" [dismissible]="false" *ngIf="!emailConfirmed && isCurrentUser">
+            <ngb-alert class="col-12 mb-3" type="warning" [dismissible]="false" *ngIf="!emailConfirmed">
                 Your email address has not been confirmed.
                 <span class="send-confirm-link" (click)="sendEmailConfirmationLink()">Click here to resend confirmation link</span>.
             </ngb-alert>
@@ -30,12 +30,10 @@
                 <div class="row px-3">
                     <button type="button" 
                         class="btn btn-primary mr-3"
-                        (click)="openPasswordChangeDialog()"
-                        *ngIf="isCurrentUser">Change password</button>
+                        (click)="openPasswordChangeDialog()">Change password</button>
                     <button type="button" 
                         class="btn btn-danger"
-                        (click)="openUserDeleteDialog()"
-                        *ngIf="isCurrentUser">Delete account</button>
+                        (click)="openUserDeleteDialog()">Delete account</button>
                     <button type="submit" 
                         class="btn btn-success ml-auto">Update profile</button>
                 </div>

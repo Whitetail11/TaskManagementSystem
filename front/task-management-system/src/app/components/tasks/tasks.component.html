@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="task-content" *ngIf="taskCount != 0">
+        <div class="task-content" *ngIf="taskCount != 0; else tasksNotFound">
             <div class="row justify-content-center">
                 <div class="col-10 mt-3 mb-1">
                     <div class="row fs-18 fw-500">
@@ -69,14 +69,19 @@
                     </div>
                 </div>
             </div>
+            <app-pagination class="pt-3" 
+                [collectionSize]="taskCount"
+                [pageSize]="page.size"
+                [pageNumber]="page.number"
+                (pageSizeChange)="onPageSizeChange($event)"
+                (pageChange)="onPageChange($event)"
+                ></app-pagination>
         </div>
-        <app-pagination class="pt-3" 
-            [collectionSize]="taskCount"
-            [pageSize]="page.size"
-            [pageNumber]="page.number"
-            (pageSizeChange)="onPageSizeChange($event)"
-            (pageChange)="onPageChange($event)"
-            ></app-pagination>
+        <ng-template #tasksNotFound>
+            <div class="col-12 text-center mt-5 fs-25">
+                <span>No tasks to show.</span>
+            </div>
+        </ng-template>
     </div>
     <ng-template #tasksNotExist>
         <div class="col-12 text-center mt-5 fs-25">

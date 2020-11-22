@@ -31,7 +31,6 @@ const appRoutes: Routes = [
       expectedRole: AppConstants.ADMIN_ROLE_NAME
     }
   },
-  { path: 'users/:id', component: UserComponent, canActivate: [AuthenticatedUser] },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },

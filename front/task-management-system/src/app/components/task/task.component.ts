@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ShowTask } from 'src/app/models/showTask';
 import { AccountService } from 'src/app/services/account.service';
 import { CommentService } from 'src/app/services/comment.service';
+import { FileService } from 'src/app/services/file.service';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -13,19 +14,21 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TaskComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private taskService: TaskService,
-    private commentService: CommentService, private accountService: AccountService,
-    private toastrService: ToastrService, private router: Router) { 
-    }
-
   task: ShowTask;
   replyCommentId: number;
   showRepliesOfComments: number[] = [];
   files: any
+
+  constructor(private route: ActivatedRoute, private taskService: TaskService,
+    private commentService: CommentService, private accountService: AccountService,
+    private toastrService: ToastrService, private router: Router,
+    private fileService: FileService) { 
+    }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.setTask(+params['id']);
-      this.taskService.downloadFiles(+params['id']).subscribe((data) => {
+      this.fileService.downloadFiles(+params['id']).subscribe((data) => {
         this.files = data.body;
         console.log(this.files);
       }, error => {
@@ -34,6 +37,7 @@ export class TaskComponent implements OnInit {
       })
     });
   }
+
   downLoadFile() {
     if(this.files !== null)
     {
@@ -50,9 +54,11 @@ export class TaskComponent implements OnInit {
       });
     }
   }
+
   statusChange() {
     console.log('status changed')
   }
+
   setTask(id: number) {
     this.taskService.getForShowig(id).subscribe(
       (data: ShowTask) => {
@@ -60,7 +66,7 @@ export class TaskComponent implements OnInit {
         console.log(this.task);
       }, (error) => {
         if (error.status == 404) {
-          this.router.navigate(['not-found']);
+          this.router.navigate(['not-found'], { skipLocationChange: true });
         }
       });
   }
@@ -68,7 +74,14 @@ export class TaskComponent implements OnInit {
   setComments() {
     this.commentService.getForTask(this.task.id).subscribe((data) => {
       this.task.comments = data;
+      this.showRepliesOfComments = this.showRepliesOfComments.filter((e) => {
+        return this.task.comments.find(comment => comment.id == e).replies != null;
+      });
     });
+  }
+
+  exportToCSV() {
+    this.fileService.exportTaskToCSV(this.task.id);
   }
 
   replyToComment(commentId) {

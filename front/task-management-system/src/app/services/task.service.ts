@@ -20,9 +20,11 @@ export class TaskService {
   post(task: Task): Observable<number> {
     return this.httpClient.post<number>(`${this.apiUrl}task`, task);
   }
+
   deleteTask(id: number): Observable<{}> {
     return this.httpClient.delete(`${this.apiUrl}Task?id=${id}`);
   }
+  
   editTask(task: Task): Observable<number> {
     return this.httpClient.put<number>(`${this.apiUrl}Task`, task);
   }
@@ -31,15 +33,7 @@ export class TaskService {
     var params = new HttpParams({ fromObject: { ...taskPage, ...taskFilter } });
     return this.httpClient.get<ShowTaskShortInfo[]>(`${this.apiUrl}task/getForPage`, { params: params });
   }
-  postFile(fd: FormData, taskId: number): Observable<{}> {
-    return this.httpClient.post(`${this.apiUrl}file?TaskId=${taskId}`, fd)
-  }
-  downloadFiles(taskId: number) : Observable<any> {
-    return this.httpClient.get<any>(`${this.apiUrl}file/getFilesByTaskId?taskId=${taskId}`, {observe: 'response', responseType: 'blob' as 'json'});
-  }
-  deletefile(id: number) : Observable<{}> {
-    return this.httpClient.delete(`${this.apiUrl}file?id=${id}`);
-  }
+
   getForShowig(id: number): Observable<ShowTask> {
     return this.httpClient.get<ShowTask>(`${this.apiUrl}task/getForShowing/${id}`);
   }
