@@ -117,16 +117,21 @@ export class TaskComponent implements OnInit {
   onCommentCancel() {
     this.replyCommentId = null;
   }
+  
   updateTask() {
     this.setTask(+this.task.id);
     console.log('task deleted')
   }
+
   deleteTask() {
+    this.router.navigate(['tasks']);
     console.log('task deleted')
   }
+  
   public get userId() {
     return this.accountService.getUserId();
   }
+  
   public get isExecutor(): boolean {
     return this.accountService.isExecutor();
   }
