@@ -111,9 +111,8 @@ namespace DataLayer.Repositories
         }
         public int Update(Task task)
         {
-            
-                var res = _dbContext.Tasks.Update(task).Entity;
-                _dbContext.SaveChanges();
+            var res = _dbContext.Tasks.Update(task).Entity;
+            _dbContext.SaveChanges();
             return res.Id;
             
         }

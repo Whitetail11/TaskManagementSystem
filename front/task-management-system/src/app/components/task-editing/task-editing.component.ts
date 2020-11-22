@@ -119,6 +119,7 @@ export class TaskEditingComponent implements OnInit {
   {
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
       this.task.id = this.data.task.id;
+      this.task.statusId = this.data.task.statusId;
       this.task.title = this.firstFormGroup.value.firstCtrl;
       this.task.description = this.firstFormGroup.value.secondCtrl;
       this.task.deadline = new Date(this.secondFormGroup.value.thirdCtrl);
