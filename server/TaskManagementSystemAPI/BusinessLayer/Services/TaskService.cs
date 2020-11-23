@@ -73,9 +73,11 @@ namespace BusinessLayer.Services
             taskdto.Date = DateTime.Now;
             taskdto.Deadline = taskdto.Deadline.AddHours(2);
             Task task = _mapper.Map<TaskDTO, Task>(taskdto);
+            var id = _taskRepository.Create(task);
             SendEmailAfterCreating(task);
-            return _taskRepository.Create(task);
+            return id;
         }
+
         public void ChangeStatus(int taskId, int statusId)
         {
             _taskRepository.ChangeStatus(taskId, statusId);
@@ -87,12 +89,22 @@ namespace BusinessLayer.Services
             _taskRepository.Delete(id);
         }
 
-
         public int Update(TaskDTO task)
         {
             var res = _mapper.Map<TaskDTO, Task>(task);
-            SendEmailAfterUpdating(res);
-            return _taskRepository.Update(res);
+            var oldExecutorId = GetExecutorId(task.Id);
+            var id = _taskRepository.Update(res);
+            
+            if (oldExecutorId == task.ExecutorId)
+            {
+                SendEmailAfterUpdating(res);
+            }
+            else
+            {
+                SendEmailAfterCreating(res);
+            }
+
+            return id;
         }
 
         public int GetTaskCount(TaskFilterDTO taskFilterDTO, string userId, string role)
@@ -117,6 +129,11 @@ namespace BusinessLayer.Services
         public bool HasUserAccess(int taskId, string userId)
         {
             return _taskRepository.HasUserAccess(taskId, userId);
+        }
+
+        public string GetExecutorId(int taskId)
+        {
+            return _taskRepository.GetExecutorId(taskId);
         }
 
         public string GetExecutorEmail(int taskId)

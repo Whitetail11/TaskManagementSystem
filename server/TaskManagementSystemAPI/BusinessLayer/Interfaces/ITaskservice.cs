@@ -18,6 +18,7 @@ namespace BusinessLayer.Services
         ShowTaskDTO GetForShowing(int id);
         TaskCSVDTO GetForCSVExporting(int id);
         bool HasUserAccess(int taskId, string userId);
+        string GetExecutorId(int taskId);
         string GetExecutorEmail(int taskId);
         string GetCreatorEmail(int taskId);
         string GetTitle(int taskId);
