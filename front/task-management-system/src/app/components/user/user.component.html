@@ -35,7 +35,8 @@
                         class="btn btn-danger"
                         (click)="openUserDeleteDialog()">Delete account</button>
                     <button type="submit" 
-                        class="btn btn-success ml-auto">Update profile</button>
+                        class="btn btn-success ml-auto"
+                        [disabled]="form.invalid">Update profile</button>
                 </div>
             </form>
         </div>
