@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { TasksComponent } from './components/tasks/tasks.component';
-import { AuthenticatedUserService as AuthenticatedUser } from './services/authenticated-user.service'
-import { UnauthenticatedUserService as UnauthenticatedUser } from './services/unauthenticated-user.service'
-import { RoleUserService as RoleUser } from './services/role-user.service'
+import { AuthenticatedUserService as AuthenticatedUser } from './services/route_guards/authenticated-user.service'
+import { UnauthenticatedUserService as UnauthenticatedUser } from './services/route_guards/unauthenticated-user.service'
+import { RoleUserService as RoleUser } from './services/route_guards/role-user.service'
 import { UsersComponent } from './components/users/users.component';
 import { TaskComponent } from './components/task/task.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -13,7 +13,6 @@ import { UserComponent } from './components/user/user.component';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { from } from 'rxjs';
 import { AppConstants } from './models/appConstants';
 
 const appRoutes: Routes = [
