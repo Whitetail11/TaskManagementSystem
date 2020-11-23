@@ -1,0 +1,107 @@
+<title>{{ task.title }}</title>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-10 task-header">
+            <div class="row px-3">
+                <h1 class="mat-display-1 mb-1 mr-3">{{ task.title }}</h1>
+                <app-status-menu 
+                    [statusId]="task.statusId"
+                    [taskId]="task.id"
+                    (onStatusChange)="statusChange()"
+                    ></app-status-menu>
+                <button class="ml-auto export-to-csv-btn"
+                    mat-menu-item (click)="exportToCSV()">
+                    <mat-icon>download</mat-icon>
+                    <span>Export to CSV</span>
+                </button>
+                <app-task-menu
+                    *ngIf="!isExecutor"
+                    [taskId]="task.id"
+                    (onCloseDialogue)="updateTask()"
+                    (onDeleteTask)="deleteTask()"
+                    ></app-task-menu>
+            </div>
+        </div>
+        <div class="col-10 task-body fs-17 mt-2">
+            <p><b>Due date: </b>{{ task.deadline }}</p>
+            <p><b>Creator: </b>{{ task.creatorName }}</p>
+            <p><b>Assignee: </b>{{ task.executorName }}</p>
+            <p>{{ task.description }}</p>
+            <div class="files" *ngIf="task.files.length">
+                <p><b>Files: </b></p>
+                <ul *ngFor="let fileName of task.files">
+                    <li>
+                        {{fileName.name}}
+                    </li>
+                </ul>
+            </div>
+            <button mat-raised-button color="primary" (click)="downLoadFile()" *ngIf="task.files.length">Download Files</button>
+        </div>
+        <div class="col-10 comments-content fs-17">
+            <app-comment-create 
+                [taskId]="task.id"
+                (commentCreate)="onCommentCreate()"></app-comment-create>
+            <div class="row mb-3" *ngFor="let comment of task.comments">
+                <div class="pl-3">
+                    <img width="50" src="../../../assets/images/user.svg" alt="">
+                </div>
+                <div class="pl-3" style="width: calc(100% - 100px);">
+                    <p class="mb-1">
+                        <span class="fw-500">{{ comment.userName }}</span> {{ comment.date }}
+                    </p>
+                    <p class="mb-1">{{ comment.text }}</p>
+                    <p class="mb-1 gray-color">
+                        <span class="cursor-pointer mr-2" (click)="replyToComment(comment.id)">REPLY</span>
+                        <span class="cursor-pointer" 
+                            *ngIf="comment.userId == userId"
+                            (click)="deleteComment(comment.id)">DELETE</span>
+                    </p>
+                    <p class="blue-color cursor-pointer fw-500" 
+                        *ngIf="comment.replies && !showRepliesOfComments.includes(comment.id)"
+                        (click)="showReplies(comment.id)">
+                        Show {{ comment.replies.length }} replies
+                    </p>
+                    <p class="blue-color cursor-pointer fw-500" 
+                        *ngIf="comment.replies && showRepliesOfComments.includes(comment.id)"
+                        (click)="hideReplies(comment.id)">
+                        Hide {{ comment.replies.length }} replies
+                    </p>
+                </div>
+                <div style="width: calc(100% - 100px); margin-left: 75px;">
+                    <app-comment-create *ngIf="comment.id == replyCommentId"
+                        [taskId]="task.id"
+                        [replyCommentId]="comment.id"
+                        (commentCreate)="onCommentCreate()"
+                        (commentCancel)="onCommentCancel()"></app-comment-create>
+                </div>
+                <div class="col-12" *ngIf="showRepliesOfComments.includes(comment.id)">
+                    <div class="row" *ngFor="let reply of comment.replies">
+                        <div class="pl-3" style="margin-left: 60px;">
+                            <img width="40" src="../../../assets/images/user.svg" alt="">
+                        </div>
+                        <div class="pl-3" style="width: calc(100% - 150px);">
+                            <p class="mb-1"><span class="fw-500">{{ reply.userName }}</span> {{ reply.date }}</p>
+                            <p class="mb-1">
+                                <span class="blue-color">{{ reply.replyUserName ? '@' + reply.replyUserName : '' }}</span>
+                                {{ reply.text }}
+                            </p>
+                            <p class="gray-color">
+                                <span class="cursor-pointer mr-2" (click)="replyToComment(reply.id)">REPLY</span>
+                                <span class="cursor-pointer" 
+                                *ngIf="reply.userId == userId"
+                                (click)="deleteComment(reply.id)">DELETE</span>
+                            </p>
+                        </div>
+                        <div style="width: calc(100% - 160px); margin-left: 125px;">
+                            <app-comment-create *ngIf="reply.id == replyCommentId"
+                                [taskId]="task.id"
+                                [replyCommentId]="reply.id"
+                                (commentCreate)="onCommentCreate()"
+                                (commentCancel)="onCommentCancel()"></app-comment-create>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

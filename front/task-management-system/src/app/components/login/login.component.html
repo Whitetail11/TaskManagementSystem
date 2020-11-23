@@ -1,0 +1,40 @@
+<title>Log In</title>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 text-center mt-5">
+            <img src="../../assets/images/main_image.svg" alt="">
+        </div>
+        <div class="col-6">
+            <div class="row justify-content-center">
+                <div class="col-8" style="margin-top: 15vh;">
+                    <div class="col-12 text-center">
+                        <p class="fs-30 fw-500">Log In</p>
+                    </div>
+                    <form [formGroup]="form" (ngSubmit)="login()">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput type="text" formControlName="email" required> 
+                            <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrorMessage() }}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input matInput type="password" formControlName="password" required>  
+                            <mat-error *ngIf="form.get('password').invalid">Password is required</mat-error>
+                        </mat-form-field>
+                        <button type="submit" 
+                            class="btn form-control btn-success mt-1"
+                            [disabled]="form.invalid">Log In</button>
+                    </form>
+                    <div class="col-12 text-center">
+                        <h3 class="my-1"><a class="reset-password-link" [routerLink]="['/forgot-password']">Forgot password?</a></h3>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <ngb-alert *ngIf="error" class="col-12" type="danger" [dismissible]="false">
+                        {{error}}
+                    </ngb-alert>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

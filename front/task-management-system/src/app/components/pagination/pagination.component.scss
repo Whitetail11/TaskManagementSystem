@@ -1,0 +1,34 @@
+@import '/src/variables.scss';
+
+::ng-deep .pagination-content {
+    position: fixed;
+    bottom: 0;
+    background-color: $body-color;
+}
+
+::ng-deep .page-link {
+    color: $black-color;
+    box-shadow: none !important;
+    height: 40px;
+    width: 50px;
+    padding-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+::ng-deep .page-item.active .page-link {
+    background-color: $active-color;
+    border-color: $active-color;
+}
+
+.items-per-page-text {
+    height: 40px; 
+    margin-right: 10px;
+    font-size: 18px; 
+    line-height: 40px; 
+}
+
+.items-per-page-select {
+    width: 80px;
+}

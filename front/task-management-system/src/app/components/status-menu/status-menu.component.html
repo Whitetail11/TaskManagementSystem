@@ -1,0 +1,7 @@
+<button class="status-menu-toggle" mat-raised-button color="primary" [matMenuTriggerFor]="menu">{{CurrentStatus?.name}}</button>
+<mat-menu #menu="matMenu" xPosition="before"> 
+  <button mat-menu-item (click)="changeStatus(1)">New</button>
+  <button mat-menu-item (click)="changeStatus(2)">In progress</button>
+  <button mat-menu-item (click)="changeStatus(3)">On hold</button>
+  <button mat-menu-item (click)="changeStatus(4)">Done</button>
+</mat-menu>

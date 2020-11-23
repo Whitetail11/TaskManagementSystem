@@ -1,0 +1,32 @@
+@import '/src/variables.scss';
+@import '/src/module-styles-overriding.scss';
+
+a {
+    color: unset;
+    text-decoration: none;
+}
+
+select.form-control {
+    box-shadow: none !important;
+}
+
+.task-main-info {
+    word-break: break-all;
+    width: calc(100% - 450px);
+}
+
+.task-status {
+    width: 130px;
+}
+
+.task-due-date {
+    width: 120px;
+}
+
+.task-assignee {
+    width: 200px;
+}
+
+.missed-deadline {
+    color: $dark-red-color;
+}

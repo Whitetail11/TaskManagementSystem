@@ -1,0 +1,137 @@
+@import './variables.scss';
+
+body {
+    background-color: $body-color !important;
+}
+
+input, button {
+    box-shadow: none !important;
+}
+
+input.form-control {
+    height: 40px;
+}
+
+button.active-btn {
+    background-color: $active-color !important;
+}
+
+.btn.btn-green {
+    background-color: $green-color;
+    color: $white-color;
+    font-weight: bold;
+}
+
+.btn.btn-success {
+    background-color: $green-color;
+    color: $white-color;
+}
+
+.btn.btn-primary {
+    background-color: $active-color;
+    color: $white-color;
+}
+
+.btn.btn-danger {
+    background-color: $dark-red-color;
+    color: $white-color;
+}
+
+.btn {
+    height: 45px !important;
+}
+
+.btn.btn-green:hover {
+    color: $white-color;
+    background-color: $hover-green-color;
+}
+
+.btn.btn-green:focus {
+    color: $white-color;
+    background-color: $hover-green-color;
+}
+
+.dialogue-btn {
+    width: 150px;
+}
+
+.form-control.ng-invalid.ng-touched {
+    border: 1px solid $red-color;
+}
+
+.error-text {
+    color: $red-color;
+}
+
+.fs-17 {
+    font-size: 17px;
+}
+
+.fs-18 {
+    font-size: 18px;
+}
+
+.fs-25 {
+    font-size: 25px;
+}
+
+.fs-30 {
+    font-size: 30px;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.badge.badge-active {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: $active-color;
+    border-radius: 50%;
+}
+
+.context-menu-content {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.menu-toggle {
+    background-color: transparent;
+    border: none;
+    box-shadow: none !important;
+}
+
+.menu-toggle:focus {
+    outline: none;
+}
+
+.context-menu-toggle {
+    width: 45px;
+    height: 15px;
+    background-image: url(./assets/images/context_menu_white.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px;
+}
+
+.context-menu-toggle:hover {
+    background-image: url(./assets/images/context_menu_black.svg);
+}
+
+.list-item {
+    background-color: $white-color;
+    border: 1px solid $black-color;
+    border-radius: 7px;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

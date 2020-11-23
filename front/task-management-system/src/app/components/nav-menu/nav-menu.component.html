@@ -1,0 +1,52 @@
+<header>
+    <nav
+      class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" [routerLink]="['/']">Task Management System</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedId">
+            <a class="nav-link" [routerLink]="['/tasks']">Tasks</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isAdministrator">
+            <a class="nav-link" [routerLink]="['/users']">Users</a>
+          </li>
+        </ul>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target=".navbar-collapse"
+          aria-label="Toggle navigation"
+          [attr.aria-expanded]="isExpanded"
+          (click)="toggle()"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+          [ngClass]="{ show: isExpanded }"
+        >
+          <ul class="navbar-nav flex-grow">
+            <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedId">
+                <a class="nav-link" [routerLink]="['/login']">Log In</a>
+            </li>
+            <li class="mt-2" style="color: gray;" *ngIf="!isLoggedId">or</li>
+            <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedId">
+              <a class="nav-link" [routerLink]="['/signup']">Sign Up</a>
+            </li>
+            <li class="nav-item dropdown" [routerLinkActive]="['link-active']" *ngIf="isLoggedId">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Account
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" [routerLink]="['profile', userId]">Profile</a>
+                <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Log Out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  

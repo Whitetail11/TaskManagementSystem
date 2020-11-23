@@ -1,0 +1,20 @@
+<div class="pagination-content col-12 pt-3">
+    <div class="row justify-content-center">
+        <div class="items-per-page-text">
+            <p>Items per page:</p>
+        </div>
+        <select class="form-control mr-3 items-per-page-select" 
+            [(ngModel)]="pageSize"
+            (change)="onPageSizeChange()">
+            <option value="2">2</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <ngb-pagination [collectionSize]="collectionSize" 
+            [pageSize]="pageSize"
+            [maxSize]="6" 
+            [(page)]="pageNumber" 
+            (pageChange)="onPageChange()"></ngb-pagination>
+    </div>
+</div>

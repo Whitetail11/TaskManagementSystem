@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>User creating</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row justify-content-center">
+        <div class="col-11">
+            <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
+                <ul class="mb-0">
+                    <li *ngFor="let error of errors">{{error}}</li>
+                </ul>
+            </ngb-alert>
+            <form id="user-creating-form" [formGroup]="form" (ngSubmit)="create()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" formControlName="name" required> 
+                    <mat-error *ngIf="form.get('name').invalid">Name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname</mat-label>
+                    <input matInput type="text" formControlName="surname" required>  
+                    <mat-error *ngIf="form.get('surname').invalid">Surname is required</mat-error>
+                </mat-form-field> 
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="text" formControlName="email" required> 
+                    <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrorMessage() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Select a role</mat-label>
+                    <mat-select formControlName="role">
+                        <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('role').invalid">Role is required</mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <div class="col-12 mb-1">
+        <div class="row justify-content-center">
+            <button type="button" 
+                class="btn btn-dark mr-2 dialogue-btn" 
+                mat-dialog-close>Cancel</button>
+            <button type="submit"
+                form="user-creating-form" 
+                class="btn btn-success dialogue-btn"
+                [disabled]="form.invalid">Create</button>
+        </div>
+    </div>
+</mat-dialog-actions>

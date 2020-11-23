@@ -1,0 +1,15 @@
+@import '/src/variables.scss';
+@import "/src/module-styles-overriding.scss";
+
+.reset-password-link {
+    color: $black-color;
+    text-decoration: underline;
+}
+
+.reset-password-link:hover {
+    color: $active-color;
+}
+
+mat-form-field {
+    width: 100% !important;
+}

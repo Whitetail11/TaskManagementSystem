@@ -1,0 +1,10 @@
+@import "/src/variables.scss";
+@import "/src/module-styles-overriding.scss";
+
+.modal-header, .modal-body, .modal-footer {
+    background-color: $body-color !important;
+}
+
+mat-form-field {
+    width: 100% !important;
+}

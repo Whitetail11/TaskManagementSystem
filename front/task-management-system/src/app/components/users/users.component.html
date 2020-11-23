@@ -1,0 +1,57 @@
+<title>Users</title>
+<div class="container-fluid pt-2" style="padding-bottom: 100px;">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <div class="row">
+                <h1 class="mat-display-1 mb-0 mr-2">Users</h1>
+                <button *ngIf="isAdministrator" mat-mini-fab color="primary" mat-button (click)="createUser()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="userCount != 0; else usersNotExist">
+        <div class="users-content">
+            <div class="row justify-content-center">
+                <div class="col-10 mt-3 mb-1">
+                    <div class="row fs-18 fw-500">
+                        <div class="col-2">
+                            Name
+                        </div>
+                        <div class="col-2">
+                            Surname
+                        </div>          
+                        <div class="col-2">
+                            Email
+                        </div> 
+                    </div>
+                </div>
+                <div class="list-item col-10 mb-2 py-2 fs-17" *ngFor="let user of pageUsers">
+                    <a class="row">
+                        <div class="col-2">
+                            <p class="mb-0">{{ user.name }}</p>
+                        </div>   
+                        <div class="col-2">
+                            <p class="mb-0">{{ user.surname }}</p>
+                        </div>  
+                        <div class="col-2">
+                            <p class="mb-0">{{ user.email }}</p>
+                        </div>   
+                    </a>
+                </div>
+            </div>
+        </div>
+        <app-pagination class="pt-3" 
+            [collectionSize]="userCount"
+            [pageSize]="page.size"
+            [pageNumber]="page.number"
+            (pageSizeChange)="onPageSizeChange($event)"
+            (pageChange)="onPageChange($event)"
+            ></app-pagination>
+    </div>
+    <ng-template #usersNotExist>
+        <div class="col-12 text-center mt-5 fs-25">
+            There are no users in the system.
+        </div>
+    </ng-template>
+</div>
