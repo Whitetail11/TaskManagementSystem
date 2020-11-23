@@ -12,7 +12,7 @@ import { AccountService } from 'src/app/services/account.service';
 export class UserDeleteComponent implements OnInit {
 
   form: FormGroup;
-  errors: string[] = [];
+  error: string;
 
   constructor(private accountService: AccountService,
     private dialog: MatDialog,
@@ -32,7 +32,7 @@ export class UserDeleteComponent implements OnInit {
       });
       this.accountService.logout();      
     }, error => {
-      this.errors = error.error;
+      this.error = error.error[0];
     });
   }
 }

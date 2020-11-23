@@ -38,14 +38,12 @@
     <div class="col-12 mb-1">
         <div class="row justify-content-center">
             <button type="button" 
-                style="width: 150px;"
-                class="btn btn-dark mr-2" 
+                class="btn btn-dark mr-2 dialogue-btn" 
                 mat-dialog-close>Cancel</button>
             <button type="submit"
                 form="user-creating-form" 
-                class="btn btn-success"
-                [disabled]="form.invalid"
-                style="width: 150px;">Create</button>
+                class="btn btn-success dialogue-btn"
+                [disabled]="form.invalid">Create</button>
         </div>
     </div>
 </mat-dialog-actions>

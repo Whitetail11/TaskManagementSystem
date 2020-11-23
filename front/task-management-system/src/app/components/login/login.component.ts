@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private accountService: AccountService, private router: Router) { }
 
-  errors: string[] = [];
+  error: string;
   form: FormGroup;
 
   ngOnInit(): void {
@@ -24,17 +24,14 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.errors = [];
-    console.log(this.form);
-
+    this.error = null;
     const login: Login = this.form.value;
       
     this.accountService.login(login).subscribe(() => 
     { 
       this.router.navigate(['tasks']);
     }, err => {
-      this.errors = err.error;
-      console.log(this.errors);
+      this.error = err.error[0];
     });
   }
 

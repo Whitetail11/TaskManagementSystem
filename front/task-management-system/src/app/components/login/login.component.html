@@ -30,10 +30,8 @@
                     </div>
                 </div>
                 <div class="col-8">
-                    <ngb-alert *ngIf="errors.length != 0" class="col-12" type="danger" [dismissible]="false">
-                        <ul class="mb-0">
-                            <li *ngFor="let error of errors">{{error}}</li>
-                        </ul>
+                    <ngb-alert *ngIf="error" class="col-12" type="danger" [dismissible]="false">
+                        {{error}}
                     </ngb-alert>
                 </div>
             </div>
