@@ -151,6 +151,14 @@ namespace DataLayer.Repositories
                 .Any(task => task.Id == taskId && (task.ExecutorId == userId || task.CreatorId == userId));
         }
 
+        public string GetExecutorId(int taskId)
+        {
+            return _dbContext.Tasks.AsNoTracking()
+                .Where(task => task.Id == taskId)
+                .Select(task => task.Executor.Id)
+                .FirstOrDefault();
+        }
+
         public string GetExecutorEmail(int taskId)
         {
             return _dbContext.Tasks.AsNoTracking()

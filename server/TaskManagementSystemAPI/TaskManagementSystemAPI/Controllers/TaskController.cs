@@ -56,6 +56,12 @@ namespace TaskManagementSystemAPI.Controllers
         [HttpGet]
         public IActionResult GetTaskById(int id)
         {
+            if (HttpContext.GetUserRole() != ApplicationConstants.Roles.ADMINISTRATOR
+                && !_tasksService.HasUserAccess(id, HttpContext.GetUserId()))
+            {
+                return NotFound();
+            }
+
             var res = _tasksService.GetTaskById(id);
             return Ok(res);
         }

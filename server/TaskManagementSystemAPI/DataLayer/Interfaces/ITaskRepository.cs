@@ -18,6 +18,7 @@ namespace DataLayer.Repositories
         int GetTaskCount(TaskFilter taskFilter);
         Task GetIncludedRelatedData(int id);
         bool HasUserAccess(int taskId, string userId);
+        string GetExecutorId(int taskId);
         string GetExecutorEmail(int taskId);
         string GetCreatorEmail(int taskId);
         string GetTitle(int taskId);
