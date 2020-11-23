@@ -92,9 +92,10 @@ namespace BusinessLayer.Services
         public int Update(TaskDTO task)
         {
             var res = _mapper.Map<TaskDTO, Task>(task);
+            res.Deadline = res.Deadline.AddHours(2);
             var oldExecutorId = GetExecutorId(task.Id);
             var id = _taskRepository.Update(res);
-            
+
             if (oldExecutorId == task.ExecutorId)
             {
                 SendEmailAfterUpdating(res);
