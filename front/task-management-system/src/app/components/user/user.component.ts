@@ -64,6 +64,7 @@ export class UserComponent implements OnInit {
   }
 
   updateProfile() {
+    this.errors = [];
     const updateUser: UpdateUser = this.form.value;
     this.accountService.updateUser(updateUser).subscribe(() => {
       this.dialog.closeAll();

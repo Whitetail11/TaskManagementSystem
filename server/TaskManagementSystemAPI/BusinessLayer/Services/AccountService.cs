@@ -4,7 +4,6 @@ using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using DataLayer.Classes;
 using DataLayer.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -109,11 +108,9 @@ namespace BusinessLayer.Services
                 }
                 return new AccountResult(true);
             }
-            else
-            {
-                var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
-                return new AccountResult(errors);
-            }
+            
+            var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
+            return new AccountResult(errors);
         }
 
         public async Task<AccountResult> Login(LoginDTO loginDTO)
@@ -125,10 +122,8 @@ namespace BusinessLayer.Services
                 var token = await GenerateJWT(user);
                 return new AccountResult(true, token);
             }
-            else
-            {
-                return new AccountResult(new List<string>() { "Invalid email or password." });
-            }
+            
+            return new AccountResult(new List<string>() { "Invalid email or password." });
         }
 
         public async Task SendEmailConfirmationLink(string userId)
@@ -169,10 +164,8 @@ namespace BusinessLayer.Services
                 //var token = await GenerateJWT(user);
                 return new AccountResult(true);
             }
-            else
-            {
-                return new AccountResult(new List<string>() { "Error: email address confirmation link was invalid." });
-            }
+            
+            return new AccountResult(new List<string>() { "Error: email address confirmation link was invalid." });
         }
 
         public async Task ForgotPassword(ForgotPasswordDTO forgotPasswordDTO)
@@ -203,11 +196,9 @@ namespace BusinessLayer.Services
             {
                 return new AccountResult(true);
             } 
-            else
-            {
-                var errors = result.Errors.Select(error => error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
-                return new AccountResult(errors);
-            }
+            
+            var errors = result.Errors.Select(error => error.Description.Replace("Invalid token.", "Error: password reset link was invalid."));
+            return new AccountResult(errors);
         }
 
         public async Task<AccountResult> ChangePassword(string userId, ChangePasswordDTO changePasswordDTO)
@@ -219,10 +210,8 @@ namespace BusinessLayer.Services
             {
                 return new AccountResult(true);
             }
-            else
-            {
-                return new AccountResult(result.Errors.Select(error => error.Description).ToList());
-            }
+            
+            return new AccountResult(result.Errors.Select(error => error.Description).ToList());
         }
 
         public async Task<AccountResult> UpdateUser(string id, UpdateUserDTO updateUserDTO)
@@ -244,11 +233,9 @@ namespace BusinessLayer.Services
                 }
                 return new AccountResult(true);
             }
-            else
-            {
-                var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
-                return new AccountResult(errors);
-            }
+            
+            var errors = result.Errors.Select(error => error.Description.Replace("User name", "Email"));
+            return new AccountResult(errors);
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)

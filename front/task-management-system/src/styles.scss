@@ -51,6 +51,10 @@ button.active-btn {
     background-color: $hover-green-color;
 }
 
+.dialogue-btn {
+    width: 150px;
+}
+
 .form-control.ng-invalid.ng-touched {
     border: 1px solid $red-color;
 }
